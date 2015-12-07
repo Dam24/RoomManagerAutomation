@@ -1,0 +1,6 @@
+#Ignored Files
+.idea/
+target/
+test.iml
+test.ipr
+test.iws
