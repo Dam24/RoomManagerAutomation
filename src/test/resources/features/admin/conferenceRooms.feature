@@ -1,7 +1,6 @@
 @ConferenceRooms
 Feature
   Background:
-    Given
 @ConferenceRooms
  Feature: Conference Room to administrate room and resources
 
