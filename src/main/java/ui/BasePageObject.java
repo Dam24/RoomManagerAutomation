@@ -1,4 +1,4 @@
-package ui.pages;
+package ui;
 
 /**
  * Created with IntelliJ IDEA.
