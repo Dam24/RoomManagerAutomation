@@ -10,12 +10,12 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import ui.BasePageObject;
 
 /**
- * Created with IntelliJ IDEA.
- * User: BrayanRosas
- * Date: 11/10/15
- * Time: 6:09 PM
- * To change this template use File | Settings | File Templates.
- */
+* Created with IntelliJ IDEA.
+* User: BrayanRosas
+* Date: 11/10/15
+* Time: 6:09 PM
+* To change this template use File | Settings | File Templates.
+*/
 public class ResourcePage extends BasePageObject{
     private boolean exitsResource=false;
     private Actions action = new Actions(driver);
@@ -75,4 +75,3 @@ public class ResourcePage extends BasePageObject{
         return new ResourceInfoPage();
     }
 }
-
