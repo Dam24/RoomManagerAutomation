@@ -2,7 +2,7 @@ package steps;
 
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.When;
-import entities.ResourceEntity;
+import entities.Resource;
 import ui.PageTransporter;
 import ui.pages.AddResourcePage;
 import ui.pages.LoginPage;
@@ -23,17 +23,21 @@ public class ResourceStep {
     ResourcePage resourcePage;
     AddResourcePage addResourcePage;
 
-    ResourceEntity resource1;
+    Resource resource1;
 
-    public ResourceStep(){}
+    public ResourceStep(Resource resource1){
+        this.resource1=resource1;
+    }
 
     @When("^I try to create the Resource Name \"([^\\\"]*)\", \"([^\\\"]*)\" in the Resource page$")
-    public void tryToCreateResource(String user,String password){
+    public void tryToCreateResource(String name,String displayName){
 
             sidebar=new SidebarMenuPage();
             resourcePage=sidebar.clickOption("Resources");
             addResourcePage=resourcePage.clickAddButton();
-            addResourcePage.createResource(user,password);
+            resource1.setName(name);
+            resource1.setDisplayName(displayName);
+            addResourcePage.createResource(resource1);
     }
 
     @Given("I sign in to Main page with user name \"([^\\\"]*)\" and password \"([^\\\"]*)\"$")

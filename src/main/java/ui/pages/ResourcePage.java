@@ -75,7 +75,6 @@ public class ResourcePage extends BasePageObject{
     }
 
     public AddResourcePage clickAddButton(){
-
         buttonAddResource.click();
         return new AddResourcePage();
     }

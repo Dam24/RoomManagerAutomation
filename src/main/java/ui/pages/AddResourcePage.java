@@ -1,5 +1,6 @@
 package ui.pages;
 
+import entities.Resource;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -41,17 +42,18 @@ public class AddResourcePage extends BasePageObject {
     public void waitUntilPageObjectIsLoaded() {
         wait.until(ExpectedConditions.visibilityOf(buttonSaveResource));
     }
-
+    /*
     public void  createResource(String resourceName,String resourceCustomName){
 
         inputResourceName.sendKeys(resourceName);
         inputResourceCustomName.sendKeys(resourceCustomName);
         buttonSaveResource.click();
 
-
-
-
-
-
+    }
+      */
+    public void  createResource(Resource resource1){
+        inputResourceName.sendKeys(resource1.getName());
+        inputResourceCustomName.sendKeys(resource1.getDisplayName());
+        buttonSaveResource.click();
     }
 }
