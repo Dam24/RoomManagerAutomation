@@ -21,7 +21,6 @@ public class BaseMainPageObject {
     }
 
     public LoginPage clickSignOutSuccessfully(){
-        System.out.println("Entered to click Sign out");
         return headerMenu.clickSignOutSuccessfully();
     }
 }
