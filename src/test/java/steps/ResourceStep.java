@@ -2,6 +2,7 @@ package steps;
 
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.When;
+import entities.ResourceEntity;
 import ui.PageTransporter;
 import ui.pages.AddResourcePage;
 import ui.pages.LoginPage;
@@ -15,13 +16,16 @@ import ui.pages.SidebarMenuPage;
  * Time: 9:52 PM
  * To change this template use File | Settings | File Templates.
  */
-public class resource {
+public class ResourceStep {
 
     SidebarMenuPage sidebar;
     LoginPage loginPage;
     ResourcePage resourcePage;
     AddResourcePage addResourcePage;
 
+    ResourceEntity resource1;
+
+    public ResourceStep(){}
 
     @When("^I try to create the Resource Name \"([^\\\"]*)\", \"([^\\\"]*)\" in the Resource page$")
     public void tryToCreateResource(String user,String password){
