@@ -1,13 +1,12 @@
-@ConferenceRooms
-Feature
-  Background:
+
 @ConferenceRooms
  Feature: Conference Room to administrate room and resources
 
-    Background:
-      Given I login as "DamianVP" with password "Client123"
-      And I have "3" resources created
-      And I navigate to Conference Rooms page
+#    Background:
+#      Given I login as "DamianVP" with password "Client123"
+#      And I have "3" resources created
+#      And I navigate to Conference Rooms page
+
 
   @AssignResourceOnRoom
   Scenario Outline: User should be able Assign to Resources to Conference Room

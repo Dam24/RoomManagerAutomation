@@ -2,8 +2,9 @@ package ui;
 
 import framework.BrowserManager;
 import org.openqa.selenium.WebDriver;
-//import ui.pages.ConferenceRoomsPage;
+import ui.pages.ConferenceRoomsPage;
 import ui.pages.LoginPage;
+
 
 /**
  * Created with IntelliJ IDEA.
@@ -44,6 +45,11 @@ public class PageTransporter {
         return driver.getCurrentUrl();
     }
 
+    public ConferenceRoomsPage navigateToConferenceRoomPage() {
+        goToURL(baseConferenceRooms);
+        return new ConferenceRoomsPage();
+    }
+
     public LoginPage navigateToLoginPage(){
       goToURL(baseLoginURL);
         return  new LoginPage();
@@ -58,4 +64,5 @@ public class PageTransporter {
     public void closeLoginPage(){
         driver.close();
     }
+
 }
