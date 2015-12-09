@@ -3,10 +3,13 @@ package steps;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.When;
+import entities.ConferenceRooms;
 import ui.PageTransporter;
 import ui.pages.ConferenceRoomsPage;
 import ui.pages.ResourceAssociationsPage;
 import ui.pages.RoomInfoPage;
+
+
 
 /**
  * Created with IntelliJ IDEA.
@@ -19,6 +22,8 @@ public class ConferenceRoomSteps {
     private ConferenceRoomsPage conferenceRoomsPage;
     private RoomInfoPage roomInfoPage;
     private ResourceAssociationsPage resourceAssociationsPage;
+
+    ConferenceRooms conferenceRooms;
 
     @Given("I navigate to Conference Rooms page")
     public void I_navigate_to_Conference_Rooms_page(){
@@ -44,4 +49,6 @@ public class ConferenceRoomSteps {
 
 
 
+
 }
+

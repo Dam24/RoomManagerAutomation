@@ -86,4 +86,12 @@ public class RoomInfoPage extends BasePageConferenceRoom{
         return this;
     }
 
+    public ConferenceRoomsPage associateResourceToRoom(){
+
+        clickResourceAssociationsTab();
+
+
+        return new ConferenceRoomsPage();
+    }
+
 }
