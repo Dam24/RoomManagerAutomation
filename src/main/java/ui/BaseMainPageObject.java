@@ -1,6 +1,5 @@
 package ui;
 
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import ui.pages.HeaderMenuPage;
 import ui.pages.LoginPage;
 import ui.pages.SidebarMenuPage;
