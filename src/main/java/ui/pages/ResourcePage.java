@@ -9,16 +9,15 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import ui.BasePageObject;
 
 /**
- * Created with IntelliJ IDEA.
- * User: BrayanRosas
- * Date: 11/10/15
- * Time: 6:09 PM
- * To change this template use File | Settings | File Templates.
- */
+* Created with IntelliJ IDEA.
+* User: BrayanRosas
+* Date: 11/10/15
+* Time: 6:09 PM
+* To change this template use File | Settings | File Templates.
+*/
 public class ResourcePage extends BasePageObject{
-
-    boolean exitsResource=false;
-    Actions action = new Actions(driver);
+    private boolean exitsResource=false;
+    private Actions action = new Actions(driver);
 
     @FindBy(xpath= "//button[@id='btnRemove']/preceding-sibling::button")
     WebElement buttonAddResource;
@@ -52,7 +51,6 @@ public class ResourcePage extends BasePageObject{
 
         if(isPresent(By.xpath("//div[@class='ngCell centeredColumn col2 colt2']//span[text()='"+resourceName+"']"))) {
             exitsResource=true;
-
         }
         else {
           exitsResource=false;
@@ -61,10 +59,8 @@ public class ResourcePage extends BasePageObject{
     }
 
     public boolean existInColumnCustomName(String resourceCustomName){
-
         if(isPresent(By.xpath("//div[@class='ngCell centeredColumn col3 colt3']//span[text()='"+resourceCustomName+"']"))) {
             exitsResource=true;
-
         }
         else {
             exitsResource=false;
@@ -73,10 +69,8 @@ public class ResourcePage extends BasePageObject{
     }
 
     public ResourceInfoPage goToPropertyResource(String resourceName){
-
         action.moveToElement(columnCustomNameResource.findElement(By.xpath("//span[text()='"+resourceName+"']"))).doubleClick().build().perform();
         columnCustomNameResource.findElement(By.xpath("//span[text()='"+resourceName+"']")).click();
         return new ResourceInfoPage();
     }
 }
-
