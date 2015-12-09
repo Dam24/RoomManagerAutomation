@@ -14,51 +14,51 @@ import ui.BasePageObject;
  */
 public class OutOfOrderPlanningPage extends BasePageObject {
 
-    @FindBy(xpath = "//div[2]/div/div/div/label")
+    @FindBy(xpath = "//span[@class='fa fa-calendar']/")
     @CacheLookup
-    WebElement buttonELement;
+    WebElement buttonElementCalendar;
 
-    @FindBy(xpath = "//date-picker/div/input")
+    @FindBy(xpath = "//date-picker[@model='form.from.value']/div/input[@type='text']")
     @CacheLookup
     WebElement inputFromDate;
 
-    @FindBy(xpath = "//div[2]/div/div/date-picker/div/input")
+    @FindBy(xpath = "//date-picker[@model='form.to.value']/div/input[@type='text']")
     @CacheLookup
     WebElement inputToDate;
 
-    @FindBy(xpath = "//td/input")
+    @FindBy(xpath = "//table[@ng-model='form.from.value']/tbody/tr/td/input[@ng-model= 'hours']")
     @CacheLookup
     WebElement inputFromHour;
 
-    @FindBy(xpath = "//td[3]/input")
+    @FindBy(xpath = "//table[@ng-model='form.from.value']/tbody/tr/td/input[@ng-model= 'minutes']")
     @CacheLookup
     WebElement inputFromMinutes;
 
-    @FindBy(xpath = "//div[2]/table/tbody/tr[2]/td[4]/button")
+    @FindBy(xpath = "//table[@ng-model='form.from.value']/tbody/tr/td/button[@type='button' and @ng-click='toggleMeridian()']")
     @CacheLookup
     WebElement toggleFromMeridian;
 
-    @FindBy(xpath = "div[2]/table/tbody/tr[2]/td/input")
+    @FindBy(xpath = "//table[@ng-model='form.to.value']/tbody/tr/td/input[@ng-model= 'hours']")
     @CacheLookup
     WebElement inputToHour;
 
-    @FindBy(xpath = "div[2]/table/tbody/tr[2]/td[3]/input")
+    @FindBy(xpath = "//table[@ng-model='form.to.value']/tbody/tr/td/input[@ng-model= 'minutes']")
     @CacheLookup
     WebElement inputToMinutes;
 
-    @FindBy(xpath = "//div[2]/div/div[2]/table/tbody/tr[2]/td[4]/button")
+    @FindBy(xpath = "//table[@ng-model='form.to.value']/tbody/tr/td/button[@type='button' and @ng-click='toggleMeridian()']")
     @CacheLookup
     WebElement toggleToMeridian;
 
-    @FindBy(xpath = "//form/div/div/div/label")
+    @FindBy(xpath = "//div[@class='input-group-btn check-dropdown']/label[@class='btn btn-default']")
     @CacheLookup
     WebElement dropdownTitle;
 
-    @FindBy(xpath = "//form/div/div/input")
+    @FindBy(xpath = "//input[@type='text' and @ng-model='form.title.value']")
     @CacheLookup
     WebElement inputTitle;
 
-    @FindBy(xpath = "//textarea")
+    @FindBy(xpath = "//textarea[@ng-model='form.description.value']")
     @CacheLookup
     WebElement inputDescription;
 
@@ -66,4 +66,21 @@ public class OutOfOrderPlanningPage extends BasePageObject {
     public void waitUntilPageObjectIsLoaded() {
         //To change body of implemented methods use File | Settings | File Templates.
     }
+
+    private OutOfOrderPlanningPage clickElementCalendarButton(){
+        buttonElementCalendar.click();
+        return this;
+    }
+
+    private OutOfOrderPlanningPage setInputWebElement(WebElement element, String value){
+        element.clear();
+        element.sendKeys(value);
+        return this;
+    }
+    private OutOfOrderPlanningPage clickWebElementOnPage(WebElement element){
+        element.click();
+        return this;
+    }
+
+
 }

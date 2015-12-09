@@ -8,6 +8,8 @@ package ui;
  * To change this template use File | Settings | File Templates.
  */
 import framework.BrowserManager;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -27,4 +29,13 @@ public abstract class BasePageObject {
     }
 
     public abstract void waitUntilPageObjectIsLoaded();
+
+    public boolean isPresent(By by) {
+        try {
+            driver.findElement(by);
+            return true;
+        } catch (NoSuchElementException e) {
+            return false;
+          }
+    }
 }

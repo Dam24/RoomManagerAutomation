@@ -3,6 +3,8 @@ package ui;
 import framework.BrowserManager;
 import org.openqa.selenium.WebDriver;
 import ui.pages.ConferenceRoomsPage;
+import ui.pages.LoginPage;
+
 
 /**
  * Created with IntelliJ IDEA.
@@ -14,7 +16,8 @@ import ui.pages.ConferenceRoomsPage;
 public class PageTransporter {
 
     private WebDriver driver = BrowserManager.getInstance().getDriver();
-    private String baseLoginURL = "https://172.20.208.121:4040/admin/";
+    private String baseLoginURL = "https://172.20.208.216:4040/admin/#/login";
+    private  String baseMainPage = "https://172.20.208.216:4040/admin/#/admin";
     private String baseConferenceRooms = "https://172.20.208.121:4040/admin/#/admin/rooms/";
 
     private static PageTransporter instance;
@@ -45,6 +48,21 @@ public class PageTransporter {
     public ConferenceRoomsPage navigateToConferenceRoomPage() {
         goToURL(baseConferenceRooms);
         return new ConferenceRoomsPage();
+    }
+
+    public LoginPage navigateToLoginPage(){
+      goToURL(baseLoginURL);
+        return  new LoginPage();
+    }
+
+    public BaseMainPageObject navigateToMainPage(){
+        goToURL(baseMainPage);
+        System.out.println("Entered to navigate Main Page");
+        return  new BaseMainPageObject();
+    }
+
+    public void closeLoginPage(){
+        driver.close();
     }
 
 }

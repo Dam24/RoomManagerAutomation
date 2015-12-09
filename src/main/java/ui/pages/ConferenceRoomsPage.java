@@ -15,7 +15,7 @@ import ui.BasePageObject;
  */
 public class ConferenceRoomsPage extends BasePageObject {
 
-    @FindBy(xpath = "//div/div[2]/div[1]/div/div")
+    @FindBy(xpath = "//div[@class='row']")
     @CacheLookup
     WebElement resourcesPanel;
 
@@ -23,9 +23,9 @@ public class ConferenceRoomsPage extends BasePageObject {
     @CacheLookup
     WebElement roomsTable;
 
-    @FindBy(xpath = "//div/div[1]/div/label/input")
+    @FindBy(xpath = "//input[@type='text' and @ng-model='filterOptions.filterText']")
     @CacheLookup
-    WebElement filterByRoom;
+    WebElement inputFilterByRoom;
 
     @Override
     public void waitUntilPageObjectIsLoaded() {
