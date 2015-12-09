@@ -7,6 +7,7 @@ import framework.BrowserManager;
 import org.apache.log4j.Logger;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
+import ui.PageTransporter;
 
 /**
  * Created with IntelliJ IDEA.
@@ -22,9 +23,7 @@ import org.testng.annotations.BeforeTest;
         features = {"src/test/resources/features"},
         monochrome = true)
 
-
 public class RunnerCukesTest extends AbstractTestNGCucumberTests {
-
     private static Logger log = Logger.getLogger("RunCukesTest");
 
     @AfterTest

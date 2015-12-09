@@ -3,20 +3,20 @@
     "Environments": [
         {
             "id": "RM01",
-            "admin URL": "http://172.16.3.190/admin",
-            "tablet URL": "http://172.16.3.190/tablet",
-            "room manager service": "http://172.16.3.190:4040",
+            "admin URL": "https://172.20.208.195:4040/admin/#/login",
+            "tablet URL": "https://172.20.208.195:4040/tablet",
+            "room manager service": "https://172.20.208.195:4040",
             "admin user": {
-                "name": "admin",
-                "password": ""
+                "name": "awagner",
+                "password": "Client123"
             },
             "tablet user": {
-                "name": "ariel",
-                "password": "Password123!"
+                "name": "awagner",
+                "password": "Client123"
             },
             "exchange user": {
-                "name": "Concurrent",
-                "password": "Password123!"
+                "name": "ariel.rojas",
+                "password": "Client123"
             },
             "API": {
                 "server": "XXXXX"
@@ -24,11 +24,11 @@
         },
         {
             "id": "RM02",
-            "admin URL": "http://172.16.3.190/admin",
-            "tablet URL": "http://172.16.3.190/tablet",
-            "room manager service": "http://172.20.208.247:4040",
+            "admin URL": "https://172.20.208.216:4040/admin/#/login",
+            "tablet URL": "https://172.20.208.216:4040/tablet",
+            "room manager service": "https://172.20.208.216:4040",
             "admin user": {
-                "name": "jhasmany.quiroz",
+                "name": "BrayanRosas",
                 "password": "Client123"
             },
             "tablet user": {
@@ -45,20 +45,20 @@
         },
         {
             "id": "RM03",
-            "admin URL": "http://172.16.3.190/admin",
-            "tablet URL": "http://172.16.3.190/tablet",
-            "room manager service": "http://172.20.208.247:4040",
+            "admin URL": "https://172.20.208.195:4040/admin/#/login",
+            "tablet URL": "https://172.20.208.195:4040/tablet",
+            "room manager service": "https://172.20.208.195:4040",
             "admin user": {
-                "name": "jhasmany.quiroz",
+                "name": "test",
                 "password": "Client123"
             },
             "tablet user": {
-                "name": "jhasmany.quiroz",
+                "name": "test",
                 "password": "Client123"
             },
             "exchange user": {
-                "name": "Concurrent",
-                "password": "Password123!"
+                "name": "jose.cardozo",
+                "password": "Control23"
             },
             "API": {
                 "server": "JALASOFTQA002"

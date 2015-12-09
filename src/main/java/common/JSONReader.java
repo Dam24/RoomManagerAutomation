@@ -1,6 +1,5 @@
 package common;
 
-import net.sourceforge.htmlunit.corejs.javascript.tools.debugger.SourceProvider;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;

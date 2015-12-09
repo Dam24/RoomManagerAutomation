@@ -1,8 +1,7 @@
 package common;
 
 import framework.BrowserManager;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
+import framework.CredentialsManager;
 import org.openqa.selenium.WebDriver;
 import ui.PageTransporter;
 
@@ -20,8 +19,8 @@ public class CommonMethod {
     }
 
     public static void signInToMainPage(){
-        String user="BrayanRosas";
-        String password ="Client123"  ;
+        String user=CredentialsManager.getInstance().getAdminUserName();
+        String password = CredentialsManager.getInstance().getAdminUserPassword();
         PageTransporter.getInstance().navigateToLoginPage().signIn(user, password);
     }
 
@@ -42,6 +41,3 @@ public class CommonMethod {
         }
     }
 }
-
-
-
