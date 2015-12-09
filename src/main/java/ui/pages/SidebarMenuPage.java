@@ -1,7 +1,10 @@
 package ui.pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import ui.BasePageObject;
 
 /**
  * Created with IntelliJ IDEA.
@@ -10,7 +13,21 @@ import org.openqa.selenium.support.FindBy;
  * Time: 8:30 PM
  * To change this template use File | Settings | File Templates.
  */
-public class SidebarMenuPage {
+public class SidebarMenuPage extends BasePageObject {
     @FindBy(xpath = "//ul[contains(@class, 'nav-stacked')]")
-    private WebElement listMenu;
+    WebElement listMenu;
+
+    @Override
+    public void waitUntilPageObjectIsLoaded() {
+        wait.until(ExpectedConditions.visibilityOf(listMenu));
+    }
+
+    public ResourcePage clickOption(String option){
+
+         driver.findElement(By.xpath("//ul[contains(@class, 'nav-stacked')]/li/a[text()='"+option+"']")).click();
+         return new ResourcePage();
+
+    }
+
+
 }

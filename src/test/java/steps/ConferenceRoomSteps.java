@@ -33,14 +33,4 @@ public class ConferenceRoomSteps {
 
 
     }
-
-    @Given("aaaaa")
-    public void aaaaa(){
-
-
-    }
-
-
-
-
 }
