@@ -79,4 +79,3 @@ public class ResourcePage extends BasePageObject{
         return new AddResourcePage();
     }
 }
-
