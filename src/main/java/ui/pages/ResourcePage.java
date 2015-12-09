@@ -3,19 +3,18 @@ package ui.pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import ui.BasePageObject;
 
 /**
-* Created with IntelliJ IDEA.
-* User: BrayanRosas
-* Date: 11/10/15
-* Time: 6:09 PM
-* To change this template use File | Settings | File Templates.
-*/
+ * Created with IntelliJ IDEA.
+ * User: BrayanRosas
+ * Date: 11/10/15
+ * Time: 6:09 PM
+ * To change this template use File | Settings | File Templates.
+ */
 public class ResourcePage extends BasePageObject{
     private boolean exitsResource=false;
     private Actions action = new Actions(driver);
@@ -74,4 +73,11 @@ public class ResourcePage extends BasePageObject{
         columnCustomNameResource.findElement(By.xpath("//span[text()='"+resourceName+"']")).click();
         return new ResourceInfoPage();
     }
+
+    public AddResourcePage clickAddButton(){
+
+        buttonAddResource.click();
+        return new AddResourcePage();
+    }
 }
+
