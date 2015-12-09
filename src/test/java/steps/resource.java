@@ -30,8 +30,6 @@ public class resource {
             resourcePage=sidebar.clickOption("Resources");
             addResourcePage=resourcePage.clickAddButton();
             addResourcePage.createResource(user,password);
-
-
     }
 
     @Given("I sign in to Main page with user name \"([^\\\"]*)\" and password \"([^\\\"]*)\"$")
