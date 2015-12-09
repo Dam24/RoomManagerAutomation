@@ -1,6 +1,7 @@
 #Ignored Files
 .idea/
 target/
+src/report/
 test.iml
 test.ipr
 test.iws
