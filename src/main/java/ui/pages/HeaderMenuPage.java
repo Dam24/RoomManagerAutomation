@@ -2,6 +2,8 @@ package ui.pages;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import ui.BasePageObject;
 
 /**
  * Created with IntelliJ IDEA.
@@ -10,15 +12,23 @@ import org.openqa.selenium.support.FindBy;
  * Time: 8:29 PM
  * To change this template use File | Settings | File Templates.
  */
-public class HeaderMenuPage {
+public class HeaderMenuPage extends BasePageObject {
     @FindBy(linkText = "sign out")
     private WebElement linkSignOut;
 
     @FindBy(xpath = "//span[contains(@class, 'ng-binding')]")
     private WebElement textUserName;
 
-    public HeaderMenuPage clickSignOutSuccessfully() {
+
+
+    public LoginPage clickSignOutSuccessfully() {
         linkSignOut.click();
-        return this;
+        System.out.println("Entered to header click");
+        return new LoginPage();
+    }
+
+    @Override
+    public void waitUntilPageObjectIsLoaded() {
+        wait.until(ExpectedConditions.visibilityOf(linkSignOut));
     }
 }

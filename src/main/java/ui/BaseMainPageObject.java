@@ -1,6 +1,8 @@
 package ui;
 
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import ui.pages.HeaderMenuPage;
+import ui.pages.LoginPage;
 import ui.pages.SidebarMenuPage;
 
 /**
@@ -10,7 +12,17 @@ import ui.pages.SidebarMenuPage;
  * Time: 8:26 PM
  * To change this template use File | Settings | File Templates.
  */
-public abstract class BaseMainPageObject extends BasePageObject {
-    protected HeaderMenuPage headerMenu;
-    protected SidebarMenuPage sidebarMenu;
+public class BaseMainPageObject {
+    private HeaderMenuPage headerMenu;
+    private SidebarMenuPage sidebarMenu;
+
+    public BaseMainPageObject() {
+        headerMenu = new HeaderMenuPage();
+        sidebarMenu = new SidebarMenuPage();
+    }
+
+    public LoginPage clickSignOutSuccessfully(){
+        System.out.println("Entered to click Sign out");
+        return headerMenu.clickSignOutSuccessfully();
+    }
 }
