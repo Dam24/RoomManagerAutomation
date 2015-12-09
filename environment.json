@@ -1,0 +1,68 @@
+
+{
+    "Environments": [
+        {
+            "id": "RM01",
+            "admin URL": "http://172.16.3.190/admin",
+            "tablet URL": "http://172.16.3.190/tablet",
+            "room manager service": "http://172.16.3.190:4040",
+            "admin user": {
+                "name": "admin",
+                "password": ""
+            },
+            "tablet user": {
+                "name": "ariel",
+                "password": "Password123!"
+            },
+            "exchange user": {
+                "name": "Concurrent",
+                "password": "Password123!"
+            },
+            "API": {
+                "server": "XXXXX"
+            }
+        },
+        {
+            "id": "RM02",
+            "admin URL": "http://172.16.3.190/admin",
+            "tablet URL": "http://172.16.3.190/tablet",
+            "room manager service": "http://172.20.208.247:4040",
+            "admin user": {
+                "name": "jhasmany.quiroz",
+                "password": "Client123"
+            },
+            "tablet user": {
+                "name": "jhasmany.quiroz",
+                "password": "Client123"
+            },
+            "exchange user": {
+                "name": "Concurrent",
+                "password": "Password123!"
+            },
+            "API": {
+                "server": "JALASOFTQA002"
+            }
+        },
+        {
+            "id": "RM03",
+            "admin URL": "http://172.16.3.190/admin",
+            "tablet URL": "http://172.16.3.190/tablet",
+            "room manager service": "http://172.20.208.247:4040",
+            "admin user": {
+                "name": "jhasmany.quiroz",
+                "password": "Client123"
+            },
+            "tablet user": {
+                "name": "jhasmany.quiroz",
+                "password": "Client123"
+            },
+            "exchange user": {
+                "name": "Concurrent",
+                "password": "Password123!"
+            },
+            "API": {
+                "server": "JALASOFTQA002"
+            }
+        }
+    ]
+}
