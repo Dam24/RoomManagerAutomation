@@ -51,6 +51,7 @@ public class AddResourcePage extends BasePageObject {
 
     }
       */
+
     public void  createResource(Resource resource1){
         inputResourceName.sendKeys(resource1.getName());
         inputResourceCustomName.sendKeys(resource1.getDisplayName());
