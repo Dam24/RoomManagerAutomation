@@ -15,8 +15,19 @@ import ui.BasePageObject;
  */
 public class AddResourcePage extends BasePageObject {
 
-    @FindBy(xpath= "//form[@class='ng-valid ng-dirty ng-valid-parse']")
-    WebElement formAddResource;
+    //@FindBy(xpath= "//form[@class='ng-valid ng-dirty ng-valid-parse']")
+    //WebElement formAddResource;
+
+    @FindBy(xpath= "//form/div/input[@ng-model='resource.name']")
+    WebElement inputResourceName;
+
+    @FindBy(xpath= "//form/div/input[@ng-model='resource.customName']")
+    WebElement inputResourceCustomName;
+
+    @FindBy(xpath= "//div[@class='modal-footer ng-scope']/div/button[@class='info']")
+    WebElement buttonSaveResource;
+
+
 
     @FindBy(xpath= "//small[@class='inline-error ng-binding']")
     WebElement errorCreateResource;
@@ -28,6 +39,19 @@ public class AddResourcePage extends BasePageObject {
 
     @Override
     public void waitUntilPageObjectIsLoaded() {
-        wait.until(ExpectedConditions.visibilityOf(formAddResource));
+        wait.until(ExpectedConditions.visibilityOf(buttonSaveResource));
+    }
+
+    public void  createResource(String resourceName,String resourceCustomName){
+
+        inputResourceName.sendKeys(resourceName);
+        inputResourceCustomName.sendKeys(resourceCustomName);
+        buttonSaveResource.click();
+
+
+
+
+
+
     }
 }
