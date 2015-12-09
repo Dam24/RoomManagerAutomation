@@ -11,7 +11,7 @@ import common.JSONReader;
  */
 public class CredentialsManager {
     private JSONReader jsonObjectMain;
-    private static  CredentialsManager instance = null;
+    private static  CredentialsManager instance;
     private static String envId;
 
     private static String adminURL;
@@ -31,7 +31,7 @@ public class CredentialsManager {
 
     /**
      * Return the instance of CredentialsManager.
-     */
+    */
     public static CredentialsManager getInstance() {
         if(instance == null) {
             instance = new CredentialsManager();
@@ -39,6 +39,10 @@ public class CredentialsManager {
         return instance;
     }
 
+    /**
+     * Initialize the properties of JSON Reader
+     * and read the values of environment.json file
+    */
     private void initialize() {
         String filePath = System.getProperty("user.dir")+"\\environment.json";
         jsonObjectMain = new JSONReader(filePath);
@@ -58,10 +62,13 @@ public class CredentialsManager {
         tabletUserPassword = jsonObjectMain.getKeyValue("Environments", "id", envId, "tablet user", "password");
         exchangeUserName = jsonObjectMain.getKeyValue("Environments", "id", envId, "exchange user", "name");
         exchangeUserPassword = jsonObjectMain.getKeyValue("Environments", "id", envId, "exchange user", "password");
-        apiServer = jsonObjectMain.getKeyValue("Environments", "id", envId, "api", "server");
+        apiServer = jsonObjectMain.getKeyValue("Environments", "id", envId, "API", "server");
 
     }
 
+    /**
+     * Return the getters and setters about values.
+    */
     public String getBaseAdminURL() {
         return adminURL;
     }
