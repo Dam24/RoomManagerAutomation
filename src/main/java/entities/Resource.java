@@ -14,12 +14,7 @@ public class Resource {
     String description;
     String icon;
 
-    public Resource(String name, String displayName, String description, String icon){
-        this.name=name;
-        this.displayName=displayName;
-        this.description=description;
-        this.icon=icon;
-    }
+
 
     public void setName(String newName){name=newName;}
 
