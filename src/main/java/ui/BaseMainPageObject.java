@@ -1,6 +1,5 @@
 package ui;
 
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import ui.pages.HeaderMenuPage;
 import ui.pages.LoginPage;
 import ui.pages.SidebarMenuPage;
@@ -22,7 +21,6 @@ public class BaseMainPageObject {
     }
 
     public LoginPage clickSignOutSuccessfully(){
-        System.out.println("Entered to click Sign out");
         return headerMenu.clickSignOutSuccessfully();
     }
 }

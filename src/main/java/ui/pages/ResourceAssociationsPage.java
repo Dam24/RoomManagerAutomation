@@ -2,6 +2,7 @@ package ui.pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -9,12 +10,21 @@ import ui.BasePageObject;
 
 /**
  * Created with IntelliJ IDEA.
- * User: BrayanRosas
- * Date: 12/8/15
- * Time: 10:22 AM
+ * User: DamianVillanueva
+ * Date: 12/7/15
+ * Time: 4:02 PM
+
  * To change this template use File | Settings | File Templates.
  */
 public class ResourceAssociationsPage extends BasePageObject {
+
+    @FindBy(xpath = "//div[legend[contains(text(),Available)]]")
+    @CacheLookup
+    WebElement listAvailableResources;
+
+    @FindBy(xpath = "//div[legend[contains(text(),Associated)]]")
+    @CacheLookup
+    WebElement listAssociatedResources;
 
     String quantity;
 
@@ -42,6 +52,5 @@ public class ResourceAssociationsPage extends BasePageObject {
        return quantity;
 
     }
-
 
 }
