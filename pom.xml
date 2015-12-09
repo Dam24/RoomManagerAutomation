@@ -91,7 +91,10 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <testFailureIgnore>true</testFailureIgnore>
-
+                    <systemPropertyVariables>
+                        <browserName>${browserName}</browserName>
+                        <envId>${envId}</envId>
+                    </systemPropertyVariables>
                 </configuration>
             </plugin>
             <plugin>
