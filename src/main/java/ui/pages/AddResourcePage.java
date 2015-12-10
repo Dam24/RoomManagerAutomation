@@ -30,6 +30,9 @@ public class AddResourcePage extends BasePageObject {
     @FindBy(xpath= "//div[@class='modal-footer ng-scope']/div/button[@class='info']")
     WebElement buttonSaveResource;
 
+    @FindBy(xpath= "//div[@class='modal-footer ng-scope']/div/button[@class='btn-clear']")
+    WebElement buttonCancelResource;
+
     @FindBy(xpath= "//small[@class='inline-error ng-binding']")
     WebElement errorCreateResource;
 
@@ -60,4 +63,10 @@ public class AddResourcePage extends BasePageObject {
 
         return isMessageShowed;
     }
+
+    public ResourcePage clickCancelResourceButton(){
+        buttonCancelResource.click();
+        return new ResourcePage();
+    }
+
 }

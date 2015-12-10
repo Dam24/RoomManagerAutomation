@@ -1,10 +1,12 @@
 package steps;
 
+import common.EnumOptions;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import entities.Resource;
 import org.testng.Assert;
+import ui.BaseMainPageObject;
 import ui.PageTransporter;
 import ui.pages.AddResourcePage;
 import ui.pages.LoginPage;
@@ -20,21 +22,22 @@ import ui.pages.SidebarMenuPage;
  */
 public class ResourceStep {
 
+    BaseMainPageObject mainPage;
     SidebarMenuPage sidebar;
     LoginPage loginPage;
     ResourcePage resourcePage;
     AddResourcePage addResourcePage;
-
     Resource resource1;
 
     public ResourceStep(Resource resource1){
         this.resource1=resource1;
+        mainPage=new BaseMainPageObject();
+        sidebar=mainPage.getSideBarMenu();
     }
 
     @When("^I try to create the Resource Name \"([^\\\"]*)\", \"([^\\\"]*)\" in the Resource page$")
     public void tryToCreateResource(String name,String displayName){
-            sidebar=new SidebarMenuPage();
-            resourcePage=sidebar.clickOption("Resources");
+            resourcePage=sidebar.clickOption(EnumOptions.RESOURCES.option);
             addResourcePage=resourcePage.clickAddButton();
             resource1.setName(name);
             resource1.setDisplayName(displayName);
@@ -49,25 +52,37 @@ public class ResourceStep {
 
     @Then("^an error text \"([^\\\"]*)\" is showed in the Resource form$")
         public void errorMessageIsShowed(String message){
-        //addResourcePage.isMessageShowed(message);
         boolean expected=true;
         Assert.assertEquals(addResourcePage.isMessageShowed(message), expected);
     }
 
+    @When("I navigate to Resources page$")
+    public void navigateToResourcePageFromAddResourcePage(){
+        addResourcePage.clickCancelResourceButton();
+    }
+
     @Then("^only one Resource with the same name should be displayed in Resource list$")
     public void existTwoResourceSameName(){
-        //addResourcePage.isMessageShowed(message);
         boolean expected=false;
         Assert.assertEquals(resourcePage.moreThatTwoResourceSameName(resource1), expected);
     }
 
+    @When("^I search Resources with search criteria \"([^\\\"]*)\"$")
+    public void searchResource(String searchCriteria){
+        resourcePage=sidebar.clickOption(EnumOptions.RESOURCES.option);
+        resourcePage.filterResource(searchCriteria);
+    }
 
+    @Then("^the Resources that match the search criteria \"([^\\\"]*)\" should be displayed in Resource List$")
+    public void numResourcesFilter(String searchCriteria){
+        int actual=resourcePage.numOfResourcesFilter(searchCriteria);
+        Assert.assertEquals(3,actual);
+    }
 
-
-
-
-
-
-
+    @When("^I delete the Resource \"([^\\\"]*)\"$")
+    public void deleteResourceByName(String resourceName){
+        resourcePage=sidebar.clickOption(EnumOptions.RESOURCES.option);
+        resourcePage.deleteResourceByName(resourceName);
+    }
 
 }

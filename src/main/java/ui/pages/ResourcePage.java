@@ -7,6 +7,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import ui.BaseMainPageObject;
 import ui.BasePageObject;
 
 /**
@@ -16,7 +17,7 @@ import ui.BasePageObject;
  * Time: 6:09 PM
  * To change this template use File | Settings | File Templates.
  */
-public class ResourcePage extends BasePageObject{
+public class ResourcePage extends BaseMainPageObject{
     private boolean exitsResource=false;
     private Actions action = new Actions(driver);
 
@@ -89,4 +90,24 @@ public class ResourcePage extends BasePageObject{
         }
         return exitsResource;
     }
+
+    public void filterResource(String searchCriteria){
+        inputFilterResource.sendKeys(searchCriteria);
+    }
+
+    public int numOfResourcesFilter(String searchCriteria){
+        System.out.print("*************************"+driver.findElements(By.xpath("//div[contains(@class,'ng-scope ngRow')]")).size());
+        return driver.findElements(By.xpath("//div[contains(@class,'ng-scope ngRow')]")).size();
+    }
+
+    public void CheckOutResource(String resourceName){
+        driver.findElement(By.xpath("//div[contains(@class,'ng-scope ngRow')]/div[contains(@class,'col2')]//span[text()='"+resourceName+"']/parent::div/parent::div/parent::div/preceding-sibling::div//input[@type='checkbox']")).click();
+    }
+
+    public void deleteResourceByName(String resourceName){
+        CheckOutResource(resourceName);
+        buttonRemoveResource.click();
+    }
+
+
 }

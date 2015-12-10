@@ -11,7 +11,7 @@ import ui.pages.SidebarMenuPage;
  * Time: 8:26 PM
  * To change this template use File | Settings | File Templates.
  */
-public class BaseMainPageObject {
+public class BaseMainPageObject extends BasePageObject {
     private HeaderMenuPage headerMenu;
     private SidebarMenuPage sidebarMenu;
 
@@ -20,7 +20,20 @@ public class BaseMainPageObject {
         sidebarMenu = new SidebarMenuPage();
     }
 
+    @Override
+    public void waitUntilPageObjectIsLoaded() {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
     public LoginPage clickSignOutSuccessfully(){
         return headerMenu.clickSignOutSuccessfully();
+    }
+
+    public HeaderMenuPage getHeaderMenu(){
+        return headerMenu;
+    }
+
+    public SidebarMenuPage getSideBarMenu(){
+        return sidebarMenu;
     }
 }
