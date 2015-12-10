@@ -38,7 +38,6 @@ public class ConferenceRoomSteps {
     @When("I associate the \"(.*?)\" Resource to the \"(.*?)\" Conference Room with quantity \"(.*?)\"")
     public void I_associate_the_Resource_to_the_Conference_Room_with_quantity(String resourceName, String roomName, int quantity){
         roomInfoPage=conferenceRoomsPage.clickOnSpecificRoom(roomName);
-        resourceAssociationsPage=roomInfoPage.
 
     }
 
