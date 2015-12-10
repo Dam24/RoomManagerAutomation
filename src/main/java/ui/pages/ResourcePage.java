@@ -1,5 +1,6 @@
 package ui.pages;
 
+import entities.Resource;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -77,5 +78,15 @@ public class ResourcePage extends BasePageObject{
     public AddResourcePage clickAddButton(){
         buttonAddResource.click();
         return new AddResourcePage();
+    }
+
+    public boolean moreThatTwoResourceSameName(Resource resource1){
+        if((driver.findElements(By.xpath("//div[@class='ngCell centeredColumn col2 colt2']//span[text()='"+resource1.getName()+"']"))).size()==1){
+                  exitsResource=false;
+        }
+        else {
+            exitsResource=true;
+        }
+        return exitsResource;
     }
 }

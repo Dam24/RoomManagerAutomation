@@ -1,6 +1,7 @@
 package ui.pages;
 
 import entities.Resource;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -18,6 +19,7 @@ public class AddResourcePage extends BasePageObject {
 
     //@FindBy(xpath= "//form[@class='ng-valid ng-dirty ng-valid-parse']")
     //WebElement formAddResource;
+    boolean isMessageShowed;
 
     @FindBy(xpath= "//form/div/input[@ng-model='resource.name']")
     WebElement inputResourceName;
@@ -27,8 +29,6 @@ public class AddResourcePage extends BasePageObject {
 
     @FindBy(xpath= "//div[@class='modal-footer ng-scope']/div/button[@class='info']")
     WebElement buttonSaveResource;
-
-
 
     @FindBy(xpath= "//small[@class='inline-error ng-binding']")
     WebElement errorCreateResource;
@@ -42,19 +42,22 @@ public class AddResourcePage extends BasePageObject {
     public void waitUntilPageObjectIsLoaded() {
         wait.until(ExpectedConditions.visibilityOf(buttonSaveResource));
     }
-    /*
-    public void  createResource(String resourceName,String resourceCustomName){
-
-        inputResourceName.sendKeys(resourceName);
-        inputResourceCustomName.sendKeys(resourceCustomName);
-        buttonSaveResource.click();
-
-    }
-      */
 
     public void  createResource(Resource resource1){
         inputResourceName.sendKeys(resource1.getName());
         inputResourceCustomName.sendKeys(resource1.getDisplayName());
         buttonSaveResource.click();
+    }
+
+    public boolean isMessageShowed(String message){
+        if(errorCreateResource.getText().equalsIgnoreCase(message)){
+            isMessageShowed=true;
+        }
+
+        else{
+            isMessageShowed=false ;
+        }
+
+        return isMessageShowed;
     }
 }

@@ -1,6 +1,6 @@
 Feature: @Resources
 Background:
-#   Given I sign in to Main page with user name "BrayanRosas" and password "Client123"
+# Given I sign in to Main page with user name "BrayanRosas" and password "Client123"
 #    And I create a Resource with: "fa-desktop", "Computer", "Lab Computer", "A personal computer only for use of students" created
 #
 #  Scenario Delete a Resource that is assigned to different Conference Room
