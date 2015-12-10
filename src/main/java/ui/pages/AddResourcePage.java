@@ -17,24 +17,22 @@ import ui.BasePageObject;
  */
 public class AddResourcePage extends BasePageObject {
 
-    //@FindBy(xpath= "//form[@class='ng-valid ng-dirty ng-valid-parse']")
-    //WebElement formAddResource;
-    boolean isMessageShowed;
+    private boolean isMessageShowed;
 
     @FindBy(xpath= "//form/div/input[@ng-model='resource.name']")
-    WebElement inputResourceName;
+    private WebElement inputResourceName;
 
     @FindBy(xpath= "//form/div/input[@ng-model='resource.customName']")
-    WebElement inputResourceCustomName;
+    private WebElement inputResourceCustomName;
 
     @FindBy(xpath= "//div[@class='modal-footer ng-scope']/div/button[@class='info']")
-    WebElement buttonSaveResource;
+    private WebElement buttonSaveResource;
 
     @FindBy(xpath= "//div[@class='modal-footer ng-scope']/div/button[@class='btn-clear']")
-    WebElement buttonCancelResource;
+    private WebElement buttonCancelResource;
 
     @FindBy(xpath= "//small[@class='inline-error ng-binding']")
-    WebElement errorCreateResource;
+    private WebElement errorCreateResource;
 
     public AddResourcePage() {
         PageFactory.initElements(driver, this);
@@ -68,5 +66,4 @@ public class AddResourcePage extends BasePageObject {
         buttonCancelResource.click();
         return new ResourcePage();
     }
-
 }

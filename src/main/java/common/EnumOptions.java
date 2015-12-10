@@ -12,11 +12,9 @@ public enum EnumOptions {
     IMPERSONATION("Impersonation"),
     ROOMS("Conference Rooms"),
     RESOURCES("Resources"),
-    LOCATIONS(""),
+    LOCATIONS("Locations"),
     TABLETS("Tablets"),
     SETTINGS("Settings");
-
-
     public final String option;
 
     private EnumOptions(String option) {

@@ -22,22 +22,22 @@ public class ResourcePage extends BaseMainPageObject{
     private Actions action = new Actions(driver);
 
     @FindBy(xpath= "//button[@id='btnRemove']/preceding-sibling::button")
-    WebElement buttonAddResource;
+    private WebElement buttonAddResource;
 
     @FindBy(id= "btnRemove")
-    WebElement buttonRemoveResource;
+    private WebElement buttonRemoveResource;
 
     @FindBy(xpath= "//input[@ng-model='resourceNameFilter']")
-    WebElement inputFilterResource;
+    private WebElement inputFilterResource;
 
     @FindBy(xpath= "//div[@class='ngCell centeredColumn col1 colt1']")
-    WebElement columnIconResource;
+    private WebElement columnIconResource;
 
     @FindBy(xpath= "//div[@class='ngCell centeredColumn col2 colt2']")
-    WebElement columnNameResource;
+    private WebElement columnNameResource;
 
     @FindBy(xpath= "//div[@class='ngCell centeredColumn col3 colt3']")
-    WebElement columnCustomNameResource;
+    private WebElement columnCustomNameResource;
 
     public ResourcePage() {
         PageFactory.initElements(driver, this);
@@ -95,8 +95,7 @@ public class ResourcePage extends BaseMainPageObject{
         inputFilterResource.sendKeys(searchCriteria);
     }
 
-    public int numOfResourcesFilter(String searchCriteria){
-        System.out.print("*************************"+driver.findElements(By.xpath("//div[contains(@class,'ng-scope ngRow')]")).size());
+    public int numOfResourcesFilter(){
         return driver.findElements(By.xpath("//div[contains(@class,'ng-scope ngRow')]")).size();
     }
 
@@ -108,6 +107,4 @@ public class ResourcePage extends BaseMainPageObject{
         CheckOutResource(resourceName);
         buttonRemoveResource.click();
     }
-
-
 }

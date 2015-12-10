@@ -37,17 +37,17 @@ public class ResourceStep {
 
     @When("^I try to create the Resource Name \"([^\\\"]*)\", \"([^\\\"]*)\" in the Resource page$")
     public void tryToCreateResource(String name,String displayName){
-            resourcePage=sidebar.clickOption(EnumOptions.RESOURCES.option);
-            addResourcePage=resourcePage.clickAddButton();
-            resource1.setName(name);
-            resource1.setDisplayName(displayName);
-            addResourcePage.createResource(resource1);
+        resourcePage=sidebar.clickOption(EnumOptions.RESOURCES.option);
+        addResourcePage=resourcePage.clickAddButton();
+        resource1.setName(name);
+        resource1.setDisplayName(displayName);
+        addResourcePage.createResource(resource1);
     }
 
     @Given("^I sign in to Main page with user name \"([^\\\"]*)\" and password \"([^\\\"]*)\"$")
     public void signInToMainPAge(String user,String password){
-            loginPage=PageTransporter.getInstance().navigateToLoginPage();
-            loginPage.signIn(user,password);
+        loginPage=PageTransporter.getInstance().navigateToLoginPage();
+        loginPage.signIn(user,password);
     }
 
     @Then("^an error text \"([^\\\"]*)\" is showed in the Resource form$")
@@ -75,7 +75,7 @@ public class ResourceStep {
 
     @Then("^the Resources that match the search criteria \"([^\\\"]*)\" should be displayed in Resource List$")
     public void numResourcesFilter(String searchCriteria){
-        int actual=resourcePage.numOfResourcesFilter(searchCriteria);
+        int actual=resourcePage.numOfResourcesFilter();
         Assert.assertEquals(3,actual);
     }
 
@@ -84,5 +84,4 @@ public class ResourceStep {
         resourcePage=sidebar.clickOption(EnumOptions.RESOURCES.option);
         resourcePage.deleteResourceByName(resourceName);
     }
-
 }
