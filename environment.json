@@ -41,6 +41,10 @@
             },
             "API": {
                 "server": "JALASOFTQA002"
+            },
+            "MongoDB": {
+                "server": "mongodb://172.20.208.216:27017",
+                "database": "roommanager"
             }
         },
         {
