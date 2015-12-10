@@ -22,6 +22,6 @@ Background:
   Scenario: Cannot create two Resources with the same Name
     When I try to create the Resource Name "Computer", "PC" in the Resource page
     Then an error text "A resource with the same name already exists, please choose another name" is showed in the Resource form
-      And only one Resource with the same name should be displayed in Resource list
+    And only one Resource with the same name should be displayed in Resource list
     When I navigate to Tablet page
     Then only one Resource with the same name should be displayed in Tablet list
