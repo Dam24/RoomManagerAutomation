@@ -2,6 +2,7 @@ package framework;
 
 import com.mongodb.*;
 import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 
@@ -17,7 +18,7 @@ public class DBManager {
     private MongoDatabase database;
     private static DBManager instance;
 
-    private DBManager() {
+    protected DBManager() {
         initialize();
     }
 
@@ -27,12 +28,20 @@ public class DBManager {
         return instance;
     }
 
-    public void quitMongoDB() {
+    public MongoCollection<Document> getCollection(String collection) {
+        return database.getCollection(collection);
+    }
+
+    public void closeMongoDB() {
         mongoClient.close();
     }
 
     private void initialize() {
-        mongoClient = new MongoClient(new MongoClientURI(CredentialsManager.getInstance().getMongoServer()));
-        database = mongoClient.getDatabase(CredentialsManager.getInstance().getMongoDataBase());
+        try {
+            mongoClient = new MongoClient(new MongoClientURI(CredentialsManager.getInstance().getMongoServer()));
+            database = mongoClient.getDatabase(CredentialsManager.getInstance().getMongoDataBase());
+        } catch (Exception e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        }
     }
 }
