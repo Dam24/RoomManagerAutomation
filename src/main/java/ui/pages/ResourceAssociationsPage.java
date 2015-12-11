@@ -1,11 +1,13 @@
 package ui.pages;
 
+import common.EnumOptions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import ui.BaseMainPageObject;
 import ui.BasePageConferenceRoom;
 
 /**
@@ -19,6 +21,7 @@ import ui.BasePageConferenceRoom;
 public class ResourceAssociationsPage extends BasePageConferenceRoom {
 
     String quantity;
+    BaseMainPageObject mainPage=new BaseMainPageObject();
 
     @FindBy(xpath = "//div[legend[contains(text(),Available)]]/div/")
     @CacheLookup
@@ -28,8 +31,19 @@ public class ResourceAssociationsPage extends BasePageConferenceRoom {
     @CacheLookup
     WebElement listAssociatedResources;
 
+    @FindBy(xpath= "//div[@class='modal-footer ng-scope']/div/button[@class='btn-clear']")
+    WebElement buttonCancel;
+
+    @FindBy(xpath= "//div[@class='modal-footer ng-scope']/div/button[@class='info']")
+    WebElement buttonDelete;
+
     @FindBy(xpath= "//div[@class='modal-body ng-scope']")
     WebElement bodyResourceAssociated;
+
+    @FindBy(xpath ="//div[@class='list-group']")
+    WebElement emailServer;
+
+
 
     public ResourceAssociationsPage() {
         PageFactory.initElements(driver, this);
@@ -54,6 +68,17 @@ public class ResourceAssociationsPage extends BasePageConferenceRoom {
       quantity=quantity.substring(0,1);
       System.out.println(quantity);
       return quantity;
+    }
+
+    public ResourcePage deleteButtonConfirm(){
+        buttonDelete.click();
+        wait.until(ExpectedConditions.not(ExpectedConditions.visibilityOf(buttonDelete)));
+       // wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//div[@class='modal-footer ng-scope']/div/button[@class='info']")));
+        mainPage.getSideBarMenu().clickOption(EnumOptions.SERVER.option);
+        wait.until(ExpectedConditions.visibilityOf(emailServer));
+        mainPage.getSideBarMenu().clickOptionResource();
+        return new ResourcePage();
+
     }
 
 }

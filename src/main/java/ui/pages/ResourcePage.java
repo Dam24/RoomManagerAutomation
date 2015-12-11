@@ -7,8 +7,12 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.testng.Assert;
 import ui.BaseMainPageObject;
 import ui.BasePageObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -95,16 +99,29 @@ public class ResourcePage extends BaseMainPageObject{
         inputFilterResource.sendKeys(searchCriteria);
     }
 
-    public int numOfResourcesFilter(){
-        return driver.findElements(By.xpath("//div[contains(@class,'ng-scope ngRow')]")).size();
+    public List<WebElement> numOfResourcesFilter(){
+        return driver.findElements(By.xpath("//div[contains(@class,'ng-scope ngRow')]//div[contains(@class,'col2')]//span"));
     }
 
     public void CheckOutResource(String resourceName){
         driver.findElement(By.xpath("//div[contains(@class,'ng-scope ngRow')]/div[contains(@class,'col2')]//span[text()='"+resourceName+"']/parent::div/parent::div/parent::div/preceding-sibling::div//input[@type='checkbox']")).click();
     }
 
-    public void deleteResourceByName(String resourceName){
+    public ResourceAssociationsPage clickDeleteResource(String resourceName){
         CheckOutResource(resourceName);
         buttonRemoveResource.click();
+        return new ResourceAssociationsPage();
     }
+
+    public void resultResourceFilterCompare(){
+        ArrayList<String> resourcesName = new ArrayList<String>();
+        List<WebElement> resourcesList = numOfResourcesFilter();
+        for (WebElement temp : resourcesList) {
+            System.out.println("********************"+temp.getText()+"-----");
+             resourcesName.add(temp.getText());
+        }
+        //System.out.println("-------"+resourcesName.toArray());
+//        System.out.println(resourcesName.toArray());
+
+}
 }

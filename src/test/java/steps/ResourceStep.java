@@ -8,10 +8,7 @@ import entities.Resource;
 import org.testng.Assert;
 import ui.BaseMainPageObject;
 import ui.PageTransporter;
-import ui.pages.AddResourcePage;
-import ui.pages.LoginPage;
-import ui.pages.ResourcePage;
-import ui.pages.SidebarMenuPage;
+import ui.pages.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -28,6 +25,7 @@ public class ResourceStep {
     ResourcePage resourcePage;
     AddResourcePage addResourcePage;
     Resource resource1;
+    ResourceAssociationsPage resourceAssociationsPage;
 
     public ResourceStep(Resource resource1){
         this.resource1=resource1;
@@ -37,7 +35,7 @@ public class ResourceStep {
 
     @When("^I try to create the Resource Name \"([^\\\"]*)\", \"([^\\\"]*)\" in the Resource page$")
     public void tryToCreateResource(String name,String displayName){
-        resourcePage=sidebar.clickOption(EnumOptions.RESOURCES.option);
+        resourcePage=sidebar.clickOptionResource();
         addResourcePage=resourcePage.clickAddButton();
         resource1.setName(name);
         resource1.setDisplayName(displayName);
@@ -69,19 +67,24 @@ public class ResourceStep {
 
     @When("^I search Resources with search criteria \"([^\\\"]*)\"$")
     public void searchResource(String searchCriteria){
-        resourcePage=sidebar.clickOption(EnumOptions.RESOURCES.option);
+        resourcePage=sidebar.clickOptionResource();
         resourcePage.filterResource(searchCriteria);
     }
 
     @Then("^the Resources that match the search criteria \"([^\\\"]*)\" should be displayed in Resource List$")
     public void numResourcesFilter(String searchCriteria){
-        int actual=resourcePage.numOfResourcesFilter();
-        Assert.assertEquals(3,actual);
+        resourcePage.resultResourceFilterCompare();
+        //Assert.assertEqualsNoOrder(resourcesName.toArray(),resourcesName.toArray())
+        //int actual=resourcePage.numOfResourcesFilter();
+       // Assert.assertEquals(3,actual);
     }
 
     @When("^I delete the Resource \"([^\\\"]*)\"$")
     public void deleteResourceByName(String resourceName){
-        resourcePage=sidebar.clickOption(EnumOptions.RESOURCES.option);
-        resourcePage.deleteResourceByName(resourceName);
+        resourcePage=sidebar.clickOptionResource();
+        resourceAssociationsPage=resourcePage.clickDeleteResource(resourceName);
+        resourceAssociationsPage.deleteButtonConfirm();
+
     }
+
 }

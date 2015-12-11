@@ -5,6 +5,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import ui.BasePageObject;
+import ui.BaseResourcePropertiesPage;
 
 /**
  * Created with IntelliJ IDEA.
@@ -13,7 +14,9 @@ import ui.BasePageObject;
  * Time: 8:27 PM
  * To change this template use File | Settings | File Templates.
  */
-public class ResourceInfoPage extends BasePageObject {
+public class ResourceInfoPage extends BaseResourcePropertiesPage {
+
+
 
     @FindBy(xpath= "//div[@id='breadcrumb']/a[1]")
     WebElement buttonResourceInfo;
