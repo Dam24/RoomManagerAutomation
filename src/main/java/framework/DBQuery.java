@@ -1,13 +1,10 @@
 package framework;
 
-import com.mongodb.BasicDBObject;
 import com.mongodb.client.FindIterable;
 import entities.Resource;
 import org.bson.Document;
 import com.mongodb.Block;
-
 import java.util.ArrayList;
-
 import static com.mongodb.client.model.Filters.regex;
 
 /**
@@ -21,7 +18,6 @@ public class DBQuery {
     private static DBQuery instance;
 
     protected DBQuery() {
-        initialize();
     }
 
     public static DBQuery getInstance() {
@@ -86,9 +82,5 @@ public class DBQuery {
             DBManager.getInstance().closeMongoDB();
         }
         return resources;
-    }
-
-    private void initialize() {
-        //To change body of created methods use File | Settings | File Templates.
     }
 }
