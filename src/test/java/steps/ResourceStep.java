@@ -1,6 +1,7 @@
 package steps;
 
 import common.EnumOptions;
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -9,6 +10,7 @@ import org.testng.Assert;
 import ui.BaseMainPageObject;
 import ui.PageTransporter;
 import ui.pages.*;
+import ui.pages.tablet.LoginTablePage;
 
 /**
  * Created with IntelliJ IDEA.

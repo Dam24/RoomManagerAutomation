@@ -5,6 +5,7 @@ import framework.CredentialsManager;
 import org.openqa.selenium.WebDriver;
 import ui.pages.ConferenceRoomsPage;
 import ui.pages.LoginPage;
+import ui.pages.tablet.LoginTablePage;
 
 
 /**
@@ -20,6 +21,7 @@ public class PageTransporter {
     private String baseLoginURL = CredentialsManager.getInstance().getBaseAdminURL();
     private  String baseMainPage = "https://172.20.208.216:4040/admin/#/admin";
     private String baseConferenceRooms = "https://172.20.208.121:4040/admin/#/admin/rooms/";
+    private String baseTabletLoginPage= "https://172.20.208.216:4040/tablet";
 
     private static PageTransporter instance;
 
@@ -61,6 +63,13 @@ public class PageTransporter {
         goToURL(baseMainPage);
         return  new BaseMainPageObject();
     }
+
+    public LoginTablePage navigateToLoginTablePage(){
+        goToURL(baseTabletLoginPage);
+
+       return new LoginTablePage();
+    }
+
     public void closeLoginPage(){
         driver.close();
     }
