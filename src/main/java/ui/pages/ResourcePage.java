@@ -1,16 +1,14 @@
 package ui.pages;
 
 import entities.Resource;
+import framework.DBQuery;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.testng.Assert;
 import ui.BaseMainPageObject;
-import ui.BasePageObject;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +22,8 @@ import java.util.List;
 public class ResourcePage extends BaseMainPageObject{
     private boolean exitsResource=false;
     private Actions action = new Actions(driver);
+    ArrayList<Resource> resources=new ArrayList<Resource>()  ;
+
 
     @FindBy(xpath= "//button[@id='btnRemove']/preceding-sibling::button")
     private WebElement buttonAddResource;
@@ -99,7 +99,7 @@ public class ResourcePage extends BaseMainPageObject{
         inputFilterResource.sendKeys(searchCriteria);
     }
 
-    public List<WebElement> numOfResourcesFilter(){
+    public List<WebElement> getResourcesNamesWebElements(){
         return driver.findElements(By.xpath("//div[contains(@class,'ng-scope ngRow')]//div[contains(@class,'col2')]//span"));
     }
 
@@ -113,15 +113,26 @@ public class ResourcePage extends BaseMainPageObject{
         return new ResourceAssociationsPage();
     }
 
-    public void resultResourceFilterCompare(){
+    public ArrayList<String> getResourcesNameByUI(){
+
         ArrayList<String> resourcesName = new ArrayList<String>();
-        List<WebElement> resourcesList = numOfResourcesFilter();
+        List<WebElement> resourcesList = getResourcesNamesWebElements();
         for (WebElement temp : resourcesList) {
-            System.out.println("********************"+temp.getText()+"-----");
              resourcesName.add(temp.getText());
         }
-        //System.out.println("-------"+resourcesName.toArray());
-//        System.out.println(resourcesName.toArray());
+        System.out.println("********* size by UI "+resourcesName.size());
+        return resourcesName;
+    }
 
-}
+    public ArrayList<String> getResourcesNameByDB(String searchCriteria){
+
+        ArrayList<Resource> resourcesByDB=DBQuery.getInstance().getResourcesBySearchCriteria(searchCriteria);
+        ArrayList<String> resourcesNameByDB= new ArrayList<String>();
+        for (Resource resourceTemp : resourcesByDB){
+            resourcesNameByDB.add(resourceTemp.getName());
+
+        }
+        System.out.println("********* size by BD "+resourcesNameByDB.size());
+        return resourcesNameByDB;
+    }
 }

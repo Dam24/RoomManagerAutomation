@@ -73,10 +73,7 @@ public class ResourceStep {
 
     @Then("^the Resources that match the search criteria \"([^\\\"]*)\" should be displayed in Resource List$")
     public void numResourcesFilter(String searchCriteria){
-        resourcePage.resultResourceFilterCompare();
-        //Assert.assertEqualsNoOrder(resourcesName.toArray(),resourcesName.toArray())
-        //int actual=resourcePage.numOfResourcesFilter();
-       // Assert.assertEquals(3,actual);
+        Assert.assertEqualsNoOrder(resourcePage.getResourcesNameByUI().toArray(),resourcePage.getResourcesNameByDB(searchCriteria).toArray());
     }
 
     @When("^I delete the Resource \"([^\\\"]*)\"$")
@@ -84,6 +81,11 @@ public class ResourceStep {
         resourcePage=sidebar.clickOptionResource();
         resourceAssociationsPage=resourcePage.clickDeleteResource(resourceName);
         resourceAssociationsPage.deleteButtonConfirm();
+    }
+
+    @Then("^the Resource \"([^\\\"]*)\" should not be displayed in the Resources list$")
+    public void isDisplayed(String resourceName){
+        Assert.assertEquals(resourcePage.existInColumnName(resourceName),false);
 
     }
 

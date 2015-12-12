@@ -72,7 +72,8 @@ public class ResourceAssociationsPage extends BasePageConferenceRoom {
 
     public ResourcePage deleteButtonConfirm(){
         buttonDelete.click();
-        wait.until(ExpectedConditions.not(ExpectedConditions.visibilityOf(buttonDelete)));
+        isDisplayed(By.xpath("//div[@class='modal-content']"))  ;
+       // wait.until(ExpectedConditions.not(ExpectedConditions.visibilityOf(buttonDelete)));
        // wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//div[@class='modal-footer ng-scope']/div/button[@class='info']")));
         mainPage.getSideBarMenu().clickOption(EnumOptions.SERVER.option);
         wait.until(ExpectedConditions.visibilityOf(emailServer));
