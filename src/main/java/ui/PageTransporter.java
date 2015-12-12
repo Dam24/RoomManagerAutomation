@@ -19,7 +19,7 @@ public class PageTransporter {
     private WebDriver driver = BrowserManager.getInstance().getDriver();
     private String baseLoginURL = CredentialsManager.getInstance().getBaseAdminURL();
     private  String baseMainPage = "https://172.20.208.216:4040/admin/#/admin";
-    private String baseConferenceRooms = "https://172.20.208.121:4040/admin/#/admin/rooms/";
+    private String baseConferenceRooms = "https://172.20.208.216:4040/admin/#/admin/rooms/";
 
     private static PageTransporter instance;
 
