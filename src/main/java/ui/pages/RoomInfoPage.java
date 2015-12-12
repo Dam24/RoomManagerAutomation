@@ -18,40 +18,39 @@ public class RoomInfoPage extends BasePageConferenceRoom{
 
     @FindBy(className = "btn btn-default")
     @CacheLookup
-    WebElement buttonRoomEnabled;
+    private WebElement buttonRoomEnabled;
 
     @FindBy(className = "btn btn-default ng-hide")
     @CacheLookup
-    WebElement buttonRoomDisabled;
+    private WebElement buttonRoomDisabled;
 
     @FindBy(xpath = "//input[@type='text' and @ng-model='selectedRoom.displayName']")
     @CacheLookup
-    WebElement  getPutName;
+    private WebElement  getPutName;
 
     @FindBy(xpath = "//input[@type='text' and @ng-model='selectedRoom.customDisplayName']")
     @CacheLookup
-    WebElement  inputDisplayName;
+    private WebElement  inputDisplayName;
 
     @FindBy(xpath = "//input[@type='text' and @ng-model='selectedRoom.code']")
     @CacheLookup
-    WebElement inputCode;
+    private WebElement inputCode;
 
     @FindBy(xpath = "//input[@type='text' and @ng-model='selectedRoom.capacity']")
     @CacheLookup
-    WebElement inputCapacity;
+    private WebElement inputCapacity;
 
     @FindBy(xpath = "//button[@ng-click='toggleTree()']")
     @CacheLookup
-    WebElement buttonLocation;
+    private WebElement buttonLocation;
 
     @FindBy(xpath = "//div[@class='treeview-toggle']/span[@ng-click='collapse($event)']")
     @CacheLookup
-    WebElement buttonCollapseLocation;
+    private WebElement buttonCollapseLocation;
 
-    @FindBy(xpath = "//div[@class='treeview-branches ng-scope']/")
+    @FindBy(xpath = "//div[@class='treeview-branches ng-scope']")
     @CacheLookup
-    WebElement locationBranches;
-
+    private WebElement locationBranches;
 
     @Override
     public void waitUntilPageObjectIsLoaded() {
@@ -67,6 +66,7 @@ public class RoomInfoPage extends BasePageConferenceRoom{
         buttonRoomDisabled.click();
         return this;
     }
+
     private RoomInfoPage clickLocationButton(){
         buttonLocation.click();
         return this;
@@ -108,12 +108,8 @@ public class RoomInfoPage extends BasePageConferenceRoom{
     public ConferenceRoomsPage setAssociateLocation(Location location){
         clickLocationButton();
         clickCollapseLocationButton();
-        WebElement specificLocation=locationBranches.findElement(By.xpath("//transclude/div[contains(text(),'"+location.getDisplayName()+"')]"));
+        WebElement specificLocation = locationBranches.findElement(By.xpath("//transclude/div[contains(text(),'" + location.getDisplayName() + "')]"));
         specificLocation.click();
         return clickSaveButton();
     }
-
-
-
-
 }

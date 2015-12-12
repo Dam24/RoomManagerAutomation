@@ -16,51 +16,51 @@ public class OutOfOrderPlanningPage extends BasePageObject {
 
     @FindBy(xpath = "//span[@class='fa fa-calendar']/")
     @CacheLookup
-    WebElement buttonElementCalendar;
+    private WebElement buttonElementCalendar;
 
     @FindBy(xpath = "//date-picker[@model='form.from.value']/div/input[@type='text']")
     @CacheLookup
-    WebElement inputFromDate;
+    private WebElement inputFromDate;
 
     @FindBy(xpath = "//date-picker[@model='form.to.value']/div/input[@type='text']")
     @CacheLookup
-    WebElement inputToDate;
+    private WebElement inputToDate;
 
     @FindBy(xpath = "//table[@ng-model='form.from.value']/tbody/tr/td/input[@ng-model= 'hours']")
     @CacheLookup
-    WebElement inputFromHour;
+    private WebElement inputFromHour;
 
     @FindBy(xpath = "//table[@ng-model='form.from.value']/tbody/tr/td/input[@ng-model= 'minutes']")
     @CacheLookup
-    WebElement inputFromMinutes;
+    private WebElement inputFromMinutes;
 
     @FindBy(xpath = "//table[@ng-model='form.from.value']/tbody/tr/td/button[@type='button' and @ng-click='toggleMeridian()']")
     @CacheLookup
-    WebElement toggleFromMeridian;
+    private WebElement toggleFromMeridian;
 
     @FindBy(xpath = "//table[@ng-model='form.to.value']/tbody/tr/td/input[@ng-model= 'hours']")
     @CacheLookup
-    WebElement inputToHour;
+    private WebElement inputToHour;
 
     @FindBy(xpath = "//table[@ng-model='form.to.value']/tbody/tr/td/input[@ng-model= 'minutes']")
     @CacheLookup
-    WebElement inputToMinutes;
+    private WebElement inputToMinutes;
 
     @FindBy(xpath = "//table[@ng-model='form.to.value']/tbody/tr/td/button[@type='button' and @ng-click='toggleMeridian()']")
     @CacheLookup
-    WebElement toggleToMeridian;
+    private WebElement toggleToMeridian;
 
     @FindBy(xpath = "//div[@class='input-group-btn check-dropdown']/label[@class='btn btn-default']")
     @CacheLookup
-    WebElement dropdownTitle;
+    private WebElement dropdownTitle;
 
     @FindBy(xpath = "//input[@type='text' and @ng-model='form.title.value']")
     @CacheLookup
-    WebElement inputTitle;
+    private WebElement inputTitle;
 
     @FindBy(xpath = "//textarea[@ng-model='form.description.value']")
     @CacheLookup
-    WebElement inputDescription;
+    private WebElement inputDescription;
 
     @Override
     public void waitUntilPageObjectIsLoaded() {
@@ -81,6 +81,4 @@ public class OutOfOrderPlanningPage extends BasePageObject {
         element.click();
         return this;
     }
-
-
 }

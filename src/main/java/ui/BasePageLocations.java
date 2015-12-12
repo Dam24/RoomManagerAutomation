@@ -18,19 +18,19 @@ public class BasePageLocations extends BasePageObject{
 
     @FindBy(xpath = "//a[@ng-repeat='option in options' and contains(text(),'Location Info')]")
     @CacheLookup
-    WebElement tapLocationInfo;
+    private WebElement tapLocationInfo;
 
     @FindBy(xpath = "//a[@ng-repeat='option in options' and contains(text(),'Location Associations')]")
     @CacheLookup
-    WebElement tapLocationAssociation;
+    private WebElement tapLocationAssociation;
 
     @FindBy(xpath = "//button[@ng-click='save()']")
     @CacheLookup
-    WebElement  buttonSave;
+    private WebElement  buttonSave;
 
     @FindBy(xpath = "//button[@ng-click='cancel()']")
     @CacheLookup
-    WebElement buttonCancel;
+    private WebElement buttonCancel;
 
     @Override
     public void waitUntilPageObjectIsLoaded() {
