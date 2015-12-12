@@ -8,13 +8,13 @@ package entities;
  * To change this template use File | Settings | File Templates.
  */
 public class Resource {
+    private String id;
+    private String name;
+    private String displayName;
+    private String description;
+    private String icon;
 
-    String name;
-    String displayName;
-    String description;
-    String icon;
-
-
+    public void setID(String id) {this.id = id;}
 
     public void setName(String newName){name=newName;}
 
@@ -23,6 +23,8 @@ public class Resource {
     public void setDescription(String newDescription){description=newDescription;}
 
     public void setIcon(String newIcon){icon=newIcon;}
+
+    public String getID() {return id;}
 
     public String getName(){ return name;}
 
