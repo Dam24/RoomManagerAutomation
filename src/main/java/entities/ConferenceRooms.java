@@ -11,7 +11,7 @@ public class ConferenceRooms {
     String Name;
     String DisplayName;
     String Code;
-    int Capacity;
+    String Capacity;
     String Location;
 
     public void setName(String name){
@@ -36,10 +36,10 @@ public class ConferenceRooms {
         return Code;
     }
 
-    public void setCapacity(int capacity){
+    public void setCapacity(String capacity){
         this.Capacity = capacity;
     }
-    public int getCapacity(){
+    public String getCapacity(){
         return Capacity;
     }
 

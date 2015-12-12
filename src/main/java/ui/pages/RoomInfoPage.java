@@ -1,5 +1,7 @@
 package ui.pages;
 
+import entities.Location;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
@@ -42,6 +44,14 @@ public class RoomInfoPage extends BasePageConferenceRoom{
     @CacheLookup
     WebElement buttonLocation;
 
+    @FindBy(xpath = "//div[@class='treeview-toggle']/span[@ng-click='collapse($event)']")
+    @CacheLookup
+    WebElement buttonCollapseLocation;
+
+    @FindBy(xpath = "//div[@class='treeview-branches ng-scope']/")
+    @CacheLookup
+    WebElement locationBranches;
+
 
     @Override
     public void waitUntilPageObjectIsLoaded() {
@@ -59,6 +69,11 @@ public class RoomInfoPage extends BasePageConferenceRoom{
     }
     private RoomInfoPage clickLocationButton(){
         buttonLocation.click();
+        return this;
+    }
+
+    private RoomInfoPage clickCollapseLocationButton(){
+        buttonCollapseLocation.click();
         return this;
     }
 
@@ -86,12 +101,19 @@ public class RoomInfoPage extends BasePageConferenceRoom{
         return this;
     }
 
-    public ConferenceRoomsPage associateResourceToRoom(){
-
-        clickResourceAssociationsTab();
-
-
-        return new ConferenceRoomsPage();
+    public ResourceAssociationsPage gotoAssociationPage(){
+        return clickResourceAssociationsTab();
     }
+
+    public ConferenceRoomsPage setAssociateLocation(Location location){
+        clickLocationButton();
+        clickCollapseLocationButton();
+        WebElement specificLocation=locationBranches.findElement(By.xpath("//transclude/div[contains(text(),'"+location.getDisplayName()+"')]"));
+        specificLocation.click();
+        return clickSaveButton();
+    }
+
+
+
 
 }
