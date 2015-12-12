@@ -1,10 +1,15 @@
 package framework;
 
 import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
+import com.mongodb.client.MongoIterable;
 import entities.Resource;
 import org.bson.Document;
 import com.mongodb.Block;
 import java.util.ArrayList;
+
+import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Filters.regex;
 
 /**
@@ -25,33 +30,6 @@ public class DBQuery {
             instance = new DBQuery();
 
         return instance;
-    }
-
-    public String searchByValue(String collection, final String key, String value) {
-        final String [] res = new String[1];
-        Object objectRes = null;
-        try {
-            FindIterable<Document> iterable = DBManager.getInstance().getCollection(collection)
-                    .find(new Document(key, value ));
-            iterable.forEach(new Block<Document>() {
-                @Override
-                public void apply(final Document document) {
-                    String element = document.toJson();
-                    String elementId = element.split(",")[0];
-                    String []id = elementId.split(":")[2].split("\"");
-                    res[0] = id[1];
-                }
-            });
-        } catch (Exception e) {
-            System.err.println("ERROR: "+e.getClass().getName() + ": " + e.getMessage());
-        } finally {
-            DBManager.getInstance().closeMongoDB();
-        }
-        return res [0];
-    }
-
-    public void closeMongoDB() {
-        DBManager.getInstance().closeMongoDB();
     }
 
     public ArrayList<Resource> getResourcesBySearchCriteria(String searchCriteria) {
@@ -78,9 +56,30 @@ public class DBQuery {
             });
         } catch (Exception e) {
             System.err.println("ERROR: "+e.getClass().getName() + ": " + e.getMessage());
-        } finally {
-            DBManager.getInstance().closeMongoDB();
         }
+
         return resources;
+    }
+
+    public String getIdByKey(String collection, String key, String value) {
+        String res = "";
+        MongoCollection<Document> docs =
+                DBManager
+                        .getInstance()
+                        .getCollection(collection)
+                        ;
+        MongoCursor<Document> cursor =
+                docs
+                        .find(eq(key, value))
+                        .iterator();
+        while (cursor.hasNext()) {
+            Document doc = cursor.next();
+            res += doc.get("_id");
+        }
+        return res;
+    }
+
+    public void closeMongoDB() {
+        DBManager.getInstance().closeMongoDB();
     }
 }
