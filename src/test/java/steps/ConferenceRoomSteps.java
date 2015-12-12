@@ -34,10 +34,11 @@ public class ConferenceRoomSteps {
     Resource resource;
     Location location;
 
-    public ConferenceRoomSteps(ConferenceRooms conferenceRooms, Resource resource){
-        this.conferenceRooms=conferenceRooms;
-        this.resource=resource;
-        baseMainPageObject=new BaseMainPageObject();
+    public ConferenceRoomSteps(ConferenceRooms conferenceRooms, Resource resource, Location location){
+        this.conferenceRooms = conferenceRooms;
+        this.resource = resource;
+        this.location = location;
+        baseMainPageObject = new BaseMainPageObject();
     }
 //    public ResourceStep(Resource resource){
 //        this.resource=resource;
@@ -46,7 +47,7 @@ public class ConferenceRoomSteps {
     @Given("I navigate to Conference Rooms page")
     public void I_navigate_to_Conference_Rooms_page(){
 //        conferenceRoomsPage= PageTransporter.getInstance().navigateToConferenceRoomPage();
-        conferenceRoomsPage= baseMainPageObject.getSideBarMenu().goToConferenceRoomsPage();
+        conferenceRoomsPage = baseMainPageObject.getSideBarMenu().goToConferenceRoomsPage();
     }
     @And("I create a resource with the following dates: \"(.*?)\", \"(.*?)\"")
     public void I_create_a_resource_with_the_following_dates(String resourceName, String resourceDisplayName){
@@ -58,11 +59,6 @@ public class ConferenceRoomSteps {
 
     @And("I displayed the \"(.*?)\" Resource in the Conference Room's Table")
     public void I_displayed_the_Resource_in_the_Conference_Rooms_Table(String  resourceDisplayName){
-        //resource.setDisplayName(resourceDisplayName);
-        //revisar este paso
-
-        System.out.println("****** resource display  name: "+resource.getDisplayName());
-
         conferenceRoomsPage.ensureIsNotDisplayedResourceColumns();
         conferenceRoomsPage.clickOnSpecificResource(resource);
     }
@@ -71,9 +67,6 @@ public class ConferenceRoomSteps {
     public void I_associate_the_Resource_to_the_Conference_Room_with_quantity(String resourceDisplayName, String roomDisplayName, String quantity){
         conferenceRooms.setName(roomDisplayName);
         conferenceRooms.setDisplayName(roomDisplayName);
-//        resource.setName(resourceDisplayName);
-//        resource.setDisplayName(resourceDisplayName);
-        //roomInfoPage=conferenceRoomsPage.clickOnSpecificRoom(conferenceRooms);
         roomInfoPage=conferenceRoomsPage.doubleClickOnSpecificRoom(conferenceRooms);
         resourceAssociationsPage=roomInfoPage.gotoAssociationPage();
         conferenceRoomsPage=resourceAssociationsPage.associateResource(resource, quantity);
@@ -89,11 +82,10 @@ public class ConferenceRoomSteps {
         assertTrue(conferenceRoomsPage.isResourceAssociate(quantity, conferenceRooms));
     }
 
-    @And("I create a Location with the following details: \"<Location Name>\", \"<Location Display Name>\"")
+    @And("I create a Location with the following details: \"(.*?)\", \"(.*?)\"")
     public void I_create_a_Location_with_the_following_details(String locationName, String locationDisplayName){
         location.setName(locationName);
         location.setDisplayName(locationDisplayName);
-        ///////////////////////
     }
 
     @When("I associate the \"(.*?)\" Conference Room with the Location in the Room Info page")
@@ -101,13 +93,12 @@ public class ConferenceRoomSteps {
         conferenceRooms.setName(roomDisplayName);
         conferenceRooms.setDisplayName(roomDisplayName);
         roomInfoPage=conferenceRoomsPage.doubleClickOnSpecificRoom(conferenceRooms);
-        conferenceRoomsPage=roomInfoPage.setAssociateLocation(location);
+        conferenceRoomsPage = roomInfoPage.setAssociateLocation(location);
     }
 
     @When("I navigate to Location Page")
     public void I_navigate_to_Location_Associations_page_of_Location(){
         locationsPage=conferenceRoomsPage.getSideBarMenu().goToLocationPage();
-
     }
 
     @Then("the Conference Room should be associated with Location in the Location Associations")
@@ -115,13 +106,11 @@ public class ConferenceRoomSteps {
         assertTrue(locationsPage.isLocationAssociatedToRoom(conferenceRooms,location));
     }
 
-
-    @When("I disabled the \"<Room Name>\" Conference Room")
+    @When("I disabled the \"(.*?)\" Conference Room")
     public void I_disabled_the_Conference_Room(String roomName){
         conferenceRooms.setName(roomName);
         conferenceRooms.setDisplayName(roomName);
         conferenceRoomsPage.clickOnDisabledConferenceRoom(conferenceRooms);
-
     }
 
     @And("the Conference Room should be disabled")
@@ -129,15 +118,4 @@ public class ConferenceRoomSteps {
         assertTrue(conferenceRoomsPage.isConferenceRoomsDisabled(conferenceRooms));
     }
 
-
-
-
-
-
-
-
-
-
-
 }
-
