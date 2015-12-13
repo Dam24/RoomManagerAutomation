@@ -50,4 +50,10 @@ public class CommonMethod {
             return false;
         }
     }
+
+    public static void fix(){
+       // PageTransporter.getInstance().
+
+    }
+
 }

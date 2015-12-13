@@ -20,10 +20,9 @@ import ui.pages.LoginPage;
 public class login {
     LoginPage loginPage;
 
-    @When("^I sign in to Main page with user name \"test\" and password \"Client123\"$")
-    public void singinInvalidCredentials(String user,String password){
-
-
+    @Given("^I sign in to Main page with user name \"([^\\\"]*)\" and password \"([^\\\"]*)\"$")
+    public void signInToMainPAge(String user,String password){
+        loginPage=PageTransporter.getInstance().navigateToLoginPage();
+        loginPage.signIn(user,password);
     }
-
 }
