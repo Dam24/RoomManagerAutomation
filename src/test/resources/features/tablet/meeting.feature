@@ -1,7 +1,7 @@
 @Tablet
 Feature: Meetings
   Background:
-    Given I'm logged in with the user "" in the tablet main page
+    Given I'm logged in with the user in the tablet main page
     And I select the "FloorRoom10" Conference Room
 
 
