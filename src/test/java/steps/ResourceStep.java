@@ -6,11 +6,16 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import entities.Resource;
+import framework.APIManager;
+import framework.DBManager;
+import framework.DBQuery;
 import org.testng.Assert;
 import ui.BaseMainPageObject;
 import ui.PageTransporter;
 import ui.pages.*;
 import ui.pages.tablet.LoginTablePage;
+
+import java.util.ArrayList;
 
 /**
  * Created with IntelliJ IDEA.
@@ -35,6 +40,21 @@ public class ResourceStep {
         sidebar=mainPage.getSideBarMenu();
     }
 
+    @Given("^I create a Resource with: \"([^\\\"]*)\" Name$")
+    public void createResources(String resourceNames){
+
+        ArrayList<String> resourcesNameArray = new ArrayList<String>();
+        for (String nameResourceTemp : resourceNames.split(",")){
+            resourcesNameArray.add(nameResourceTemp);
+        }
+        APIManager.getInstance().createResourcesByName(resourcesNameArray);
+        PageTransporter.getInstance().fixRefreshIsue();
+        System.out.println("*********"+resourcesNameArray);
+//        resourcePage.createResourcesByDB(resourcesNames);
+
+
+    }
+
     @When("^I try to create the Resource Name \"([^\\\"]*)\", \"([^\\\"]*)\" in the Resource page$")
     public void tryToCreateResource(String name,String displayName){
         resourcePage=sidebar.clickOptionResource();
@@ -42,12 +62,6 @@ public class ResourceStep {
         resource1.setName(name);
         resource1.setDisplayName(displayName);
         addResourcePage.createResource(resource1);
-    }
-
-    @Given("^I sign in to Main page with user name \"([^\\\"]*)\" and password \"([^\\\"]*)\"$")
-    public void signInToMainPAge(String user,String password){
-        loginPage=PageTransporter.getInstance().navigateToLoginPage();
-        loginPage.signIn(user,password);
     }
 
     @Then("^an error text \"([^\\\"]*)\" is showed in the Resource form$")
@@ -90,5 +104,13 @@ public class ResourceStep {
         Assert.assertEquals(resourcePage.existInColumnName(resourceName),false);
 
     }
+    @And("^the Resource \"([^\\\"]*)\" should not be obtained using the API$")
+    public void theResourceIsPresentInAPI(String resourceName){
+        String idResource=DBQuery.getInstance().getIdByKey("resourcemodels","name",resourceName);
+        System.out.println("ID RESOUCE GET BY DB");
+        Resource res1=APIManager.getInstance().getResourceByID(idResource) ;
+        Assert.assertNull(res1.getName());
+    }
+
 
 }
