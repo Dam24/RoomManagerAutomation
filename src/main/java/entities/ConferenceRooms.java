@@ -8,11 +8,11 @@ package entities;
  * To change this template use File | Settings | File Templates.
  */
 public class ConferenceRooms {
-    String Name;
-    String DisplayName;
-    String Code;
-    int Capacity;
-    String Location;
+    private String Name;
+    private String DisplayName;
+    private String Code;
+    private String Capacity;
+    private String Location;
 
     public void setName(String name){
         this.Name = name;
@@ -25,6 +25,7 @@ public class ConferenceRooms {
     public void setDisplayName(String displayName){
         this.DisplayName = displayName;
     }
+
     public String getDisplayName(){
         return DisplayName;
     }
@@ -32,14 +33,16 @@ public class ConferenceRooms {
     public void setCode(String code){
         this.Code = code;
     }
+
     public String getCode(){
         return Code;
     }
 
-    public void setCapacity(int capacity){
+    public void setCapacity(String capacity){
         this.Capacity = capacity;
     }
-    public int getCapacity(){
+
+    public String getCapacity(){
         return Capacity;
     }
 
