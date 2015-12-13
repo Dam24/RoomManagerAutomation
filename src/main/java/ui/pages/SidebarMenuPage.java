@@ -1,5 +1,6 @@
 package ui.pages;
 
+import common.EnumOptions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -22,11 +23,13 @@ public class SidebarMenuPage extends BasePageObject {
         wait.until(ExpectedConditions.visibilityOf(listMenu));
     }
 
-    public ResourcePage clickOption(String option){
+    public void clickOption(String option){
+         driver.findElement(By.xpath("//ul[contains(@class, 'nav-stacked')]/li/a[text()='"+option+"']")).click();
+    }
 
-        driver.findElement(By.xpath("//ul[contains(@class, 'nav-stacked')]/li/a[text()='"+option+"']")).click();
+    public ResourcePage clickOptionResource(){
+       clickOption(EnumOptions.RESOURCES.option);
         return new ResourcePage();
-
     }
 
     public ConferenceRoomsPage goToConferenceRoomsPage(){
@@ -38,6 +41,4 @@ public class SidebarMenuPage extends BasePageObject {
         listMenu.findElement(By.xpath("//ul[contains(@class, 'nav-stacked')]/li/a[text()='Locations']")).click();
         return new LocationsPage();
     }
-
-
 }
