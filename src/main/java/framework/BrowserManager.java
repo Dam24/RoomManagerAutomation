@@ -69,7 +69,5 @@ public class BrowserManager {
 
     public void setImplicitWait(int seconds){
         driver.manage().timeouts().implicitlyWait(seconds,TimeUnit.SECONDS);
-
-
     }
 }
