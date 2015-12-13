@@ -15,6 +15,7 @@ public class CredentialsManager {
     private static String envId;
 
     private static String adminURL;
+    private static String mainURL;
     private static String tabletURL;
     private static String roomManagerService;
     private static String adminUserName;
@@ -55,6 +56,7 @@ public class CredentialsManager {
         }
 
         adminURL = jsonObjectMain.getKeyValue("Environments", "id", envId, "admin URL");
+        mainURL = jsonObjectMain.getKeyValue("Environments", "id", envId, "main URL");
         tabletURL = jsonObjectMain.getKeyValue("Environments", "id", envId, "tablet URL");
         roomManagerService = jsonObjectMain.getKeyValue("Environments", "id", envId, "room manager service");
         adminUserName = jsonObjectMain.getKeyValue("Environments", "id", envId, "admin user", "name");
@@ -73,6 +75,10 @@ public class CredentialsManager {
     */
     public String getBaseAdminURL() {
         return adminURL;
+    }
+
+    public String getBaseMainURL() {
+        return mainURL;
     }
 
     public String getBaseTabletURL() {

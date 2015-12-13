@@ -21,7 +21,7 @@ public class MainTablePage extends BasePageObject {
     @FindBy(xpath= "//div[@class='header']")
     private WebElement headerTablePage;
 
-    @FindBy(xpath= "//div[@class='tile-button-schedule']")
+    @FindBy(xpath = "//div[@id='timeline-container']/rm-vis/div")
     private WebElement buttonSchedule;
 
     @FindBy(xpath= "//div[@class='tile-button-search']")
@@ -34,7 +34,7 @@ public class MainTablePage extends BasePageObject {
     }
     @Override
     public void waitUntilPageObjectIsLoaded() {
-        wait.until(ExpectedConditions.visibilityOf(headerTablePage));
+        wait.until(ExpectedConditions.visibilityOf(buttonSchedule));
     }
 
     public boolean isResourceInRoomOfTablet(String resourceCustomName){
@@ -52,7 +52,4 @@ public class MainTablePage extends BasePageObject {
 
         return new ScheduleTabletPage();
     }
-
-
-
 }

@@ -4,6 +4,7 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import framework.CredentialsManager;
 import org.testng.Assert;
 import ui.PageTransporter;
 import ui.pages.tablet.LoginTablePage;
@@ -26,7 +27,17 @@ public class TableSteps {
     @When("^I navigate to Tablet page$")
     public void navigateToTabletPage(){
         loginTablePage=PageTransporter.getInstance().navigateToLoginTablePage();
-        loginTablePage.sigInToTable("https://172.20.208.216:4040","BrayanRosas","Client123");
+        loginTablePage.sigInToTable(
+                CredentialsManager
+                        .getInstance()
+                        .getRoomManagerService(),
+                CredentialsManager
+                        .getInstance()
+                        .getTabletUserName(),
+                CredentialsManager
+                        .getInstance()
+                        .getTabletUserPassword())
+        ;
     }
 
     @And("^I select the \"([^\\\"]*)\" Conference Room$")
@@ -44,13 +55,5 @@ public class TableSteps {
     @Given("^I navigate to Schedule page$")
     public void navigateToSchedulePage(){
         scheduleTabletPage=mainTablePage.clickScheduleButton();
-
-
-
-
     }
-
-
-
-
 }
