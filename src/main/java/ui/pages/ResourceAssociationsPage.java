@@ -55,7 +55,7 @@ public class ResourceAssociationsPage extends BasePageConferenceRoom {
     }
 
     private ResourceAssociationsPage clickAddResource(String resourceName){
-        WebElement addButton=listAvailableResources.findElement(By.xpath("//div/div[2][span[contains(text(),'" +resourceName+ "')]]/following-sibling::div/button"));
+        WebElement addButton = listAvailableResources.findElement(By.xpath("//div/div[2][span[contains(text(),'" +resourceName+ "')]]/following-sibling::div/button"));
         addButton.click();
         return this;
     }
