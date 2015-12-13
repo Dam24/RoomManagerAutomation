@@ -2,6 +2,7 @@ package framework;
 
 import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.path.json.JsonPath;
+import entities.Location;
 import entities.Resource;
 import java.util.ArrayList;
 import com.jayway.restassured.response.Response;
@@ -36,7 +37,8 @@ public class APIManager {
 
     private String getToken() {
         Response response = given()
-                .parameters("username", "BrayanRosas", "password", "Client123", "authentication", "local")
+                .parameters("username", "BrayanRosas", "password",
+                            "Client123", "authentication", "local")
                 .post("/login");
 
         String json = response.asString();
@@ -47,9 +49,20 @@ public class APIManager {
     private void createResourceByName(String name) {
         given()
                 .header("Authorization", "jwt " + token)
-                .parameters("name", name, "description", "", "customName", name, "from", "", "fontIcon", "")
+                .parameters("name", name, "description", "",
+                            "customName", name, "from", "",
+                            "fontIcon", "")
                 .post("/resources")
         ;
+    }
+
+    private void createLocationByName(String name) {
+        given()
+                .header("Authorization", "jwt " + token)
+                .parameters("customName", name, "name", name,
+                            "description", "")
+                .post("/locations")
+                ;
     }
 
     private void deleteResourceByID(String id) {
@@ -60,9 +73,48 @@ public class APIManager {
         ;
     }
 
+    private void deleteLocationByID(String _id) {
+        given()
+                .header("Authorization", "jwt " + token)
+                .parameters("id", _id)
+                .delete("/locations/"+_id)
+        ;
+    }
+
+    private Resource setResource(String _id, String name, String description,
+                                 String customName, String fontIcon) {
+        Resource resource = new Resource();
+
+        resource.setID(_id);
+        resource.setName(name);
+        resource.setDescription(description);
+        resource.setDisplayName(customName);
+        resource.setIcon(fontIcon);
+
+        return resource;
+    }
+
+    private Location setLocation(String _id, String name, String description,
+                                 String customName, String path) {
+        Location location = new Location();
+
+        location.setId(_id);
+        location.setName(name);
+        location.setDescription(description);
+        location.setDisplayName(customName);
+        location.setParentLocation(path);
+
+        return location;
+    }
+
     public void createResourcesByName(ArrayList<String> resourcesName) {
         for (String name : resourcesName)
             createResourceByName(name);
+    }
+
+    public void createLocationsByName(ArrayList<String> locationsName) {
+        for (String name : locationsName)
+            createLocationByName(name);
     }
 
     public void deleteResourcesById(ArrayList<String> resourcesID) {
@@ -71,20 +123,29 @@ public class APIManager {
         }
     }
 
-    public Resource getResourceByID(String id) {
-        Resource resource = new Resource();
+    public void deleteLocationByID(ArrayList<String> locationsID) {
+        for (String _id : locationsID)
+            deleteLocationByID(_id);
+    }
 
+    public Resource getResourceByID(String id) {
         Response response = given().when().get("/resources/"+id);
         String json = response.asString();
         JsonPath jp = new JsonPath(json);
 
-        resource.setID((String)jp.get("_id"));
-        resource.setName((String)jp.get("name"));
-        resource.setDescription((String)jp.get("description"));
-        resource.setDisplayName((String)jp.get("customName"));
-        resource.setIcon((String)jp.get("fontIcon"));
+        return setResource((String)jp.get("_id"), (String)jp.get("name"),
+                            (String)jp.get("description"), (String)jp.get("customName"),
+                            (String)jp.get("fontIcon"));
+    }
 
-        return resource;
+    public Location getLocationByID(String _id) {
+        Response response = given().when().get("/locations/"+_id);
+        String json = response.asString();
+        JsonPath jp = new JsonPath(json);
+
+        return setLocation((String)jp.get("_id"), (String)jp.get("name"),
+                            (String)jp.get("description"),(String)jp.get("customName"),
+                            (String)jp.get("path"));
     }
 
     public ArrayList<Resource> getResources() {
@@ -94,15 +155,30 @@ public class APIManager {
         JSONArray jsonArray = new JSONArray(response.asString());
 
         for (int indice = 0; indice < jsonArray.length(); indice++) {
-            Resource resource = new Resource();
-            resource.setID(jsonArray.getJSONObject(indice).getString("_id"));
-            resource.setName(jsonArray.getJSONObject(indice).getString("name"));
-            resource.setDescription(jsonArray.getJSONObject(indice).getString("description"));
-            resource.setDisplayName(jsonArray.getJSONObject(indice).getString("customName"));
-            resource.setIcon(jsonArray.getJSONObject(indice).getString("fontIcon"));
-            resources.add(resource);
+            resources.add(setResource(jsonArray.getJSONObject(indice).getString("_id"),
+                            jsonArray.getJSONObject(indice).getString("name"),
+                            jsonArray.getJSONObject(indice).getString("description"),
+                            jsonArray.getJSONObject(indice).getString("customName"),
+                            jsonArray.getJSONObject(indice).getString("fontIcon"))
+                          );
         }
-
         return resources;
+    }
+
+    public ArrayList<Location> getLocations() {
+        ArrayList<Location> locations = new ArrayList<>();
+
+        Response response = given().when().get("/locations");
+        JSONArray jsonArray = new JSONArray(response.asString());
+
+        for (int indice = 0; indice < jsonArray.length(); indice++) {
+            locations.add(setLocation(jsonArray.getJSONObject(indice).getString("_id"),
+                    jsonArray.getJSONObject(indice).getString("name"),
+                    jsonArray.getJSONObject(indice).getString("description"),
+                    jsonArray.getJSONObject(indice).getString("customName"),
+                    jsonArray.getJSONObject(indice).getString("path"))
+            );
+        }
+        return locations;
     }
 }
