@@ -8,13 +8,22 @@ package entities;
  * To change this template use File | Settings | File Templates.
  */
 public class Location {
-    String Name;
-    String DisplayName;
-    String ParentLocation;
-    String Description;
+    private String Id;
+    private String Name;
+    private String DisplayName;
+    private String ParentLocation;
+    private String Description;
+
+    public void setId(String id){
+        this.Id=id;
+    }
+
+    public String getId(){
+        return Id;
+    }
 
     public void setName(String name){
-        this.Name=name;
+        this.Name = name;
     }
 
     public String getName(){
@@ -22,7 +31,7 @@ public class Location {
     }
 
     public void setDisplayName(String displayName){
-        this.DisplayName=displayName;
+        this.DisplayName = displayName;
     }
 
     public String getDisplayName(){
@@ -30,7 +39,7 @@ public class Location {
     }
 
     public void setParentLocation(String parentLocation){
-        this.ParentLocation=parentLocation;
+        this.ParentLocation = parentLocation;
     }
 
     public String getParentLocation(){
@@ -38,7 +47,7 @@ public class Location {
     }
 
     public void setDescription(String description){
-        this.Description=description;
+        this.Description = description;
     }
 
     public String getDescription(){

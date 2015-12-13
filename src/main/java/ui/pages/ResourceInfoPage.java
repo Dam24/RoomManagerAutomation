@@ -16,10 +16,8 @@ import ui.BaseResourcePropertiesPage;
  */
 public class ResourceInfoPage extends BaseResourcePropertiesPage {
 
-
-
     @FindBy(xpath= "//div[@id='breadcrumb']/a[1]")
-    WebElement buttonResourceInfo;
+    private WebElement buttonResourceInfo;
 
     public ResourceInfoPage() {
         PageFactory.initElements(driver, this);
@@ -30,6 +28,4 @@ public class ResourceInfoPage extends BaseResourcePropertiesPage {
     public void waitUntilPageObjectIsLoaded() {
         wait.until(ExpectedConditions.visibilityOf(buttonResourceInfo));
     }
-
-
 }

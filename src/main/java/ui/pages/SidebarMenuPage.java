@@ -32,6 +32,13 @@ public class SidebarMenuPage extends BasePageObject {
         return new ResourcePage();
     }
 
+    public ConferenceRoomsPage goToConferenceRoomsPage(){
+        listMenu.findElement(By.xpath("//ul[contains(@class, 'nav-stacked')]/li/a[text()='Conference Rooms']")).click();
+        return new ConferenceRoomsPage();
+    }
 
-
+    public LocationsPage goToLocationPage(){
+        listMenu.findElement(By.xpath("//ul[contains(@class, 'nav-stacked')]/li/a[text()='Locations']")).click();
+        return new LocationsPage();
+    }
 }

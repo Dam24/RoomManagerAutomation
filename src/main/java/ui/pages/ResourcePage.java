@@ -120,7 +120,6 @@ public class ResourcePage extends BaseMainPageObject{
         for (WebElement temp : resourcesList) {
              resourcesName.add(temp.getText());
         }
-        System.out.println("********* size by UI "+resourcesName.size());
         return resourcesName;
     }
 
@@ -132,7 +131,6 @@ public class ResourcePage extends BaseMainPageObject{
             resourcesNameByDB.add(resourceTemp.getName());
 
         }
-        System.out.println("********* size by BD "+resourcesNameByDB.size());
         return resourcesNameByDB;
     }
 }

@@ -18,15 +18,15 @@ import ui.pages.RoomInfoPage;
 public abstract class BasePageConferenceRoom extends BasePageObject{
     @FindBy(xpath = "//a[@ng-repeat='menuItem in breadcrumbMenu' and contains(text(),'Room Info')]")
     @CacheLookup
-    WebElement tabRoomInfo;
+    private  WebElement tabRoomInfo;
 
     @FindBy(xpath = "//a[@ng-repeat='menuItem in breadcrumbMenu' and contains(text(),'Resource Associations')]")
     @CacheLookup
-    WebElement tabResourceAssociations;
+    private WebElement tabResourceAssociations;
 
     @FindBy(xpath = "//a[@ng-repeat='menuItem in breadcrumbMenu' and contains(text(),'Out of Order Planning')]")
     @CacheLookup
-    WebElement tabOutOfOrderPlanning;
+    private WebElement tabOutOfOrderPlanning;
 
     @FindBy(xpath = "//button[@ng-click='save()']")
     @CacheLookup
@@ -34,7 +34,7 @@ public abstract class BasePageConferenceRoom extends BasePageObject{
 
     @FindBy(xpath = "//button[@ng-click='cancel()']")
     @CacheLookup
-    WebElement buttonCancel;
+    private WebElement buttonCancel;
 
 
     protected ConferenceRoomsPage clickSaveButton(){

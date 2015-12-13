@@ -38,9 +38,10 @@ public class LoginPage extends BasePageObject {
         wait.until(ExpectedConditions.visibilityOf(buttonSignIn));
     }
 
-    public void signIn(String user,String password){
+    public BaseMainPageObject signIn(String user,String password){
         inputUserName.sendKeys(user);
         inputPassword.sendKeys(password);
         buttonSignIn.click();
+        return new BaseMainPageObject();
     }
 }

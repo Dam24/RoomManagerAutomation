@@ -21,13 +21,13 @@ import ui.pages.tablet.LoginTablePage;
  */
 public class ResourceStep {
 
-    BaseMainPageObject mainPage;
-    SidebarMenuPage sidebar;
-    LoginPage loginPage;
-    ResourcePage resourcePage;
-    AddResourcePage addResourcePage;
-    Resource resource1;
-    ResourceAssociationsPage resourceAssociationsPage;
+    private BaseMainPageObject mainPage;
+    private SidebarMenuPage sidebar;
+    private LoginPage loginPage;
+    private ResourcePage resourcePage;
+    private AddResourcePage addResourcePage;
+    private Resource resource1;
+    private ResourceAssociationsPage resourceAssociationsPage;
 
     public ResourceStep(Resource resource1){
         this.resource1=resource1;

@@ -66,7 +66,6 @@ public class PageTransporter {
 
     public LoginTablePage navigateToLoginTablePage(){
         goToURL(baseTabletLoginPage);
-
        return new LoginTablePage();
     }
 

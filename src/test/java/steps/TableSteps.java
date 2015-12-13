@@ -27,7 +27,6 @@ public class TableSteps {
     public void navigateToTabletPage(){
         loginTablePage=PageTransporter.getInstance().navigateToLoginTablePage();
         loginTablePage.sigInToTable("https://172.20.208.216:4040","BrayanRosas","Client123");
-        // loginTablePage.selectSomeConferenceRooms("Floor1Room16");
     }
 
     @And("^I select the \"([^\\\"]*)\" Conference Room$")
