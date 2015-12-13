@@ -32,11 +32,9 @@ public class CommonMethod {
     {
         WebDriver driver = BrowserManager.getInstance().getDriver();
         if(driver.getCurrentUrl().contains("login"))  {
-            //System.out.println("****** The user is not logged");
             return false;
         }
         else {
-            //System.out.println("+++++++++++++ The user is logged");
             return true;
         }
     }
@@ -50,10 +48,4 @@ public class CommonMethod {
             return false;
         }
     }
-
-    public static void fix(){
-       // PageTransporter.getInstance().
-
-    }
-
 }

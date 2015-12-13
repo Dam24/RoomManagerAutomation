@@ -34,7 +34,9 @@ public class PageTransporter {
                     .getInstance()
                     .getBaseTabletURL()
             ;
-
+    /*
+        hard code create the Api for keys
+     */
     private String baseServerPage="https://172.20.208.216:4040/admin/#/admin/servers" ;
     private String baseResourcesPage="https://172.20.208.216:4040/admin/#/admin/resources" ;
     private static PageTransporter instance;

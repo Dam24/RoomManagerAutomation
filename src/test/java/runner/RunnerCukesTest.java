@@ -33,14 +33,6 @@ public class RunnerCukesTest extends AbstractTestNGCucumberTests {
             if(CommonMethod.theUserIsLogIn()){
                 System.out.println("The user is logged");
                 CommonMethod.signOut();
-//                if(CommonMethod.isInTheTabletPage()){
-//                    System.out.println("The user is in logged and in Tablet page");
-//                    PageTransporter.getInstance().navigateToMainPage();
-//                    CommonMethod.signOut();
-//                }
-//                else {
-//                    CommonMethod.signOut();
-//                }
             }
             BrowserManager.getInstance().quitBrowser();
 

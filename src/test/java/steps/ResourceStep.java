@@ -42,7 +42,6 @@ public class ResourceStep {
 
     @Given("^I create a Resource with: \"([^\\\"]*)\" Name$")
     public void createResources(String resourceNames){
-
         ArrayList<String> resourcesNameArray = new ArrayList<String>();
         for (String nameResourceTemp : resourceNames.split(",")){
             resourcesNameArray.add(nameResourceTemp);
@@ -50,9 +49,6 @@ public class ResourceStep {
         APIManager.getInstance().createResourcesByName(resourcesNameArray);
         PageTransporter.getInstance().fixRefreshIsue();
         System.out.println("*********"+resourcesNameArray);
-//        resourcePage.createResourcesByDB(resourcesNames);
-
-
     }
 
     @When("^I try to create the Resource Name \"([^\\\"]*)\", \"([^\\\"]*)\" in the Resource page$")
@@ -111,6 +107,4 @@ public class ResourceStep {
         Resource res1=APIManager.getInstance().getResourceByID(idResource) ;
         Assert.assertNull(res1.getName());
     }
-
-
 }

@@ -81,9 +81,6 @@ public class ResourceAssociationsPage extends BasePageConferenceRoom {
         buttonDelete.click();
         isDisplayed(By.xpath("//div[@class='modal-content']"));
         PageTransporter.getInstance().fixRefreshIsue();
-//        mainPage.getSideBarMenu().clickOption(EnumOptions.SERVER.option);
-//        wait.until(ExpectedConditions.visibilityOf(emailServer));
-//        mainPage.getSideBarMenu().clickOptionResource();
         return new ResourcePage();
     }
 
