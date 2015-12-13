@@ -50,6 +50,11 @@ public class BrowserManager {
         driver.quit();
     }
 
+    public void closeBrowser(){
+
+        driver.close();
+    }
+
     public WebDriverWait getWaitDriver(){
         return wait;
     }

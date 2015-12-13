@@ -29,11 +29,23 @@ public class RunnerCukesTest extends AbstractTestNGCucumberTests {
     @AfterTest
     public void afterExecution() {
         try {
+            System.out.println("AFTER EXECUTION - "+CommonMethod.theUserIsLogIn());
             if(CommonMethod.theUserIsLogIn()){
+                System.out.println("The user is logged");
                 CommonMethod.signOut();
-                BrowserManager.getInstance().quitBrowser();
+//                if(CommonMethod.isInTheTabletPage()){
+//                    System.out.println("The user is in logged and in Tablet page");
+//                    PageTransporter.getInstance().navigateToMainPage();
+//                    CommonMethod.signOut();
+//                }
+//                else {
+//                    CommonMethod.signOut();
+//                }
             }
+            BrowserManager.getInstance().quitBrowser();
+
         } catch (Exception e) {
+            System.out.println("CATCH - "+e);
             log.error("Unable to logout after execution", e);
         }
     }

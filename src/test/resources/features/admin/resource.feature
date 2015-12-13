@@ -11,8 +11,8 @@ Background:
 #     When I navigate to Conference Rooms page
 #     Then the Resource "Lab Computer" should not be displayed in the "Associated" list of Conference Room "Floor1Room1"
       When I navigate to Tablet page
-       And I select the "Floor1Room16" Conference Room
-       Then the Resource "Lab Computer" should not be displayed in the Resource Tablet list
+#       And I select the "Floor1Room16" Conference Room
+#       Then the Resource "Lab Computer" should not be displayed in the Resource Tablet list
 #      And the Resource "Lab Computer" should not be obtained using the API
 
 
