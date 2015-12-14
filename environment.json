@@ -37,8 +37,8 @@
                 "password": "Client123"
             },
             "exchange user": {
-                "name": "Concurrent",
-                "password": "Password123!"
+                "name": "jhasmany.quiroz",
+                "password": "Client123"
             },
             "API": {
                 "server": "JALASOFTQA002"
