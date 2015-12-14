@@ -21,7 +21,7 @@ public class MainTablePage extends BasePageObject {
     @FindBy(xpath= "//div[@class='header']")
     private WebElement headerTablePage;
 
-    @FindBy(xpath = "//div[@id='timeline-container']/rm-vis/div")
+    @FindBy(xpath= "//div[@id='timeline-container']/rm-vis/div")
     private WebElement buttonSchedule;
 
     @FindBy(xpath= "//div[@class='tile-button-search']")

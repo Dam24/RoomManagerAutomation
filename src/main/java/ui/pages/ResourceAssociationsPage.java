@@ -10,6 +10,7 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import ui.BaseMainPageObject;
 import ui.BasePageConferenceRoom;
+import ui.PageTransporter;
 
 /**
  * Created with IntelliJ IDEA.
@@ -79,9 +80,7 @@ public class ResourceAssociationsPage extends BasePageConferenceRoom {
     public ResourcePage deleteButtonConfirm(){
         buttonDelete.click();
         isDisplayed(By.xpath("//div[@class='modal-content']"));
-        mainPage.getSideBarMenu().clickOption(EnumOptions.SERVER.option);
-        wait.until(ExpectedConditions.visibilityOf(emailServer));
-        mainPage.getSideBarMenu().clickOptionResource();
+        PageTransporter.getInstance().fixRefreshIsue();
         return new ResourcePage();
     }
 

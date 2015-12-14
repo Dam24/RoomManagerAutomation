@@ -5,6 +5,7 @@ import framework.CredentialsManager;
 import org.openqa.selenium.WebDriver;
 import ui.pages.ConferenceRoomsPage;
 import ui.pages.LoginPage;
+import ui.pages.ResourcePage;
 import ui.pages.tablet.LoginTablePage;
 
 
@@ -33,7 +34,11 @@ public class PageTransporter {
                     .getInstance()
                     .getBaseTabletURL()
             ;
-
+    /*
+        hard code create the Api for keys
+     */
+    private String baseServerPage="https://172.20.208.216:4040/admin/#/admin/servers" ;
+    private String baseResourcesPage="https://172.20.208.216:4040/admin/#/admin/resources" ;
     private static PageTransporter instance;
 
     protected PageTransporter() {
@@ -75,7 +80,21 @@ public class PageTransporter {
        return new LoginTablePage();
     }
 
+    public ResourcePage navigateToResourcePage(){
+        goToURL(baseResourcesPage);
+        return  new ResourcePage();
+    }
+    public void navigateToServerPage(){
+        goToURL(baseServerPage);
+    }
     public void closeLoginPage(){
         driver.close();
     }
+
+    public void fixRefreshIsue(){
+        driver.navigate().refresh();
+        navigateToServerPage();
+        navigateToResourcePage();
+    }
+
 }
