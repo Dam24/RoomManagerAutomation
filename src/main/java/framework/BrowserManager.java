@@ -43,11 +43,16 @@ public class BrowserManager {
         driver = new FirefoxDriver();
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
-        wait = new WebDriverWait(driver, 10, 1000);
+        wait = new WebDriverWait(driver, 20, 1000);
     }
 
     public void quitBrowser(){
         driver.quit();
+    }
+
+    public void closeBrowser(){
+
+        driver.close();
     }
 
     public WebDriverWait getWaitDriver(){
@@ -64,7 +69,5 @@ public class BrowserManager {
 
     public void setImplicitWait(int seconds){
         driver.manage().timeouts().implicitlyWait(seconds,TimeUnit.SECONDS);
-
-
     }
 }

@@ -13,8 +13,13 @@ import ui.BasePageObject;
  * To change this template use File | Settings | File Templates.
  */
 public class HeaderMenuPage extends BasePageObject {
-    @FindBy(linkText = "sign out")
-    private WebElement linkSignOut;
+//    @FindBy(linkText = "sign out")
+//    private WebElement linkSignOut;
+
+    @FindBy(xpath = "//a[@ng-click='removeSession()']")
+    WebElement linkSignOut2;
+
+
 
     @FindBy(xpath = "//span[contains(@class, 'ng-binding')]")
     private WebElement textUserName;
@@ -22,13 +27,13 @@ public class HeaderMenuPage extends BasePageObject {
 
 
     public LoginPage clickSignOutSuccessfully() {
-        linkSignOut.click();
+        linkSignOut2.click();
         System.out.println("Entered to header click");
         return new LoginPage();
     }
 
     @Override
     public void waitUntilPageObjectIsLoaded() {
-        wait.until(ExpectedConditions.visibilityOf(linkSignOut));
+        wait.until(ExpectedConditions.visibilityOf(linkSignOut2));
     }
 }

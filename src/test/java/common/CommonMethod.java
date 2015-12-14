@@ -32,12 +32,20 @@ public class CommonMethod {
     {
         WebDriver driver = BrowserManager.getInstance().getDriver();
         if(driver.getCurrentUrl().contains("login"))  {
-            System.out.println("****** The user is not logged");
             return false;
         }
         else {
-            System.out.println("+++++++++++++ The user is logged");
             return true;
+        }
+    }
+
+    public static boolean isInTheTabletPage(){
+        WebDriver driver = BrowserManager.getInstance().getDriver();
+        if(driver.getCurrentUrl().contains("tablet")) {
+            return true;
+        }
+        else {
+            return false;
         }
     }
 }

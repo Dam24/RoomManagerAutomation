@@ -1,6 +1,7 @@
 package ui.pages;
 
 import entities.Resource;
+import framework.APIManager;
 import framework.DBQuery;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
