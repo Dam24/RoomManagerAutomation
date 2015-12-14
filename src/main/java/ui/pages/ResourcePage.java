@@ -1,6 +1,8 @@
 package ui.pages;
 
 import entities.Resource;
+import framework.APIManager;
+import framework.DBQuery;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -8,7 +10,8 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import ui.BaseMainPageObject;
-import ui.BasePageObject;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -20,6 +23,8 @@ import ui.BasePageObject;
 public class ResourcePage extends BaseMainPageObject{
     private boolean exitsResource=false;
     private Actions action = new Actions(driver);
+    ArrayList<Resource> resources=new ArrayList<Resource>()  ;
+
 
     @FindBy(xpath= "//button[@id='btnRemove']/preceding-sibling::button")
     private WebElement buttonAddResource;
@@ -95,16 +100,38 @@ public class ResourcePage extends BaseMainPageObject{
         inputFilterResource.sendKeys(searchCriteria);
     }
 
-    public int numOfResourcesFilter(){
-        return driver.findElements(By.xpath("//div[contains(@class,'ng-scope ngRow')]")).size();
+    public List<WebElement> getResourcesNamesWebElements(){
+        return driver.findElements(By.xpath("//div[contains(@class,'ng-scope ngRow')]//div[contains(@class,'col2')]//span"));
     }
 
     public void CheckOutResource(String resourceName){
         driver.findElement(By.xpath("//div[contains(@class,'ng-scope ngRow')]/div[contains(@class,'col2')]//span[text()='"+resourceName+"']/parent::div/parent::div/parent::div/preceding-sibling::div//input[@type='checkbox']")).click();
     }
 
-    public void deleteResourceByName(String resourceName){
+    public ResourceAssociationsPage clickDeleteResource(String resourceName){
         CheckOutResource(resourceName);
         buttonRemoveResource.click();
+        return new ResourceAssociationsPage();
+    }
+
+    public ArrayList<String> getResourcesNameByUI(){
+
+        ArrayList<String> resourcesName = new ArrayList<String>();
+        List<WebElement> resourcesList = getResourcesNamesWebElements();
+        for (WebElement temp : resourcesList) {
+             resourcesName.add(temp.getText());
+        }
+        return resourcesName;
+    }
+
+    public ArrayList<String> getResourcesNameByDB(String searchCriteria){
+
+        ArrayList<Resource> resourcesByDB=DBQuery.getInstance().getResourcesBySearchCriteria(searchCriteria);
+        ArrayList<String> resourcesNameByDB= new ArrayList<String>();
+        for (Resource resourceTemp : resourcesByDB){
+            resourcesNameByDB.add(resourceTemp.getName());
+
+        }
+        return resourcesNameByDB;
     }
 }

@@ -25,6 +25,7 @@
         {
             "id": "RM02",
             "admin URL": "https://172.20.208.216:4040/admin/#/login",
+            "main URL":"https://172.20.208.216:4040/admin/#/admin",
             "tablet URL": "https://172.20.208.216:4040/tablet",
             "room manager service": "https://172.20.208.216:4040",
             "admin user": {
@@ -32,12 +33,12 @@
                 "password": "Client123"
             },
             "tablet user": {
-                "name": "jhasmany.quiroz",
+                "name": "BrayanRosas",
                 "password": "Client123"
             },
             "exchange user": {
-                "name": "Concurrent",
-                "password": "Password123!"
+                "name": "jhasmany.quiroz",
+                "password": "Client123"
             },
             "API": {
                 "server": "JALASOFTQA002"

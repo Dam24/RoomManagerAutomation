@@ -16,6 +16,7 @@ import java.util.concurrent.TimeUnit;
 public class BrowserManager {
     private WebDriver driver;
     private WebDriverWait wait;
+    private int implicitWait;
 
     private static BrowserManager instance = null;
 
@@ -37,14 +38,21 @@ public class BrowserManager {
      * Initializes the web driver and wait.
     */
     private void initialize(){
+       // recovery it from config file
+        implicitWait=2;
         driver = new FirefoxDriver();
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
-        wait = new WebDriverWait(driver, 10, 1000);
+        wait = new WebDriverWait(driver, 20, 1000);
     }
 
     public void quitBrowser(){
         driver.quit();
+    }
+
+    public void closeBrowser(){
+
+        driver.close();
     }
 
     public WebDriverWait getWaitDriver(){
@@ -53,5 +61,13 @@ public class BrowserManager {
 
     public WebDriver getDriver(){
         return driver;
+    }
+
+    public int getImplicitWait(){
+      return implicitWait;
+    }
+
+    public void setImplicitWait(int seconds){
+        driver.manage().timeouts().implicitlyWait(seconds,TimeUnit.SECONDS);
     }
 }

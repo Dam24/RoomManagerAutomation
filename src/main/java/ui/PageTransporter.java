@@ -5,6 +5,8 @@ import framework.CredentialsManager;
 import org.openqa.selenium.WebDriver;
 import ui.pages.ConferenceRoomsPage;
 import ui.pages.LoginPage;
+import ui.pages.ResourcePage;
+import ui.pages.tablet.LoginTablePage;
 
 
 /**
@@ -17,10 +19,26 @@ import ui.pages.LoginPage;
 public class PageTransporter {
 
     private WebDriver driver = BrowserManager.getInstance().getDriver();
-    private String baseLoginURL = CredentialsManager.getInstance().getBaseAdminURL();
-    private  String baseMainPage = "https://172.20.208.216:4040/admin/#/admin";
-    private String baseConferenceRooms = "https://172.20.208.216:4040/admin/#/admin/rooms/";
-
+    private String baseLoginURL =
+            CredentialsManager
+                    .getInstance()
+                    .getBaseAdminURL()
+            ;
+    private  String baseMainPage =
+            CredentialsManager
+                    .getInstance()
+                    .getBaseMainURL()
+            ;
+    private String baseTabletLoginPage=
+            CredentialsManager
+                    .getInstance()
+                    .getBaseTabletURL()
+            ;
+    /*
+        hard code create the Api for keys
+     */
+    private String baseServerPage="https://172.20.208.216:4040/admin/#/admin/servers" ;
+    private String baseResourcesPage="https://172.20.208.216:4040/admin/#/admin/resources" ;
     private static PageTransporter instance;
 
     protected PageTransporter() {
@@ -47,11 +65,6 @@ public class PageTransporter {
         return driver.getCurrentUrl();
     }
 
-    public ConferenceRoomsPage navigateToConferenceRoomPage() {
-        goToURL(baseConferenceRooms);
-        return new ConferenceRoomsPage();
-    }
-
     public LoginPage navigateToLoginPage(){
         goToURL(baseLoginURL);
         return  new LoginPage();
@@ -61,7 +74,27 @@ public class PageTransporter {
         goToURL(baseMainPage);
         return  new BaseMainPageObject();
     }
+
+    public LoginTablePage navigateToLoginTablePage(){
+        goToURL(baseTabletLoginPage);
+       return new LoginTablePage();
+    }
+
+    public ResourcePage navigateToResourcePage(){
+        goToURL(baseResourcesPage);
+        return  new ResourcePage();
+    }
+    public void navigateToServerPage(){
+        goToURL(baseServerPage);
+    }
     public void closeLoginPage(){
         driver.close();
     }
+
+    public void fixRefreshIsue(){
+        driver.navigate().refresh();
+        navigateToServerPage();
+        navigateToResourcePage();
+    }
+
 }

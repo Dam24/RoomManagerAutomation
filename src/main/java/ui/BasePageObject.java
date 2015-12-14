@@ -38,4 +38,19 @@ public abstract class BasePageObject {
             return false;
           }
     }
+    public boolean isDisplayed(By by)
+    {
+        boolean isDisplayed;
+        try {
+            BrowserManager.getInstance().setImplicitWait(2);
+            driver.findElement(by);
+            isDisplayed = true;
+        }catch (Exception e)
+        {
+            isDisplayed = false;
+        }finally{
+            BrowserManager.getInstance().setImplicitWait(BrowserManager.getInstance().getImplicitWait());
+        }
+        return isDisplayed;
+    }
 }
