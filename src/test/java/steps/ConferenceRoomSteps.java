@@ -40,21 +40,17 @@ public class ConferenceRoomSteps {
         this.location = location;
         baseMainPageObject = new BaseMainPageObject();
     }
-//    public ResourceStep(Resource resource){
-//        this.resource=resource;
-//    }
 
     @Given("I navigate to Conference Rooms page")
     public void I_navigate_to_Conference_Rooms_page(){
-//        conferenceRoomsPage= PageTransporter.getInstance().navigateToConferenceRoomPage();
         conferenceRoomsPage = baseMainPageObject.getSideBarMenu().goToConferenceRoomsPage();
     }
+
+
     @And("I create a resource with the following dates: \"(.*?)\", \"(.*?)\"")
     public void I_create_a_resource_with_the_following_dates(String resourceName, String resourceDisplayName){
         resource.setName(resourceName);
         resource.setDisplayName(resourceDisplayName);
-
-
     }
 
     @And("I displayed the \"(.*?)\" Resource in the Conference Room's Table")

@@ -113,24 +113,34 @@ public class ResourcePage extends BaseMainPageObject{
         buttonRemoveResource.click();
         return new ResourceAssociationsPage();
     }
-
+    /**
+     * Get all resources name using locator by UI
+     * @return An array list with the names of the resources
+     */
     public ArrayList<String> getResourcesNameByUI(){
-
         ArrayList<String> resourcesName = new ArrayList<String>();
         List<WebElement> resourcesList = getResourcesNamesWebElements();
+        /*
+        Iterating the list of Web elements founded by UI that contain the resouces names
+         */
         for (WebElement temp : resourcesList) {
              resourcesName.add(temp.getText());
         }
         return resourcesName;
     }
 
+    /**
+     * Get all resources that make match with search criteria by DB
+     * @return  An array list with the names of the resources
+     */
     public ArrayList<String> getResourcesNameByDB(String searchCriteria){
-
         ArrayList<Resource> resourcesByDB=DBQuery.getInstance().getResourcesBySearchCriteria(searchCriteria);
         ArrayList<String> resourcesNameByDB= new ArrayList<String>();
+        /*
+        Get the names of the  array list of resouces getting by DB and fill it in array list of strings
+         */
         for (Resource resourceTemp : resourcesByDB){
             resourcesNameByDB.add(resourceTemp.getName());
-
         }
         return resourcesNameByDB;
     }

@@ -2,7 +2,9 @@ package framework;
 
 import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.path.json.JsonPath;
+import common.EnumKeys;
 import entities.Location;
+import entities.Meeting;
 import entities.Resource;
 import java.util.ArrayList;
 import com.jayway.restassured.response.Response;
@@ -46,14 +48,21 @@ public class APIManager {
         return jp.get("token");
     }
 
-    private void createResourceByName(String name) {
-        given()
+    public Resource createResourceByName(String name) {
+        Resource resource = new Resource();
+        Response response = given()
                 .header("Authorization", "jwt " + token)
-                .parameters("name", name, "description", "",
-                            "customName", name, "from", "",
-                            "fontIcon", "")
+                .parameters(EnumKeys.RESOURCEKEY.name, name, EnumKeys.RESOURCEKEY.description, "",
+                            EnumKeys.RESOURCEKEY.customName, name, EnumKeys.RESOURCEKEY.from, "",
+                            EnumKeys.RESOURCEKEY.icon, "")
                 .post("/resources")
         ;
+
+        String json = response.asString();
+        JsonPath jp = new JsonPath(json);
+        resource = setResource((String)jp.get("_id"), (String)jp.get("name"), (String)jp.get("description"), (String)jp.get("customName"), (String)jp.get("fontIcon"));
+
+        return resource;
     }
 
     private void createLocationByName(String name) {
@@ -107,9 +116,12 @@ public class APIManager {
         return location;
     }
 
-    public void createResourcesByName(ArrayList<String> resourcesName) {
-        for (String name : resourcesName)
-            createResourceByName(name);
+    public ArrayList<Resource> createResourcesByName(ArrayList<String> resourcesName) {
+        ArrayList<Resource> resources = new ArrayList<>();
+        for (String name : resourcesName) {
+            resources.add(createResourceByName(name));
+        }
+        return resources;
     }
 
     public void createLocationsByName(ArrayList<String> locationsName) {
@@ -117,9 +129,9 @@ public class APIManager {
             createLocationByName(name);
     }
 
-    public void deleteResourcesById(ArrayList<String> resourcesID) {
-        for (String id : resourcesID) {
-            deleteResourceByID(id);
+    public void deleteResourcesById(ArrayList<Resource> resources) {
+        for (Resource resource : resources) {
+            deleteResourceByID(resource.getID());
         }
     }
 
@@ -133,8 +145,8 @@ public class APIManager {
         String json = response.asString();
         JsonPath jp = new JsonPath(json);
 
-        return setResource((String)jp.get("_id"), (String)jp.get("name"),
-                            (String)jp.get("description"), (String)jp.get("customName"),
+        return setResource((String)jp.get(EnumKeys.RESOURCEKEY._id), (String)jp.get(EnumKeys.RESOURCEKEY.name),
+                            (String)jp.get(EnumKeys.RESOURCEKEY.description), (String)jp.get(EnumKeys.RESOURCEKEY.customName),
                             (String)jp.get("fontIcon"));
     }
 
@@ -181,4 +193,40 @@ public class APIManager {
         }
         return locations;
     }
+
+    public Meeting createMeeting(String organizer,String title,String start,String end,String roomId ) {
+        Meeting meeting = new Meeting();
+        Response response = given()
+                .header("Authorization", "Basic amhhc21hbnkucXVpcm96OkNsaWVudDEyMw==")
+                .parameters("organizer",organizer,"title",title,"start",start,"end",end)
+                .post("/services/" + getServiceId() + "/rooms/" + roomId + "/meetings");
+        String json = response.asString();
+        JsonPath jp = new JsonPath(json);
+
+        System.out.println("******************RESPONSE - "+jp);
+        meeting = setMeeting((String)jp.get("organizer"), (String)jp.get("title"), (String)jp.get("start"), (String)jp.get("end"));
+
+        return meeting;
+    }
+
+    private Meeting setMeeting(String organizer,String title,String from,String to){
+
+        Meeting meeting = new Meeting();
+        meeting.setOrganizer(organizer);
+        meeting.setTitle(title);
+        meeting.setFrom(from);
+        meeting.setTo(to) ;
+        return meeting;
+
+    }
+
+    private String getServiceId(){
+        Response response = given().header("Authorization", "jwt " + token).get("/services");
+        String json = response.asString();
+        JsonPath jp = new JsonPath(json);
+       // System.out.println("JSON - "+json+"SERVICES ID - "+jp.get("_id"));
+
+        return "565f3f449c27d64812f72af0";
+    }
+
 }

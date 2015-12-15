@@ -28,6 +28,10 @@ public class CommonMethod {
         PageTransporter.getInstance().navigateToMainPage().clickSignOutSuccessfully();
     }
 
+    /**
+     * verify if the user is logged
+     * @return boolean , if the user is logged return true.
+     */
     public static boolean theUserIsLogIn()
     {
         WebDriver driver = BrowserManager.getInstance().getDriver();

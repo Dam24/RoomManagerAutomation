@@ -22,7 +22,14 @@ public class login {
 
     @Given("^I sign in to Main page with user name \"([^\\\"]*)\" and password \"([^\\\"]*)\"$")
     public void signInToMainPAge(String user,String password){
-        loginPage=PageTransporter.getInstance().navigateToLoginPage();
-        loginPage.signIn(user,password);
+        if(!CommonMethod.theUserIsLogIn() ){
+            loginPage=PageTransporter.getInstance().navigateToLoginPage();
+            loginPage.signIn(user,password);
+        }
     }
+    @When("^I sign out of Admin Page$")
+    public void signOut(){
+        PageTransporter.getInstance().navigateToMainPage().getHeaderMenu().clickSignOutSuccessfully();
+    }
+
 }
