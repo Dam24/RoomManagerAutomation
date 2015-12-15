@@ -66,11 +66,11 @@ public class ResourceAssociationsPage extends BasePageConferenceRoom {
     }
 
     public String getResourceQuantity(String RoomName){
-      quantity = driver.findElement(By.xpath("//div[@class='ngCellText ng-scope col0 colt0']/span[text()='"+RoomName+"']/parent::div/parent::div/parent::div/following-sibling::div/"))
+        quantity = driver.findElement(By.xpath("//div[@class='ngCellText ng-scope col0 colt0']/span[text()='"+RoomName+"']/parent::div/parent::div/parent::div/following-sibling::div/"))
               .getText();
-      System.out.println(quantity);
-      quantity = quantity.substring(0,1);
-      System.out.println(quantity);
+        System.out.println(quantity);
+        quantity = quantity.substring(0,1);
+        System.out.println(quantity);
       return quantity;
     }
 

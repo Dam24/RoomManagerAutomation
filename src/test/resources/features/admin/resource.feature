@@ -8,8 +8,7 @@ Feature: Resources
     When I try to create the Resource Name "Computer", "PC" in the Resource page
     Then an error text "A resource with the same name already exists, please choose another name" is showed in the Resource form
     When I navigate to Resources page from AddResource
-     And only one Resource with the same name should be displayed in Resource list
-
+      And only one Resource with the same name should be displayed in Resource list
 
   Scenario: Delete a Resource that is assigned to different Conference Room
     When I delete the Resource "Computer"
