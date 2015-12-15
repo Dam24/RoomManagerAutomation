@@ -7,6 +7,7 @@ import cucumber.api.java.en.When;
 import entities.ConferenceRooms;
 import entities.Location;
 import entities.Resource;
+import org.testng.Assert;
 import ui.BaseMainPageObject;
 import ui.BasePageConferenceRoom;
 import ui.pages.*;
@@ -113,5 +114,13 @@ public class ConferenceRoomSteps {
     public void the_Conference_Room_should_be_disabled(){
         assertTrue(conferenceRoomsPage.isConferenceRoomsDisabled(conferenceRooms));
     }
+
+    @Then("^the Resource \"(.*?)\" should not be displayed with the quantity \"(.*?)\" list of Conference Room \"(.*?)\"$")
+    public void isTheResourceInAssociatedList(String resourceDispalyName,String quantity,String roomDisplayName){
+        conferenceRooms.setDisplayName(roomDisplayName);
+        conferenceRoomsPage.doubleClickOnSpecificRoom(conferenceRooms);
+        Assert.assertFalse(conferenceRoomsPage.isResourceAssociate(quantity, conferenceRooms));
+    }
+
 
 }
