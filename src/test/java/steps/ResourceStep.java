@@ -1,10 +1,13 @@
 package steps;
 
 import common.EnumOptions;
+import cucumber.api.java.After;
+import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import entities.ConferenceRooms;
 import entities.Resource;
 import framework.APIManager;
 import framework.DBManager;
@@ -33,6 +36,11 @@ public class ResourceStep {
     private AddResourcePage addResourcePage;
     private Resource resource1;
     private ResourceAssociationsPage resourceAssociationsPage;
+    private ConferenceRooms conferenceRooms;
+    private ConferenceRoomsPage conferenceRoomsPage=new ConferenceRoomsPage();
+
+    private ArrayList<Resource> resourcesCreated=new ArrayList<>();
+    private ArrayList<Resource> resourcesCreatedByGiven=new ArrayList<>();
 
     public ResourceStep(Resource resource1){
         this.resource1=resource1;
@@ -46,9 +54,14 @@ public class ResourceStep {
         for (String nameResourceTemp : resourceNames.split(",")){
             resourcesNameArray.add(nameResourceTemp);
         }
-        APIManager.getInstance().createResourcesByName(resourcesNameArray);
+       resourcesCreatedByGiven= APIManager.getInstance().createResourcesByName(resourcesNameArray);
+        PageTransporter.getInstance().refreshPage();
         PageTransporter.getInstance().fixRefreshIsue();
         System.out.println("*********"+resourcesNameArray);
+    }
+    @And("^I navigate to Resources page$")
+    public void goToResourcePage(){
+       mainPage.getSideBarMenu().clickOptionResource();
     }
 
     @When("^I try to create the Resource Name \"([^\\\"]*)\", \"([^\\\"]*)\" in the Resource page$")
@@ -66,7 +79,7 @@ public class ResourceStep {
         Assert.assertEquals(addResourcePage.isMessageShowed(message), expected);
     }
 
-    @When("I navigate to Resources page$")
+    @When("^I navigate to Resources page from AddResource$")
     public void navigateToResourcePageFromAddResourcePage(){
         addResourcePage.clickCancelResourceButton();
     }
@@ -100,11 +113,44 @@ public class ResourceStep {
         Assert.assertEquals(resourcePage.existInColumnName(resourceName),false);
 
     }
+
+    @Then("^the Resource \"(.*?)\" should not be displayed with the quantity \"(.*?)\" list of Conference Room \"(.*?)\"$")
+    public void isTheResourceInAssociatedList(String resourceDispalyName,String quantity,String roomDisplayName){
+         conferenceRooms.setDisplayName(roomDisplayName);
+        conferenceRoomsPage.doubleClickOnSpecificRoom(conferenceRooms);
+        Assert.assertFalse(conferenceRoomsPage.isResourceAssociate(quantity,conferenceRooms));
+    }
+
     @And("^the Resource \"([^\\\"]*)\" should not be obtained using the API$")
     public void theResourceIsPresentInAPI(String resourceName){
         String idResource=DBQuery.getInstance().getIdByKey("resourcemodels","name",resourceName);
-        System.out.println("ID RESOUCE GET BY DB");
         Resource res1=APIManager.getInstance().getResourceByID(idResource) ;
         Assert.assertNull(res1.getName());
+    }
+
+    @Given("^Delete resource$")
+    public void deleteResources(){
+       APIManager.getInstance().deleteResourcesById(resourcesCreatedByGiven);
+    }
+    /**
+     * After and before scenario to delete and create resources
+     * @return void
+     */
+    @Before("@Resources")
+    public void createResource(){
+      resource1= APIManager.getInstance().createResourceByName("Computer");
+        PageTransporter.getInstance().refreshPage();
+        PageTransporter.getInstance().fixRefreshIsue();
+    }
+
+    @After("@Resources")
+    public void deleteResourcesByFeature(){
+       resourcesCreated.add(resource1);
+      APIManager.getInstance().deleteResourcesById(resourcesCreated);
+    }
+
+    @After("@ResourceFilter")
+    public void deleteResourcesByScenario(){
+        APIManager.getInstance().deleteResourcesById(resourcesCreatedByGiven);
     }
 }

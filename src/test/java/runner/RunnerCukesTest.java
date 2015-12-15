@@ -2,6 +2,7 @@ package runner;
 
 import common.CommonMethod;
 import cucumber.api.CucumberOptions;
+import cucumber.api.java.en.Given;
 import cucumber.api.testng.AbstractTestNGCucumberTests;
 import framework.BrowserManager;
 import org.apache.log4j.Logger;
@@ -24,31 +25,34 @@ import ui.PageTransporter;
         monochrome = true)
 
 public class RunnerCukesTest extends AbstractTestNGCucumberTests {
+
     private static Logger log = Logger.getLogger("RunCukesTest");
-
-    @AfterTest
-    public void afterExecution() {
-        try {
-            System.out.println("AFTER EXECUTION - "+CommonMethod.theUserIsLogIn());
-            if(CommonMethod.theUserIsLogIn()){
-                System.out.println("The user is logged");
-                CommonMethod.signOut();
-            }
-            BrowserManager.getInstance().quitBrowser();
-
-        } catch (Exception e) {
-            System.out.println("CATCH - "+e);
-            log.error("Unable to logout after execution", e);
-        }
-    }
 
     @BeforeTest
     public void beforeExecution(){
         try {
-            CommonMethod.navigateLoginPage();
-            CommonMethod.signInToMainPage();
+                PageTransporter.getInstance().navigateToLoginPage();
+                CommonMethod.signInToMainPage();
+
         } catch (Exception e) {
             log.error("Unable to navigate to this page", e);
+        }
+    }
+
+    @AfterTest
+    public void afterExecution() {
+        try {
+            if(CommonMethod.theUserIsLogIn() ){
+                System.out.println("The user is logged");
+                CommonMethod.signOut();
+                BrowserManager.getInstance().quitBrowser();
+            }
+            else{
+                BrowserManager.getInstance().quitBrowser();
+            }
+        } catch (Exception e) {
+            System.out.println("CATCH - "+e);
+            log.error("Unable to logout after execution", e);
         }
     }
 }

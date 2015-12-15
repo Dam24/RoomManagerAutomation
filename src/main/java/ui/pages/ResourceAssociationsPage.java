@@ -42,9 +42,6 @@ public class ResourceAssociationsPage extends BasePageConferenceRoom {
     @FindBy(xpath= "//div[@class='modal-body ng-scope']")
     private WebElement bodyResourceAssociated;
 
-    @FindBy(xpath ="//div[@class='list-group']")
-    private WebElement emailServer;
-
     public ResourceAssociationsPage() {
         PageFactory.initElements(driver, this);
         waitUntilPageObjectIsLoaded();
@@ -81,6 +78,7 @@ public class ResourceAssociationsPage extends BasePageConferenceRoom {
         buttonDelete.click();
         isDisplayed(By.xpath("//div[@class='modal-content']"));
         PageTransporter.getInstance().fixRefreshIsue();
+        PageTransporter.getInstance().navigateToResourcePage();
         return new ResourcePage();
     }
 
