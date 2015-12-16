@@ -135,7 +135,6 @@ public class ConferenceRoomsPage extends BaseMainPageObject {
                     op.click();
                 }
             }   catch (Exception e){
-
             }
         }
     }

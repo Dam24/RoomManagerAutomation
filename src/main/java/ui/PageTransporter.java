@@ -110,5 +110,4 @@ public class PageTransporter {
         driver.navigate().refresh();
         navigateToMainPage();
     }
-
 }

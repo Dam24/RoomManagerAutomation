@@ -236,7 +236,7 @@ public class APIManager {
 
     public Resource getResourceInConferenceRoomById(String roomId, String resourceId){
         Resource resource = new Resource();
-        Response response = given().when().get("/rooms/"+roomId+"/resources");
+        Response response = given().when().get("/rooms/" + roomId + "/resources");
         JSONArray jsonArray = new JSONArray(response.asString());
         System.out.println("JSON - "+jsonArray);
         for (int indice = 0; indice < jsonArray.length(); indice++) {

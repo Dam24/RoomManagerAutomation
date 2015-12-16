@@ -22,7 +22,6 @@ import java.util.Collections;
 
 import static org.junit.Assert.*;
 
-
 /**
  * Created with IntelliJ IDEA.
  * User: DamianVillanueva
