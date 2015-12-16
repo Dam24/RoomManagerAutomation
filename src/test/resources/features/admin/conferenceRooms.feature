@@ -64,7 +64,7 @@ Feature: Conference Room to administrate room and resources
     When I disabled the "<Room Name>" Conference Room
     Then the "<Message>" message should be displayed
       And the Conference Room should be disabled
-    When I navigate to Tablet page
+#    When I navigate to Tablet page
 #    Then the "<Room Name>" Conference Room should not be displayed.
       And the API should be displayed disabled to the Conference Room
 
