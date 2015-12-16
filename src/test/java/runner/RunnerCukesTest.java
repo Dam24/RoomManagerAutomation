@@ -31,7 +31,6 @@ public class RunnerCukesTest extends AbstractTestNGCucumberTests {
     @BeforeTest
     public void beforeExecution(){
         try {
-                //PageTransporter.getInstance().navigateToLoginPage();
                  CommonMethod.signInToMainPage();
 
         } catch (Exception e) {

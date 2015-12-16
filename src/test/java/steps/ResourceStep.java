@@ -98,6 +98,30 @@ public class ResourceStep {
         Assert.assertEquals(resourcePage.searchResourceName(resourcePage.getResourcesNameByApi(),resourceName).size(),1);
     }
 
+    @And("^create a meeting$")
+    public void createMeeting(){
+
+
+
+
+        String organizer ="jhasmany.quiroz";
+        String title ="MetingAPI2";
+        String start ="2015-12-16T01:00:00.000Z";
+        String end   ="2015-12-16T01:30:00.000Z";
+        String location="Floor1Room56";
+        String roomEmail="Floor1Room56@forest1.local";
+        String resources="Floor1Room56@forest1.local";
+        String attendees ="jhasmany.quiroz@forest1.local";
+        String idRoom="565f3f459c27d64812f72b28";
+
+
+
+
+        APIManager.getInstance().createMeeting(organizer,title,start,end,location,roomEmail,resources,attendees,idRoom);
+
+
+    }
+
      @When("^I search Resources with search criteria \"([^\\\"]*)\"$")
         public void searchResource(String searchCriteria){
             resourcePage=sidebar.clickOptionResource();
@@ -127,6 +151,7 @@ public class ResourceStep {
         String idResource=DBQuery.getInstance().getIdByKey("resourcemodels","name",resourceName);
         Resource res1=APIManager.getInstance().getResourceByID(idResource) ;
         Assert.assertNull(res1.getName());
+
     }
 
     @Given("^Delete resource$")

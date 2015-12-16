@@ -194,17 +194,26 @@ public class APIManager {
         return locations;
     }
 
-    public Meeting createMeeting(String organizer,String title,String start,String end,String roomId ) {
+    public Meeting createMeeting(String organizer,String title,String start,String end,String location,String roomEmail,String resources,String attendees,String roomId ) {
+
+        ArrayList<String> resourcesValues = new ArrayList<String>();
+        resourcesValues.add(resources);
+
+        ArrayList<String> attendeesValues = new ArrayList<String>();
+        attendeesValues.add(attendees);
+
         Meeting meeting = new Meeting();
+
+
         Response response = given()
                 .header("Authorization", "Basic amhhc21hbnkucXVpcm96OkNsaWVudDEyMw==")
-                .parameters("organizer",organizer,"title",title,"start",start,"end",end)
-                .post("/services/" + getServiceId() + "/rooms/" + roomId + "/meetings");
+                .parameters("organizer",organizer,"title",title,"start",start,"end",end,"location",location,"roomEmail",roomEmail,"resources",resourcesValues,"attendees",attendeesValues)
+                .post("/services/565f3f449c27d64812f72af0"+"/rooms/" + roomId + "/meetings");
         String json = response.asString();
         JsonPath jp = new JsonPath(json);
 
-        System.out.println("******************RESPONSE - "+jp);
-        meeting = setMeeting((String)jp.get("organizer"), (String)jp.get("title"), (String)jp.get("start"), (String)jp.get("end"));
+        System.out.println("******************RESPONSE - "+json);
+        //meeting = setMeeting((String)jp.get("organizer"), (String)jp.get("title"), (String)jp.get("start"), (String)jp.get("end"));
 
         return meeting;
     }

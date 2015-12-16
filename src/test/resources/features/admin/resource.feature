@@ -10,22 +10,25 @@ Feature: Resources
     When I navigate to Resources page from AddResource
     Then only one Resource with the same name should be displayed in Resource list
       And only one Resource with name "Computer" should be obtained by API
+    And create a meeting
 
-  @ResourceFilter
-  Scenario: Search Resources that match the search criteria
-    Given I create a Resource with: "Computer PC,Personal PC,PC" Name
-    When I search Resources with search criteria "PC"
-    Then the Resources that match the search criteria "PC" should be displayed in Resource List
 
-  Scenario: Delete a Resource that is assigned to different Conference Room
-  #    Given I navigate to Conference Rooms page
-  #    And I associate the "Computer" Resource to the "Floor1Room16" Conference Room with quantity "10"
-    When I delete the Resource "Computer"
-    Then the Resource "Computer" should not be displayed in the Resources list
-    When I navigate to Tablet page
-     And I select the "Floor1Room16" Conference Room
-    Then the Resource "Computer" should not be displayed in the Resource Tablet list
-      And the Resource "Computer" should not be obtained using the API
+
+#  @ResourceFilter
+#  Scenario: Search Resources that match the search criteria
+#    Given I create a Resource with: "Computer PC,Personal PC,PC" Name
+#    When I search Resources with search criteria "PC"
+#    Then the Resources that match the search criteria "PC" should be displayed in Resource List
+#
+#  Scenario: Delete a Resource that is assigned to different Conference Room
+#  #    Given I navigate to Conference Rooms page
+#  #    And I associate the "Computer" Resource to the "Floor1Room16" Conference Room with quantity "10"
+#    When I delete the Resource "Computer"
+#    Then the Resource "Computer" should not be displayed in the Resources list
+#    When I navigate to Tablet page
+#     And I select the "Floor1Room16" Conference Room
+#    Then the Resource "Computer" should not be displayed in the Resource Tablet list
+#      And the Resource "Computer" should not be obtained using the API
 
 
 
