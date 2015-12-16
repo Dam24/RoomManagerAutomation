@@ -30,9 +30,9 @@ public class MeetingsSteps {
 
     @Given("^I'm Sign In the login page selecting the Room \"([^\\\"]*)\"$")
     public void sigInInTheLoginPageSelectingTheRoom(String room) {
-        System.out.println("STATUS LOGIN - "+CommonMethod.isIntheLoginTabletPage());
+        System.out.println("STATUS LOGIN - "+CommonMethod.isInTheTabletPage());
         //Sino estoy logueado loguearme
-        if (!CommonMethod.isIntheLoginTabletPage()) {
+        if (!CommonMethod.isInTheTabletPage()) {
             System.out.println("LOGIN AND SELECTING - IF");
             loginTablePage = pageTransporter.navigateToLoginTablePage();
             loginTablePage.sigInToTable(
