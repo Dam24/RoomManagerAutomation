@@ -7,6 +7,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import ui.BaseMainPageObject;
 
 import java.util.Iterator;
@@ -33,9 +35,17 @@ public class ConferenceRoomsPage extends BaseMainPageObject {
     @CacheLookup
     private WebElement inputFilterByRoom;
 
+    @FindBy(xpath = "//div[contains(@class,'ng-scope ngRow')]")
+    private WebElement rowConferenceRoom;
+
+    public ConferenceRoomsPage() {
+        PageFactory.initElements(driver, this);
+        waitUntilPageObjectIsLoaded();
+    }
+
     @Override
     public void waitUntilPageObjectIsLoaded() {
-        //To change body of implemented methods use File | Settings | File Templates.
+        wait.until(ExpectedConditions.visibilityOf(rowConferenceRoom));
     }
 
     private ConferenceRoomsPage setInputFilterByRoom(String value){

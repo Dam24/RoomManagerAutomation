@@ -25,6 +25,7 @@ public class CommonMethod {
     }
 
     public static void signOut(){
+
         PageTransporter.getInstance().navigateToMainPage().clickSignOutSuccessfully();
     }
 

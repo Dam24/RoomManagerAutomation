@@ -31,8 +31,7 @@ public class RunnerCukesTest extends AbstractTestNGCucumberTests {
     @BeforeTest
     public void beforeExecution(){
         try {
-                PageTransporter.getInstance().navigateToLoginPage();
-                CommonMethod.signInToMainPage();
+                 CommonMethod.signInToMainPage();
 
         } catch (Exception e) {
             log.error("Unable to navigate to this page", e);
@@ -42,6 +41,10 @@ public class RunnerCukesTest extends AbstractTestNGCucumberTests {
     @AfterTest
     public void afterExecution() {
         try {
+            if (CommonMethod.isInTheTabletPage()){
+               BrowserManager.getInstance().quitBrowser();
+
+            }
             if(CommonMethod.theUserIsLogIn() ){
                 System.out.println("The user is logged");
                 CommonMethod.signOut();
