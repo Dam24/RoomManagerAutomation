@@ -7,10 +7,8 @@ import com.jayway.restassured.response.Response;
 import entities.ConferenceRooms;
 import entities.Location;
 import entities.OutOfOrders;
-
 import common.EnumKeys;
 import entities.Meeting;
-
 import entities.Resource;
 import org.json.JSONArray;
 
@@ -306,9 +304,6 @@ public class APIManager {
         String json = response.asString();
         JsonPath jp = new JsonPath(json);
 
-        System.out.println("******************RESPONSE - "+json);
-        //meeting = setMeeting((String)jp.get("organizer"), (String)jp.get("title"), (String)jp.get("start"), (String)jp.get("end"));
-
         return meeting;
     }
 
@@ -327,9 +322,7 @@ public class APIManager {
         Response response = given().header("Authorization", "jwt " + token).get("/services");
         String json = response.asString();
         JsonPath jp = new JsonPath(json);
-       // System.out.println("JSON - "+json+"SERVICES ID - "+jp.get("_id"));
 
         return "565f3f449c27d64812f72af0";
     }
-
 }

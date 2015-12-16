@@ -3,7 +3,7 @@ Feature: Meetings
 
   Background:
     Given I navigate to Tablet page
-    And I select the "Floor1Room51" Conference Room
+    And I select the "Floor1Room54" Conference Room
 
   Scenario Outline: Create a meeting
     Given I navigate to Schedule page
@@ -14,58 +14,71 @@ Feature: Meetings
     And the meeting should be listed in the meetings of Room using the API
 
   Examples:
-    | Organizer       | Subject             | From | To     | Attendees | Body | Message                      |
-    | jhasmany.quiroz | Meeting #2          | 10:35 | 10:40 |           |      | Meeting successfully created |
+    | Organizer       | Subject             | From    | To      | Attendees | Body                  | Message                      |
+    | jhasmany.quiroz | Meeting #2          | 13:35   | 13:40   |           | This is a message     | Meeting successfully created |
 
 
   Scenario Outline: Try to create a meeting with missing information
-    Given I navigate to Available section
+    Given I navigate to Schedule page
     When I create a meeting with the following information: "<Organizer>", "<Subject>", "<From>", "<To>", "<Attendees>", "<Body>"
-    Then an error "<Error>" message should be displayed
-    And the meesting should not be displayed in the Schedule bar
+    Then an error "<Message>" message should be displayed
+    And the meeting should not be displayed in the Schedule bar
     And the meeting information should not be displayed in the Next section of Main page
     And the meeting should not be listed in the meetings of Room using the API
 
   Examples:
-  "<Organizer>", "<Subject>", "<From>", "<To>", "<Attendees>", "<Body>", "<Error>"
-
-
+    | Organizer       | Subject             | From    | To      | Attendees | Body                  | Message                 |
+    |                 | Meeting #3          | 13:40   | 13:45   |           | This is a message     | Organizer is required   |
+    #| jhasmany.quiroz |                     | 10:40   | 10:55   |           | This is a message     | Subject is required     |
 
   Scenario: Try to create a meeting at the same time than other meeting
-    Given I navigate to Available section
-    And I create a meeting with the following information: "fblajbf", "kdf", "8:00", "9:00", "jidflg", "jdslf"
-    When I create a meeting with the following information: "adsk", "kdf", "8:00", "9:00", "jidflg", "jdslf"
-    Then an error "<Error>" message should be displayed
-    And the meesting should not be displayed in the Schedule bar
+    Given I navigate to Schedule page
+    And I create a meeting with the following information: "jhasmany.quiroz", "Meeting #4", "13:45", "13:50", "", "This is a message"
+    And an information message "Meeting successfully created" should be displayed
+    When I create a meeting with the following information: "jhasmany.quiroz", "Meeting #5", "13:50", "13:55", "", "This is a message"
+    Then an error "There is a conflict with another meeting, please choose another time interval" message should be displayed
+    And the meeting should not be displayed in the Schedule bar
     And the meeting information should not be displayed in the Next section of Main page
     And the meeting should not be listed in the meetings of Room using the API
 
-
-  Scenario: Try to create a meeting in the room out of order
-    Given I have a room "" with a state Out Of Order between the hours "" to ""
-    And I navigate to Available section
-    When I create a meeting with the following information: "fblajbf", "kdf", "8:00", "9:00", "jidflg", "jdslf"
-    Then an error "<djkfdskljfalsd>" message should be displayed
-    And the meesting should not be displayed in the Schedule bar
-    And the meeting information should not be displayed in the Next section of Main page
-    And the meeting should not be listed in the meetings of Room using the API
-
-
-  Scenario: Update a meeting
-    Given I navigate to Available section
-    And I create a meeting with the following information: "fblajbf", "kdf", "8:00", "9:00", "jidflg", "jdslf"
-    When I update the meeting information: "fblajbf", "kdf", "8:00", "9:00", "jidflg", "jdslf"
-    Then an information message should be displayed
-    And the meeting should be displayed in the Schedule bar
-    And the meeting information should be displayed in the Next section of Main page
-    And the meeting should be listed in the meetings of Room using the API
+#  Scenario Outline: Try to create a meeting at the same time than other meeting
+#    Given I navigate to Schedule page
+#    And I create a meeting with the following information: "<Organizer>", "<Subject>", "<From>", "<To>", "<Attendees>", "<Body>"
+#    When I create a meeting with the following information: "<Organizer>", "<Subject>", "<From>", "<To>", "<Attendees>", "<Body>"
+#    Then an error "<Message>" message should be displayed
+#    And the meeting should not be displayed in the Schedule bar
+#    And the meeting information should not be displayed in the Next section of Main page
+#    And the meeting should not be listed in the meetings of Room using the API
+#
+#  Examples:
+#    | Organizer       | Subject             | From    | To      | Attendees | Body                  | Message                      |
+#    | jhasmany.quiroz | Meeting #4          | 10:35   | 10:40   |           | This is a message     | There is a conflict with another meeting, please choose another time interval |
+#    | jhasmany.quiroz | Meeting #5          | 10:35   | 10:40   |           | This is a message     | There is a conflict with another meeting, please choose another time interval |
 
 
-  Scenario: Remove a meeting
-    Given I navigate to Available section
-    And I create a meeting with the following information: "fblajbf", "kdf", "8:00", "9:00", "jidflg", "jdslf"
-    When I remove the meeting
-    Then an information message should be displayed
-    And the meesting should be removed from the the Schedule bar
-    And the meeting information should be removed from the Next section of Main page
-    And the meeting should be listed in the meetings of Room using the API
+#  Scenario: Try to create a meeting in the room out of order
+#    Given I have a room "" with a state Out Of Order between the hours "" to ""
+#    And I navigate to Available section
+#    When I create a meeting with the following information: "fblajbf", "kdf", "8:00", "9:00", "jidflg", "jdslf"
+#    Then an error "<djkfdskljfalsd>" message should be displayed
+#    And the meesting should not be displayed in the Schedule bar
+#    And the meeting information should not be displayed in the Next section of Main page
+#    And the meeting should not be listed in the meetings of Room using the API
+#
+#  Scenario: Update a meeting
+#    Given I navigate to Schedule page
+#    And I create a meeting with the following information: "jhasmany.quiroz", "Meeting #4", "10:35", "10:40", "", "This is a message"
+#    When I update the meeting information: "Meeting Update", "12:35", "12:40", "", "This is a message update"
+#    Then an information message should be displayed
+#    And the meeting should be displayed in the Schedule bar
+#    And the meeting information should be displayed in the Next section of Main page
+#    And the meeting should be listed in the meetings of Room using the API
+
+#  Scenario: Remove a meeting
+#    Given I navigate to Schedule page
+#    And I create a meeting with the following information: "fblajbf", "kdf", "8:00", "9:00", "jidflg", "jdslf"
+#    When I remove the meeting
+#    Then an information message should be displayed
+#    And the meeting should be removed from the the Schedule bar
+#    And the meeting information should be removed from the Next section of Main page
+#    And the meeting should be listed in the meetings of Room using the API

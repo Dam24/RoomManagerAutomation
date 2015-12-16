@@ -4,11 +4,17 @@ import common.CommonMethod;
 import cucumber.api.CucumberOptions;
 import cucumber.api.java.en.Given;
 import cucumber.api.testng.AbstractTestNGCucumberTests;
+import cucumber.runtime.FeatureBuilder;
 import framework.BrowserManager;
+import gherkin.formatter.model.Feature;
 import org.apache.log4j.Logger;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
-import ui.PageTransporter;
+import org.testng.ITestContext;
+import org.testng.ITestNGMethod;
+import org.testng.ITestResult;
+import org.testng.annotations.*;
+
+import java.lang.reflect.Method;
+
 
 /**
  * Created with IntelliJ IDEA.
@@ -57,5 +63,14 @@ public class RunnerCukesTest extends AbstractTestNGCucumberTests {
             System.out.println("CATCH - "+e);
             log.error("Unable to logout after execution", e);
         }
+    }
+
+    @BeforeMethod
+    public static void beforeFeature(Method method) {
+
+    }
+
+    @AfterMethod
+    public static void afterFeature(ITestResult result) {
     }
 }

@@ -1,6 +1,5 @@
 package ui;
 
-import common.EnumOptions;
 import framework.BrowserManager;
 import framework.CredentialsManager;
 import org.openqa.selenium.WebDriver;
@@ -8,6 +7,7 @@ import ui.pages.ConferenceRoomsPage;
 import ui.pages.LoginPage;
 import ui.pages.ResourcePage;
 import ui.pages.tablet.LoginTablePage;
+import ui.pages.tablet.MainTablePage;
 
 
 /**
@@ -99,9 +99,12 @@ public class PageTransporter {
     public void closeLoginPage(){
         driver.close();
     }
-    /*
 
-     */
+    public MainTablePage navigateToMainTabletPage() {
+        goToURL("https://172.20.208.216:4040/tablet/#/home");
+        return new MainTablePage();
+    }
+
     public void fixRefreshIsue(){
         navigateToMainPage().getSideBarMenu().clickOptionServer();
         //navigateToMainPage().getSideBarMenu().clickOption(EnumOptions.RESOURCES.option);
