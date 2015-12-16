@@ -65,15 +65,16 @@ public class ConferenceRoomSteps {
         resource.setDisplayName(resourceName);
         ArrayList<String> resourcesNameArray = new ArrayList<String>();
         Collections.addAll(resourcesNameArray, resource.getName().split(","));
+        System.out.println("*************//////////////////////////////////////resource name: "+resourcesNameArray);
         APIManager.getInstance().createResourcesByName(resourcesNameArray);
-        PageTransporter.getInstance().fixRefreshIsue();
+        PageTransporter.getInstance().refreshPage();
     }
 
     @And("I displayed the \"(.*?)\" Resource in the Conference Room's Table")
     public void I_displayed_the_Resource_in_the_Conference_Rooms_Table(String  resourceDisplayName){
         conferenceRoomsPage.ensureIsNotDisplayedResourceColumns();
         conferenceRoomsPage.clickOnSpecificResource(resource);
-        conferenceRoomsPage.clickOnSpecificResource(resource);
+//        conferenceRoomsPage.clickOnSpecificResource(resource);
     }
 
     @When("I associate the \"(.*?)\" Resource to the \"(.*?)\" Conference Room with quantity \"(.*?)\"")
@@ -104,7 +105,7 @@ public class ConferenceRoomSteps {
         ArrayList<String> locationsNameArray = new ArrayList<String>();
         Collections.addAll(locationsNameArray, location.getName().split(","));
         APIManager.getInstance().createLocationsByName(locationsNameArray);
-        PageTransporter.getInstance().fixRefreshIsue();
+        PageTransporter.getInstance().refreshPage();
     }
 
     @When("I associate the \"(.*?)\" Conference Room with the Location in the Room Info page")

@@ -18,7 +18,7 @@ Feature: Conference Room to administrate room and resources
 
   Examples:
     |Resource Name    |Resource Display Name|Quantity |Room Display Name        |Message                     |
-    |PC               |PC                   |5        |Floor1Room19             |Room successfully Modified  |
+    |Printer          |Printer              |5        |Floor1Room19             |Room successfully Modified  |
 
   Scenario Outline: Reserve a Room
     Given I navigate to Conference Rooms page

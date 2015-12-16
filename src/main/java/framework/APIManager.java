@@ -255,7 +255,7 @@ public class APIManager {
     }
 
     public ArrayList<Resource> getResources() {
-        ArrayList<Resource> resources = new ArrayList<Resource>();
+        ArrayList<Resource> resources = new ArrayList<>();
 
         Response response = given().when().get("/resources");
         JSONArray jsonArray = new JSONArray(response.asString());
@@ -272,7 +272,7 @@ public class APIManager {
     }
 
     public ArrayList<Location> getLocations() {
-        ArrayList<Location> locations = new ArrayList<Location>();
+        ArrayList<Location> locations = new ArrayList<>();
 
         Response response = given().when().get("/locations");
         JSONArray jsonArray = new JSONArray(response.asString());
@@ -290,10 +290,10 @@ public class APIManager {
 
     public Meeting createMeeting(String organizer,String title,String start,String end,String location,String roomEmail,String resources,String attendees,String roomId ) {
 
-        ArrayList<String> resourcesValues = new ArrayList<String>();
+        ArrayList<String> resourcesValues = new ArrayList<>();
         resourcesValues.add(resources);
 
-        ArrayList<String> attendeesValues = new ArrayList<String>();
+        ArrayList<String> attendeesValues = new ArrayList<>();
         attendeesValues.add(attendees);
 
         Meeting meeting = new Meeting();
