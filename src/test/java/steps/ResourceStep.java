@@ -105,7 +105,7 @@ public class ResourceStep {
 
 
         String organizer ="jhasmany.quiroz";
-        String title ="MetingAPI2";
+        String title ="NowMeeting";
         String start ="2015-12-16T01:00:00.000Z";
         String end   ="2015-12-16T01:30:00.000Z";
         String location="Floor1Room56";
