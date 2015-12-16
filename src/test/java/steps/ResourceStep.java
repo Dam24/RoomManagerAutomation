@@ -1,5 +1,6 @@
 package steps;
 
+import common.EnumKeys;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
@@ -111,7 +112,7 @@ public class ResourceStep {
 
     @And("^the Resource \"([^\\\"]*)\" should not be obtained using the API$")
     public void theResourceIsPresentInAPI(String resourceName){
-        String idResource=DBQuery.getInstance().getIdByKey("resourcemodels","name",resourceName);
+        String idResource=DBQuery.getInstance().getIdByKey(EnumKeys.RESOURCEKEY.nameCollection, EnumKeys.RESOURCEKEY.name,resourceName);
         Resource res1=APIManager.getInstance().getResourceByID(idResource) ;
         Assert.assertNull(res1.getName());
     }
