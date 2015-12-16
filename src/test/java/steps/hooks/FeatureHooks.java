@@ -38,7 +38,7 @@ public class FeatureHooks {
         }
     }
 
-    public static void executeAfterHookMethod() throws SQLException, ClassNotFoundException {
+    public static void executeAfterHookMethod() {
 
         //Run the after hook method if the (feature, after hook method) was added to the map
         if (featuresHooksMap.get(lastFeature) != null) {

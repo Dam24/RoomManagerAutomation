@@ -45,6 +45,7 @@ public class RunnerCukesTest extends AbstractTestNGCucumberTests {
 
     @AfterTest
     public void afterExecution() {
+        FeatureHooks.executeAfterHookMethod();
         try {
             if (CommonMethod.isInTheTabletPage()){
                BrowserManager.getInstance().quitBrowser();
@@ -57,13 +58,9 @@ public class RunnerCukesTest extends AbstractTestNGCucumberTests {
             else{
                 BrowserManager.getInstance().quitBrowser();
             }
+
         } catch (Exception e) {
             log.error("Unable to logout after execution", e);
         }
-    }
-
-    @AfterMethod
-    public void afterFeatureMethod() throws SQLException, ClassNotFoundException {
-        FeatureHooks.executeAfterHookMethod();
     }
 }
