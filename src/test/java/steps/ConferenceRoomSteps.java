@@ -67,10 +67,7 @@ public class ConferenceRoomSteps {
         resource.setDisplayName(resourceName);
         ArrayList<String> resourcesNameArray = new ArrayList<String>();
         Collections.addAll(resourcesNameArray, resource.getName().split(","));
-
         resourcesCreatedByGiven = APIManager.getInstance().createResourcesByName(resourcesNameArray);
-
-//        APIManager.getInstance().createResourcesByName(resourcesNameArray);
         PageTransporter.getInstance().refreshPage();
     }
 
@@ -78,7 +75,6 @@ public class ConferenceRoomSteps {
     public void I_displayed_the_Resource_in_the_Conference_Rooms_Table(String  resourceDisplayName){
         conferenceRoomsPage.ensureIsNotDisplayedResourceColumns();
         conferenceRoomsPage.clickOnSpecificResource(resource);
-//        conferenceRoomsPage.clickOnSpecificResource(resource);
     }
 
     @When("I associate the \"(.*?)\" Resource to the \"(.*?)\" Conference Room with quantity \"(.*?)\"")
@@ -108,10 +104,7 @@ public class ConferenceRoomSteps {
         location.setDisplayName(locationDisplayName);
         ArrayList<String> locationsNameArray = new ArrayList<String>();
         Collections.addAll(locationsNameArray, location.getName().split(","));
-
         locationsCreateByGiven = APIManager.getInstance().createLocationsByName(locationsNameArray);
-
-//        APIManager.getInstance().createLocationsByName(locationsNameArray);
         PageTransporter.getInstance().refreshPage();
     }
 
@@ -160,13 +153,7 @@ public class ConferenceRoomSteps {
         String idResource = DBQuery.getInstance().getIdByKey("resourcemodels", "name",resource.getName());
         String idConferenceRoom = DBQuery.getInstance().getIdByKey("rooms", "displayName", conferenceRooms.getName());
         Resource resourceOnCR = APIManager.getInstance().getResourceInConferenceRoomById(idConferenceRoom,idResource);
-
-//        ConferenceRooms roomAPI = APIManager.getInstance().getConferenceRoomByName(conferenceRooms.getName());
-//        Resource resourceAPI = APIManager.getInstance().getResourceByName(resource.getDisplayName());
-//        Resource resourceOnCR = APIManager.getInstance().getResourceInConferenceRoomById(roomAPI.getId(),resourceAPI.getID());
-
         assertEquals(resource.getQuantity(), resourceOnCR.getQuantity());
-//        assertEquals(resourceAPI.getID(),resourceOnCR.getID());
     }
 
     @And("the Conference Room should be associated with Location on API")
@@ -186,9 +173,6 @@ public class ConferenceRoomSteps {
         String roomId = DBQuery.getInstance().getIdByKey("rooms","displayName",conferenceRooms.getName());
         OutOfOrders outOfOrdersAPI = APIManager.getInstance().getOutOfOrderByTitle(outOfOrders.getTitle(), roomId);
         assertEquals(outOfOrdersAPI.getRoomID(),roomId);
-//        ConferenceRooms roomAPI = APIManager.getInstance().getConferenceRoomByName(conferenceRooms.getName());
-//        OutOfOrders outOfOrdersAPI = APIManager.getInstance().getOutOfOrderByTitle(outOfOrders.getTitle(), roomAPI.getId());
-//        assertEquals(outOfOrdersAPI.getRoomID(),roomAPI.getId());
     }
 
     @And("the Conference Room not should be reserve on the API")
@@ -225,16 +209,12 @@ public class ConferenceRoomSteps {
     @After("@AssignResource")
     public void deleteResourcesByScenario(){
         APIManager.getInstance().deleteResourcesById(resourcesCreatedByGiven);
-//        PageTransporter.getInstance().refreshPage();
-//        PageTransporter.getInstance().fixRefreshIsue();
         PageTransporter.getInstance().refreshPage();
     }
 
     @After("@AssignLocation")
     public void deleteRLocationByScenario(){
         APIManager.getInstance().deleteLocationByID(locationsCreateByGiven);
-//        PageTransporter.getInstance().refreshPage();
-//        PageTransporter.getInstance().fixRefreshIsue();
         PageTransporter.getInstance().refreshPage();
     }
 

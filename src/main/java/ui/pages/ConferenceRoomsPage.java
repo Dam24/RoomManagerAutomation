@@ -43,7 +43,6 @@ public class ConferenceRoomsPage extends BaseMainPageObject {
 
     @Override
     public void waitUntilPageObjectIsLoaded() {
-//        wait.until(ExpectedConditions.visibilityOf(rowConferenceRoom));
     }
 
     private ConferenceRoomsPage setInputFilterByRoom(String value){
@@ -53,7 +52,6 @@ public class ConferenceRoomsPage extends BaseMainPageObject {
     }
 
     private WebElement searchRoom(String roomDisplayName){
-        //return driver.findElement(By.xpath("//div[contains(@class,'ng-scope ngRow')]/div[contains(@class,'col2')]//span[2][text(),'"+roomDisplayName+"']"));
         return roomsTable.findElement(By.xpath("//div[span[contains(text(),'" + roomDisplayName + "')]]"));
     }
 
@@ -69,12 +67,7 @@ public class ConferenceRoomsPage extends BaseMainPageObject {
 
     public RoomInfoPage doubleClickOnSpecificRoom(ConferenceRooms room){
         Actions action = new Actions(driver);
-//        setInputFilterByRoom(room.getDisplayName());
-
         WebElement buttonRoom = searchRoom(room.getDisplayName());
-//        WebElement buttonRoom = roomsTable.findElement(By.xpath("//div[span[contains(text(),'" +room.getDisplayName()+ "')]]"));
-//        wait.until(ExpectedConditions.visibilityOf(buttonRoom));
-//        wait.until(ExpectedConditions.visibilityOf(roomsTable.findElement(By.xpath("//div[@ng-style='rowStyle(row)']"))));
         action.moveToElement(buttonRoom).perform();
         action.doubleClick(buttonRoom).perform();
         return new RoomInfoPage();
