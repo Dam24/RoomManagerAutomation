@@ -2,16 +2,9 @@ package framework;
 
 import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.path.json.JsonPath;
-
 import com.jayway.restassured.response.Response;
-import entities.ConferenceRooms;
-import entities.Location;
-import entities.OutOfOrders;
-
 import common.EnumKeys;
-import entities.Meeting;
-
-import entities.Resource;
+import entities.*;
 import org.json.JSONArray;
 
 import java.util.ArrayList;
@@ -60,14 +53,11 @@ public class APIManager {
         Resource resource = new Resource();
         Response response = given()
                 .header("Authorization", "jwt " + token)
-                .parameters("name", name, "description", "",
-                            "customName", name, "from", "",
-                            "fontIcon", "fa fa-desktop")
                 .parameters(EnumKeys.RESOURCEKEY.name, name, EnumKeys.RESOURCEKEY.description, "",
-                            EnumKeys.RESOURCEKEY.customName, name, EnumKeys.RESOURCEKEY.from, "",
-                            EnumKeys.RESOURCEKEY.icon, "")
+                        EnumKeys.RESOURCEKEY.customName, name, EnumKeys.RESOURCEKEY.from, "",
+                        EnumKeys.RESOURCEKEY.icon, "fa fa-filter")
                 .post("/resources")
-        ;
+                ;
 
         String json = response.asString();
         JsonPath jp = new JsonPath(json);
@@ -147,9 +137,12 @@ public class APIManager {
         return resources;
     }
 
-    public void createLocationsByName(ArrayList<String> locationsName) {
-        for (String name : locationsName)
+    public ArrayList<Location> createLocationsByName(ArrayList<String> locationsName) {
+        ArrayList<Location> locations = new ArrayList<>();
+        for (String name : locationsName) {
             createLocationByName(name);
+        }
+        return locations;
     }
 
     public void deleteResourcesById(ArrayList<Resource> resources) {
@@ -158,9 +151,26 @@ public class APIManager {
         }
     }
 
-    public void deleteLocationByID(ArrayList<String> locationsID) {
-        for (String _id : locationsID)
-            deleteLocationByID(_id);
+    public void deleteLocationByID(ArrayList<Location> locations) {
+        for (Location location : locations) {
+            deleteLocationByID(location.getId());
+        }
+    }
+
+    public void deleteOutOfOrder(String serviceId, String roomId, String outOfOrderId){
+        given()
+                .header("Authorization", "jwt " + token)
+                .delete("/services/"+serviceId+"rooms/"+roomId+"/out-of-orders"+outOfOrderId)
+                ;
+
+    }
+
+    public void activateConferenceRooms(String roomId){
+        given()
+                .header("Authorization", "jwt "+ token)
+                .parameters("enabled", true)
+                .put("/rooms/"+roomId)
+                ;
     }
 
     public Resource getResourceByID(String id) {
