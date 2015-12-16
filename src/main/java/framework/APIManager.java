@@ -2,13 +2,20 @@ package framework;
 
 import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.path.json.JsonPath;
-import common.EnumKeys;
-import entities.Location;
-import entities.Meeting;
-import entities.Resource;
-import java.util.ArrayList;
+
 import com.jayway.restassured.response.Response;
+import entities.ConferenceRooms;
+import entities.Location;
+import entities.OutOfOrders;
+
+import common.EnumKeys;
+import entities.Meeting;
+
+import entities.Resource;
 import org.json.JSONArray;
+
+import java.util.ArrayList;
+
 import static com.jayway.restassured.RestAssured.given;
 
 /**
@@ -31,6 +38,7 @@ public class APIManager {
             instance = new APIManager();
         return instance;
     }
+
     private void initialize() {
         RestAssured.baseURI = "https://172.20.208.216:4040";
         RestAssured.useRelaxedHTTPSValidation();
@@ -52,6 +60,9 @@ public class APIManager {
         Resource resource = new Resource();
         Response response = given()
                 .header("Authorization", "jwt " + token)
+                .parameters("name", name, "description", "",
+                            "customName", name, "from", "",
+                            "fontIcon", "fa fa-desktop")
                 .parameters(EnumKeys.RESOURCEKEY.name, name, EnumKeys.RESOURCEKEY.description, "",
                             EnumKeys.RESOURCEKEY.customName, name, EnumKeys.RESOURCEKEY.from, "",
                             EnumKeys.RESOURCEKEY.icon, "")
@@ -116,6 +127,18 @@ public class APIManager {
         return location;
     }
 
+    private ConferenceRooms setConferenceRooms(String _id, String name, String displayName, String resourceId, String locationId) {
+        ConferenceRooms conferenceRooms = new ConferenceRooms();
+        conferenceRooms.setId(_id);
+        conferenceRooms.setName(name);
+        conferenceRooms.setDisplayName(displayName);
+        conferenceRooms.setResource(resourceId);
+        conferenceRooms.setLocation(locationId);
+
+        return conferenceRooms;
+    }
+
+
     public ArrayList<Resource> createResourcesByName(ArrayList<String> resourcesName) {
         ArrayList<Resource> resources = new ArrayList<>();
         for (String name : resourcesName) {
@@ -160,6 +183,77 @@ public class APIManager {
                             (String)jp.get("path"));
     }
 
+    public ConferenceRooms getConferenceRoomByID(String _id) {
+        Response response = given().when().get("/rooms/"+_id);
+        String json = response.asString();
+        JsonPath jp = new JsonPath(json);
+        return setConferenceRooms((String)jp.get("_id"),(String)jp.get("displayName"),
+                (String)jp.get("customDisplayName"),(String)jp.get("resources[0].resourceId"),
+                (String)jp.get("locationId"));
+    }
+
+    public OutOfOrders getOutOfOrderByTitle(String title, String roomId) {
+        OutOfOrders outOfOrders = new OutOfOrders();
+        Response response = given().when().get("/out-of-orders");
+        JSONArray jsonArray = new JSONArray(response.asString());
+        System.out.println("JSON - "+jsonArray);
+        for (int indice = 0; indice < jsonArray.length(); indice++) {
+            if (jsonArray.getJSONObject(indice).getString("roomId").equalsIgnoreCase(roomId)) {
+                outOfOrders.set_Id(jsonArray.getJSONObject(indice).getString("_id"));
+                outOfOrders.setTitle(jsonArray.getJSONObject(indice).getString("title"));
+                outOfOrders.setRoomID(jsonArray.getJSONObject(indice).getString("roomId"));
+            }
+        }
+        return outOfOrders;
+
+    }
+
+    public ConferenceRooms getConferenceRoomByName(String name) {
+        ConferenceRooms conferenceRooms = new ConferenceRooms();
+
+        Response response = given().when().get("/rooms");
+        JSONArray jsonArray = new JSONArray(response.asString());
+        for (int indice = 0; indice < jsonArray.length(); indice++) {
+            if (jsonArray.getJSONObject(indice).getString("displayName").equalsIgnoreCase(name)) {
+                conferenceRooms.setName(jsonArray.getJSONObject(indice).getString("displayName"));
+                conferenceRooms.setDisplayName(jsonArray.getJSONObject(indice).getString("customDisplayName"));
+                conferenceRooms.setId(jsonArray.getJSONObject(indice).getString("_id"));
+                conferenceRooms.setEnabled(jsonArray.getJSONObject(indice).getBoolean("enabled"));
+            }
+        }
+        return conferenceRooms;
+    }
+
+    public Resource getResourceInConferenceRoomById(String roomId, String resourceId){
+        Resource resource = new Resource();
+        Response response = given().when().get("/rooms/"+roomId+"/resources");
+        JSONArray jsonArray = new JSONArray(response.asString());
+        System.out.println("JSON - "+jsonArray);
+        for (int indice = 0; indice < jsonArray.length(); indice++) {
+            System.out.println(jsonArray.getJSONObject(indice).getString("resourceId"));
+            if (jsonArray.getJSONObject(indice).getString("resourceId").equalsIgnoreCase(resourceId)) {
+                resource.setID(jsonArray.getJSONObject(indice).getString("resourceId"));
+                resource.setQuantity(jsonArray.getJSONObject(indice).getInt("quantity"));
+            }
+        }
+        return resource;
+    }
+
+    public Resource getResourceByName(String name){
+        Resource resource = new Resource();
+        Response response = given().when().get("/resources");
+        JSONArray jsonArray = new JSONArray(response.asString());
+        System.out.println("JSON - "+jsonArray);
+        for (int indice = 0; indice < jsonArray.length(); indice++) {
+            if (jsonArray.getJSONObject(indice).getString("customName").equalsIgnoreCase(name)) {
+                resource.setName(jsonArray.getJSONObject(indice).getString("name"));
+                resource.setDisplayName(jsonArray.getJSONObject(indice).getString("customName"));
+                resource.setID(jsonArray.getJSONObject(indice).getString("_id"));
+            }
+        }
+        return resource;
+    }
+
     public ArrayList<Resource> getResources() {
         ArrayList<Resource> resources = new ArrayList<Resource>();
 
@@ -178,7 +272,7 @@ public class APIManager {
     }
 
     public ArrayList<Location> getLocations() {
-        ArrayList<Location> locations = new ArrayList<>();
+        ArrayList<Location> locations = new ArrayList<Location>();
 
         Response response = given().when().get("/locations");
         JSONArray jsonArray = new JSONArray(response.asString());

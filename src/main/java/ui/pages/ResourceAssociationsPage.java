@@ -1,13 +1,11 @@
 package ui.pages;
 
-import common.EnumOptions;
 import entities.Resource;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import ui.BaseMainPageObject;
 import ui.BasePageConferenceRoom;
 import ui.PageTransporter;
@@ -49,7 +47,7 @@ public class ResourceAssociationsPage extends BasePageConferenceRoom {
 
     @Override
     public void waitUntilPageObjectIsLoaded() {
-        wait.until(ExpectedConditions.visibilityOf(bodyResourceAssociated));
+//        wait.until(ExpectedConditions.visibilityOf(bodyResourceAssociated));
     }
 
     private ResourceAssociationsPage clickAddResource(String resourceName){
@@ -58,10 +56,10 @@ public class ResourceAssociationsPage extends BasePageConferenceRoom {
         return this;
     }
 
-    public ResourceAssociationsPage setQuantityResources(String resourceName, String  quantity){
+    public ResourceAssociationsPage setQuantityResources(String resourceName, int  quantity){
         WebElement inputQuantity = listAssociatedResources.findElement(By.xpath("//div[div[2][span[contains(text(),'" +resourceName+ "')]]]/div/input[@type='text']"));
         inputQuantity.clear();
-        inputQuantity.sendKeys(quantity);
+        inputQuantity.sendKeys(String.valueOf(quantity));
         return this;
     }
 
@@ -82,7 +80,7 @@ public class ResourceAssociationsPage extends BasePageConferenceRoom {
         return new ResourcePage();
     }
 
-    public ConferenceRoomsPage associateResource(Resource resource, String quantity){
+    public ConferenceRoomsPage associateResource(Resource resource, int quantity){
         clickAddResource(resource.getDisplayName());
         setQuantityResources(resource.getDisplayName(),quantity);
         return clickSaveButton();

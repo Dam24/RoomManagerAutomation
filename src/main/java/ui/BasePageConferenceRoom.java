@@ -3,6 +3,7 @@ package ui;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import ui.pages.ConferenceRoomsPage;
 import ui.pages.OutOfOrderPlanningPage;
 import ui.pages.ResourceAssociationsPage;
@@ -36,10 +37,23 @@ public abstract class BasePageConferenceRoom extends BasePageObject{
     @CacheLookup
     private WebElement buttonCancel;
 
+    public BasePageConferenceRoom() {
+        PageFactory.initElements(driver, this);
+        waitUntilPageObjectIsLoaded();
+    }
+
+    @Override
+    public void waitUntilPageObjectIsLoaded() {
+//        wait.until(ExpectedConditions.visibilityOf(buttonSave));
+    }
 
     protected ConferenceRoomsPage clickSaveButton(){
         buttonSave.click();
         return new ConferenceRoomsPage();
+    }
+
+    protected void clickSaveButtonNoSuccessful(){
+        buttonSave.click();
     }
 
     protected ConferenceRoomsPage clickCancelButton(){

@@ -1,5 +1,6 @@
 package ui;
 
+import org.openqa.selenium.support.PageFactory;
 import ui.pages.HeaderMenuPage;
 import ui.pages.LoginPage;
 import ui.pages.SidebarMenuPage;
@@ -16,6 +17,8 @@ public class BaseMainPageObject extends BasePageObject {
     private SidebarMenuPage sidebarMenu;
 
     public BaseMainPageObject() {
+        PageFactory.initElements(driver, this);
+        waitUntilPageObjectIsLoaded();
         headerMenu = new HeaderMenuPage();
         sidebarMenu = new SidebarMenuPage();
     }
