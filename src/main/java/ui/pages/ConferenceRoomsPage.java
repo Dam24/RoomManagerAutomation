@@ -8,7 +8,6 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import ui.BaseMainPageObject;
 
 import java.util.List;
@@ -44,7 +43,6 @@ public class ConferenceRoomsPage extends BaseMainPageObject {
 
     @Override
     public void waitUntilPageObjectIsLoaded() {
-        wait.until(ExpectedConditions.visibilityOf(rowConferenceRoom));
     }
 
     private ConferenceRoomsPage setInputFilterByRoom(String value){
@@ -54,7 +52,6 @@ public class ConferenceRoomsPage extends BaseMainPageObject {
     }
 
     private WebElement searchRoom(String roomDisplayName){
-        //return driver.findElement(By.xpath("//div[contains(@class,'ng-scope ngRow')]/div[contains(@class,'col2')]//span[2][text(),'"+roomDisplayName+"']"));
         return roomsTable.findElement(By.xpath("//div[span[contains(text(),'" + roomDisplayName + "')]]"));
     }
 
@@ -70,12 +67,7 @@ public class ConferenceRoomsPage extends BaseMainPageObject {
 
     public RoomInfoPage doubleClickOnSpecificRoom(ConferenceRooms room){
         Actions action = new Actions(driver);
-//        setInputFilterByRoom(room.getDisplayName());
-
         WebElement buttonRoom = searchRoom(room.getDisplayName());
-//        WebElement buttonRoom = roomsTable.findElement(By.xpath("//div[span[contains(text(),'" +room.getDisplayName()+ "')]]"));
-//        wait.until(ExpectedConditions.visibilityOf(buttonRoom));
-//        wait.until(ExpectedConditions.visibilityOf(roomsTable.findElement(By.xpath("//div[@ng-style='rowStyle(row)']"))));
         action.moveToElement(buttonRoom).perform();
         action.doubleClick(buttonRoom).perform();
         return new RoomInfoPage();
@@ -130,9 +122,12 @@ public class ConferenceRoomsPage extends BaseMainPageObject {
     public void ensureIsNotDisplayedResourceColumns(){
         List<WebElement> resourcesList = resourcesPanel.findElements(By.xpath("//div[@ng-repeat='resource in resources']"));
         for (WebElement option : resourcesList) {
-            if(option.findElement(By.xpath("//div[@ng-repeat='resource in resources']/span[@class='btn btn-default btn-block ng-pristine ng-untouched ng-valid active'][span[contains(text(),'"+option.getText()+"')]]")).isDisplayed()){
-                WebElement op = option.findElement(By.xpath("//div[@ng-repeat='resource in resources']/span[span[contains(text(),'"+option.getText()+"')]]"));
-                op.click();
+            try {
+                if(option.findElement(By.xpath("//div[@ng-repeat='resource in resources']/span[@class='btn btn-default btn-block ng-pristine ng-untouched ng-valid active'][span[contains(text(),'"+option.getText()+"')]]")).isDisplayed()){
+                    WebElement op = option.findElement(By.xpath("//div[@ng-repeat='resource in resources']/span[span[contains(text(),'"+option.getText()+"')]]"));
+                    op.click();
+                }
+            }   catch (Exception e){
             }
         }
     }
