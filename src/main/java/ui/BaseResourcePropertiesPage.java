@@ -29,8 +29,4 @@ public abstract class BaseResourcePropertiesPage extends BasePageObject {
         PageFactory.initElements(driver, this);
         waitUntilPageObjectIsLoaded();
     }
-
-
-
-
 }

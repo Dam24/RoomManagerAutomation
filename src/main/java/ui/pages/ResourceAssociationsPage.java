@@ -42,9 +42,6 @@ public class ResourceAssociationsPage extends BasePageConferenceRoom {
     @FindBy(xpath= "//div[@class='modal-body ng-scope']")
     private WebElement bodyResourceAssociated;
 
-    @FindBy(xpath ="//div[@class='list-group']")
-    private WebElement emailServer;
-
     public ResourceAssociationsPage() {
         PageFactory.initElements(driver, this);
         waitUntilPageObjectIsLoaded();
@@ -69,11 +66,11 @@ public class ResourceAssociationsPage extends BasePageConferenceRoom {
     }
 
     public String getResourceQuantity(String RoomName){
-      quantity = driver.findElement(By.xpath("//div[@class='ngCellText ng-scope col0 colt0']/span[text()='"+RoomName+"']/parent::div/parent::div/parent::div/following-sibling::div/"))
+        quantity = driver.findElement(By.xpath("//div[@class='ngCellText ng-scope col0 colt0']/span[text()='"+RoomName+"']/parent::div/parent::div/parent::div/following-sibling::div/"))
               .getText();
-      System.out.println(quantity);
-      quantity = quantity.substring(0,1);
-      System.out.println(quantity);
+        System.out.println(quantity);
+        quantity = quantity.substring(0,1);
+        System.out.println(quantity);
       return quantity;
     }
 
@@ -81,6 +78,7 @@ public class ResourceAssociationsPage extends BasePageConferenceRoom {
         buttonDelete.click();
         isDisplayed(By.xpath("//div[@class='modal-content']"));
         PageTransporter.getInstance().fixRefreshIsue();
+        PageTransporter.getInstance().navigateToResourcePage();
         return new ResourcePage();
     }
 

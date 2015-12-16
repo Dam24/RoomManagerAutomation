@@ -1,5 +1,6 @@
 package ui;
 
+import common.EnumOptions;
 import framework.BrowserManager;
 import framework.CredentialsManager;
 import org.openqa.selenium.WebDriver;
@@ -90,11 +91,16 @@ public class PageTransporter {
     public void closeLoginPage(){
         driver.close();
     }
+    /*
 
+     */
     public void fixRefreshIsue(){
+        navigateToMainPage().getSideBarMenu().clickOptionServer();
+        //navigateToMainPage().getSideBarMenu().clickOption(EnumOptions.RESOURCES.option);
+    }
+
+    public void refreshPage(){
         driver.navigate().refresh();
-        navigateToServerPage();
-        navigateToResourcePage();
     }
 
 }

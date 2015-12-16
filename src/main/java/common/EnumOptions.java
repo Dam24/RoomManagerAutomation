@@ -19,5 +19,7 @@ public enum EnumOptions {
 
     private EnumOptions(String option) {
         this.option = option;
+
     }
 }
+

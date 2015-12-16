@@ -7,6 +7,7 @@ import cucumber.api.java.en.When;
 import entities.ConferenceRooms;
 import entities.Location;
 import entities.Resource;
+import org.testng.Assert;
 import ui.BaseMainPageObject;
 import ui.BasePageConferenceRoom;
 import ui.pages.*;
@@ -40,21 +41,17 @@ public class ConferenceRoomSteps {
         this.location = location;
         baseMainPageObject = new BaseMainPageObject();
     }
-//    public ResourceStep(Resource resource){
-//        this.resource=resource;
-//    }
 
     @Given("I navigate to Conference Rooms page")
     public void I_navigate_to_Conference_Rooms_page(){
-//        conferenceRoomsPage= PageTransporter.getInstance().navigateToConferenceRoomPage();
         conferenceRoomsPage = baseMainPageObject.getSideBarMenu().goToConferenceRoomsPage();
     }
+
+
     @And("I create a resource with the following dates: \"(.*?)\", \"(.*?)\"")
     public void I_create_a_resource_with_the_following_dates(String resourceName, String resourceDisplayName){
         resource.setName(resourceName);
         resource.setDisplayName(resourceDisplayName);
-
-
     }
 
     @And("I displayed the \"(.*?)\" Resource in the Conference Room's Table")
@@ -117,5 +114,13 @@ public class ConferenceRoomSteps {
     public void the_Conference_Room_should_be_disabled(){
         assertTrue(conferenceRoomsPage.isConferenceRoomsDisabled(conferenceRooms));
     }
+
+    @Then("^the Resource \"(.*?)\" should not be displayed with the quantity \"(.*?)\" list of Conference Room \"(.*?)\"$")
+    public void isTheResourceInAssociatedList(String resourceDispalyName,String quantity,String roomDisplayName){
+        conferenceRooms.setDisplayName(roomDisplayName);
+        conferenceRoomsPage.doubleClickOnSpecificRoom(conferenceRooms);
+        Assert.assertFalse(conferenceRoomsPage.isResourceAssociate(quantity, conferenceRooms));
+    }
+
 
 }
