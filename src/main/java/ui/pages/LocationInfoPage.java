@@ -1,5 +1,6 @@
 package ui.pages;
 
+import org.openqa.selenium.support.PageFactory;
 import ui.BasePageLocations;
 
 /**
@@ -10,6 +11,16 @@ import ui.BasePageLocations;
  * To change this template use File | Settings | File Templates.
  */
 public class LocationInfoPage extends BasePageLocations {
+    public LocationInfoPage() {
+        PageFactory.initElements(driver, this);
+        waitUntilPageObjectIsLoaded();
+    }
+
+    @Override
+    public void waitUntilPageObjectIsLoaded() {
+//        wait.until(ExpectedConditions.visibilityOf());
+    }
+
     public LocationAssociationPage goToLocationAssociationPage(){
         return clickResourceAssociationsTab();
     }

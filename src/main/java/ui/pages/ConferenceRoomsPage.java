@@ -7,9 +7,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import ui.BaseMainPageObject;
 
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -33,9 +33,14 @@ public class ConferenceRoomsPage extends BaseMainPageObject {
     @CacheLookup
     private WebElement inputFilterByRoom;
 
+    public ConferenceRoomsPage() {
+        PageFactory.initElements(driver, this);
+        waitUntilPageObjectIsLoaded();
+    }
+
     @Override
     public void waitUntilPageObjectIsLoaded() {
-        //To change body of implemented methods use File | Settings | File Templates.
+//        wait.until(ExpectedConditions.visibilityOf(roomsTable.findElement(By.xpath("//div[@ng-style='rowStyle(row)']"))));
     }
 
     private ConferenceRoomsPage setInputFilterByRoom(String value){
@@ -61,8 +66,12 @@ public class ConferenceRoomsPage extends BaseMainPageObject {
 
     public RoomInfoPage doubleClickOnSpecificRoom(ConferenceRooms room){
         Actions action = new Actions(driver);
-        setInputFilterByRoom(room.getDisplayName());
+//        setInputFilterByRoom(room.getDisplayName());
+
         WebElement buttonRoom = searchRoom(room.getDisplayName());
+//        WebElement buttonRoom = roomsTable.findElement(By.xpath("//div[span[contains(text(),'" +room.getDisplayName()+ "')]]"));
+//        wait.until(ExpectedConditions.visibilityOf(buttonRoom));
+//        wait.until(ExpectedConditions.visibilityOf(roomsTable.findElement(By.xpath("//div[@ng-style='rowStyle(row)']"))));
         action.moveToElement(buttonRoom).perform();
         action.doubleClick(buttonRoom).perform();
         return new RoomInfoPage();
@@ -105,20 +114,21 @@ public class ConferenceRoomsPage extends BaseMainPageObject {
         }
     }
 
+    public boolean isCalendarPresent(ConferenceRooms room){
+        try {
+            WebElement calendar = roomsTable.findElement(By.xpath("//div[div/div[span[contains(text(),'" + room.getDisplayName() + "')]]]/preceding-sibling::div"));
+            return calendar.isDisplayed();
+        }   catch(Exception e){
+            return false;
+        }
+    }
+
     public void ensureIsNotDisplayedResourceColumns(){
-        List<WebElement> resourcesList = resourcesPanel.findElements(By.tagName("//div"));
-        Iterator<WebElement> iterator = resourcesList.iterator();
-        while (iterator.hasNext()) {
-            try{
-//                WebElement resource= iterator.next().findElement(By.xpath("//span[@class='btn btn-default btn-block ng-untouched ng-valid ng-dirty ng-valid-parse']"));
-//                WebElement resource= iterator.next().findElement(By.xpath("//span[@class='btn btn-default btn-block ng-pristine ng-untouched ng-valid active']"));
-//                resource.click();
-                if(iterator.next().findElement(By.xpath("//span[@class='btn btn-default btn-block ng-pristine ng-untouched ng-valid active']")).isDisplayed()){
-                    iterator.next().click();
-                }
-            }   catch (Exception e){
-                iterator.next();
-            }
+        List<WebElement> resourcesList = resourcesPanel.findElements(By.xpath("//div[@ng-repeat='resource in resources']"));
+        for (WebElement option : resourcesList) {
+            System.out.println("************************************** resource name: "+option.getText());
+            WebElement op = option.findElement(By.xpath("//div[@ng-repeat='resource in resources']/span[span[contains(text(),'"+option.getText()+"')]]"));
+            op.click();
         }
     }
 }

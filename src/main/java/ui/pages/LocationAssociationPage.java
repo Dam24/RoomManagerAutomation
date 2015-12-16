@@ -4,6 +4,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import ui.BasePageLocations;
 
 /**
@@ -21,6 +23,16 @@ public class LocationAssociationPage extends BasePageLocations {
     @FindBy(xpath = "//div[h4[contains(text(),'Associated')]]")
     @CacheLookup
     private WebElement listAssociatedRooms;
+
+    public LocationAssociationPage() {
+        PageFactory.initElements(driver, this);
+        waitUntilPageObjectIsLoaded();
+    }
+
+    @Override
+    public void waitUntilPageObjectIsLoaded() {
+        wait.until(ExpectedConditions.visibilityOf(listAssociatedRooms));
+    }
 
     public void goToLocationAssociation(){
         clickResourceAssociationsTab();
