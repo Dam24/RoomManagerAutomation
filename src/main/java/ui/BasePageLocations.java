@@ -3,6 +3,7 @@ package ui;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import ui.pages.LocationAssociationPage;
 import ui.pages.LocationInfoPage;
 import ui.pages.LocationsPage;
@@ -32,9 +33,14 @@ public class BasePageLocations extends BasePageObject{
     @CacheLookup
     private WebElement buttonCancel;
 
+    public BasePageLocations() {
+        PageFactory.initElements(driver, this);
+        waitUntilPageObjectIsLoaded();
+    }
+
     @Override
     public void waitUntilPageObjectIsLoaded() {
-        //To change body of implemented methods use File | Settings | File Templates.
+//        wait.until(ExpectedConditions.visibilityOf(buttonSave));
     }
 
     protected LocationInfoPage clickRoomInfoTab(){
