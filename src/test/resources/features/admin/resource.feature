@@ -18,10 +18,10 @@ Feature: Resources
     Then the Resources that match the search criteria "PC" should be displayed in Resource List
 
   Scenario: Delete a Resource that is assigned to different Conference Room
-    When I delete the Resource "Computer"
-    Then the Resource "Computer" should not be displayed in the Resources list
+    When I delete the Resource "Computer Assigned"
+    Then the Resource "Computer Assigned" should not be displayed in the Resources list
     When I navigate to Tablet page
      And I select the "Floor1Room16" Conference Room
-    Then the Resource "Computer" should not be displayed in the Resource Tablet list
-      And the Resource "Computer" should not be obtained using the API
+    Then the Resource "Computer Assigned" should not be displayed in the Resource Tablet list
+      And the Resource "Computer Assigned" should not be obtained using the API
 
