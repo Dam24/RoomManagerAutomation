@@ -7,6 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import ui.BaseMainPageObject;
 
 /**
@@ -24,6 +25,16 @@ public class LocationsPage extends BaseMainPageObject {
     @FindBy(xpath = "//div[@class='ngCanvas']")
     @CacheLookup
     private WebElement tableLocation;
+
+    public LocationsPage() {
+        PageFactory.initElements(driver, this);
+        waitUntilPageObjectIsLoaded();
+    }
+
+    @Override
+    public void waitUntilPageObjectIsLoaded() {
+//        wait.until(ExpectedConditions.visibilityOf(tableLocation));
+    }
 
     private LocationInfoPage doubleClickOnSpecificLocation(String locationsName){
         Actions action = new Actions(driver);

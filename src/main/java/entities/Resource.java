@@ -13,6 +13,7 @@ public class Resource {
     private String displayName;
     private String description;
     private String icon;
+    private int quantity;
 
     public void setID(String id) {this.id = id;}
 
@@ -24,6 +25,8 @@ public class Resource {
 
     public void setIcon(String newIcon){icon=newIcon;}
 
+    public void setQuantity(int quantity1){quantity=quantity1;}
+
     public String getID() {return id;}
 
     public String getName(){ return name;}
@@ -33,6 +36,8 @@ public class Resource {
     public String getDescription(){ return description;}
 
     public String getIcon(){ return icon;}
+
+    public int getQuantity() {return quantity;}
 
 
 
