@@ -2,19 +2,15 @@ package runner;
 
 import common.CommonMethod;
 import cucumber.api.CucumberOptions;
-import cucumber.api.java.en.Given;
 import cucumber.api.testng.AbstractTestNGCucumberTests;
-import cucumber.runtime.FeatureBuilder;
 import framework.BrowserManager;
-import gherkin.formatter.model.Feature;
 import org.apache.log4j.Logger;
-import org.testng.ITestContext;
-import org.testng.ITestNGMethod;
-import org.testng.ITestResult;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import steps.hooks.FeatureHooks;
+import org.testng.annotations.AfterMethod;
 
-import java.lang.reflect.Method;
-
+import java.sql.SQLException;
 
 /**
  * Created with IntelliJ IDEA.
@@ -31,6 +27,7 @@ import java.lang.reflect.Method;
         monochrome = true)
 
 public class RunnerCukesTest extends AbstractTestNGCucumberTests {
+
 
     private static Logger log = Logger.getLogger("RunCukesTest");
 
@@ -49,7 +46,6 @@ public class RunnerCukesTest extends AbstractTestNGCucumberTests {
         try {
             if (CommonMethod.isInTheTabletPage()){
                BrowserManager.getInstance().quitBrowser();
-
             }
             if(CommonMethod.theUserIsLogIn() ){
                 System.out.println("The user is logged");
@@ -60,17 +56,12 @@ public class RunnerCukesTest extends AbstractTestNGCucumberTests {
                 BrowserManager.getInstance().quitBrowser();
             }
         } catch (Exception e) {
-            System.out.println("CATCH - "+e);
             log.error("Unable to logout after execution", e);
         }
     }
 
-    @BeforeMethod
-    public static void beforeFeature(Method method) {
-
-    }
-
     @AfterMethod
-    public static void afterFeature(ITestResult result) {
+    public void afterFeatureMethod() throws SQLException, ClassNotFoundException {
+        FeatureHooks.executeAfterHookMethod();
     }
 }
