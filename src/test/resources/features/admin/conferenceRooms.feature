@@ -1,15 +1,15 @@
-
+#
 @ConferenceRooms
 Feature: Conference Room to administrate room and resources
+#
+#    Background:
+##      Given I login as "DamianVP" with password "Client123"
+##      And I navigate to Conference Rooms page
 
-    Background:
-#      Given I login as "DamianVP" with password "Client123"
-#      And I navigate to Conference Rooms page
-
+  @AssignResource
   Scenario Outline: User should be able Assign to Resources to Conference Room
     Given I create a resource with the following dates: "<Resource Name>", "<Resource Display Name>"
       And I navigate to Conference Rooms page
-#      And I create a resource with the following dates: "<Resource Name>", "<Resource Display Name>"
       And I displayed the "<Resource Display Name>" Resource in the Conference Room's Table
     When I associate the "<Resource Display Name>" Resource to the "<Room Display Name>" Conference Room with quantity "<Quantity>"
     Then the "<Message>" message should be displayed
@@ -20,6 +20,7 @@ Feature: Conference Room to administrate room and resources
     |Resource Name    |Resource Display Name|Quantity |Room Display Name        |Message                     |
     |Printer          |Printer              |5        |Floor1Room19             |Room successfully Modified  |
 
+  @ReserveRoom
   Scenario Outline: Reserve a Room
     Given I navigate to Conference Rooms page
     When I reserve the "<Room Name>" Conference Room with the following information: "<From Date>", "<To Date>", "<From Hrs>", "<To Hrs>", "<Reason>", "<Description>"
@@ -31,7 +32,7 @@ Feature: Conference Room to administrate room and resources
     |Room Name     |From Date|To Date|From Hrs|To Hrs|Reason                   |Description           |Message                   |
     |Floor1Room12  |5        |8      |10      |11     |Closed for reparations   |this is a description |Room successfully Modified|
 
-
+  @ReserveRoomNegative
   Scenario Outline: User not should be able to reserve a Conference Room with incorrect dates.
     Given I navigate to Conference Rooms page
     When I reserve the "<Room Name>" Conference Room with the following information: "<From Date>", "<To Date>", "<From Hrs>", "<To Hrs>", "<Reason>", "<Description>"
@@ -43,8 +44,8 @@ Feature: Conference Room to administrate room and resources
     |Room Name    |From Date       |To Date       |From Hrs|To Hrs  |Reason                    |Description           |Message                     |
     |Floor1Room13|12/15/2015      |12/16/2015    | 11      |9      |Closed for reparations    |This is a description |"To" field must be greater than "From" field  |
 
+  @AssignLocation
   Scenario Outline: User should be able to assign a Conference Room in a specific Location.
-
     Given I create a Location with the following details: "<Location Name>", "<Location Display Name>"
       And I navigate to Conference Rooms page
     When I associate the "<Room Name>" Conference Room with the Location in the Room Info page
@@ -57,20 +58,21 @@ Feature: Conference Room to administrate room and resources
     |Room Name       |Location Name |Location Display Name|Message                          |
     |Floor1Room14    |Location1     |Location1            |Room successfully Modified       |
 
+  @DisableRoom
   Scenario Outline: User should be able to disable a Conference Room
     Given I navigate to Conference Rooms page
     When I disabled the "<Room Name>" Conference Room
     Then the "<Message>" message should be displayed
       And the Conference Room should be disabled
-#    When I navigate to Tablet page
+    When I navigate to Tablet page
 #    Then the "<Room Name>" Conference Room should not be displayed.
       And the API should be displayed disabled to the Conference Room
 
   Examples:
     |Room Name       |Message                             |
     |Floor1Room15    |Room Floor1Room15 was disabled      |
-
-#Examples:
-#|Location Name |Resource Name |
-#|LLLLLLL       |RRRRRRR       |
-
+#
+###Examples:
+###|Location Name |Resource Name |
+###|LLLLLLL       |RRRRRRR       |
+##

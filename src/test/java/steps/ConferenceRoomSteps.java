@@ -1,5 +1,6 @@
 package steps;
 
+import cucumber.api.java.After;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -11,7 +12,6 @@ import entities.Resource;
 import framework.APIManager;
 import framework.DBQuery;
 import org.testng.Assert;
-
 import ui.BaseMainPageObject;
 import ui.BasePageConferenceRoom;
 import ui.PageTransporter;
@@ -53,6 +53,9 @@ public class ConferenceRoomSteps {
         baseMainPageObject = new BaseMainPageObject();
     }
 
+    private ArrayList<Resource> resourcesCreatedByGiven = new ArrayList<>();
+    private ArrayList<Location> locationsCreateByGiven = new ArrayList<>();
+
     @Given("I navigate to Conference Rooms page")
     public void I_navigate_to_Conference_Rooms_page(){
         conferenceRoomsPage = baseMainPageObject.getSideBarMenu().goToConferenceRoomsPage();
@@ -65,8 +68,10 @@ public class ConferenceRoomSteps {
         resource.setDisplayName(resourceName);
         ArrayList<String> resourcesNameArray = new ArrayList<String>();
         Collections.addAll(resourcesNameArray, resource.getName().split(","));
-        System.out.println("*************//////////////////////////////////////resource name: "+resourcesNameArray);
-        APIManager.getInstance().createResourcesByName(resourcesNameArray);
+
+        resourcesCreatedByGiven = APIManager.getInstance().createResourcesByName(resourcesNameArray);
+
+//        APIManager.getInstance().createResourcesByName(resourcesNameArray);
         PageTransporter.getInstance().refreshPage();
     }
 
@@ -104,7 +109,10 @@ public class ConferenceRoomSteps {
         location.setDisplayName(locationDisplayName);
         ArrayList<String> locationsNameArray = new ArrayList<String>();
         Collections.addAll(locationsNameArray, location.getName().split(","));
-        APIManager.getInstance().createLocationsByName(locationsNameArray);
+
+        locationsCreateByGiven = APIManager.getInstance().createLocationsByName(locationsNameArray);
+
+//        APIManager.getInstance().createLocationsByName(locationsNameArray);
         PageTransporter.getInstance().refreshPage();
     }
 
@@ -142,6 +150,7 @@ public class ConferenceRoomSteps {
     public void I_reserve_the_Conference_Room_with_the_following_information(String roomName, String fromDate, String toDate, String fromHours, String toHours, String reason, String description){
         conferenceRooms.setName(roomName);
         conferenceRooms.setDisplayName(roomName);
+        outOfOrders.setTitle(reason);
         roomInfoPage = conferenceRoomsPage.doubleClickOnSpecificRoom(conferenceRooms);
         outOfOrderPlanningPage = roomInfoPage.gotoOutOfOrderPlanningPage();
         outOfOrderPlanningPage.setOutOfOrderPlanningNoSuccessful(fromDate,toDate,fromHours,toHours,reason,description);
@@ -211,6 +220,38 @@ public class ConferenceRoomSteps {
         conferenceRooms.setDisplayName(roomDisplayName);
         conferenceRoomsPage.doubleClickOnSpecificRoom(conferenceRooms);
         Assert.assertFalse(conferenceRoomsPage.isResourceAssociate(quantity, conferenceRooms));
+    }
+
+
+    @After("@AssignResource")
+    public void deleteResourcesByScenario(){
+        APIManager.getInstance().deleteResourcesById(resourcesCreatedByGiven);
+//        PageTransporter.getInstance().refreshPage();
+//        PageTransporter.getInstance().fixRefreshIsue();
+        PageTransporter.getInstance().refreshPage();
+    }
+
+    @After("@AssignLocation")
+    public void deleteRLocationByScenario(){
+        APIManager.getInstance().deleteLocationByID(locationsCreateByGiven);
+//        PageTransporter.getInstance().refreshPage();
+//        PageTransporter.getInstance().fixRefreshIsue();
+        PageTransporter.getInstance().refreshPage();
+    }
+
+    @After("@ReserveRoom")
+    public void deleteOutOfOrder(){
+        String serviceId = DBQuery.getInstance().getIdByKey("services","name","Microsoft Exchange Server 2010 SP3");
+        String roomId = DBQuery.getInstance().getIdByKey("rooms","displayName",conferenceRooms.getName());
+        String outOfOrderId = DBQuery.getInstance().getIdByKey("outoforders","roomId", conferenceRooms.getId());
+        APIManager.getInstance().deleteOutOfOrder(serviceId,roomId,outOfOrderId);
+        PageTransporter.getInstance().refreshPage();
+    }
+
+    @After("@DisableRoom")
+    public void activateRoom(){
+        APIManager.getInstance().activateConferenceRooms(conferenceRooms.getId());
+        PageTransporter.getInstance().refreshPage();
     }
 
 }

@@ -8,8 +8,6 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-
 import ui.BaseMainPageObject;
 
 import java.util.List;
@@ -45,7 +43,7 @@ public class ConferenceRoomsPage extends BaseMainPageObject {
 
     @Override
     public void waitUntilPageObjectIsLoaded() {
-        wait.until(ExpectedConditions.visibilityOf(rowConferenceRoom));
+//        wait.until(ExpectedConditions.visibilityOf(rowConferenceRoom));
     }
 
     private ConferenceRoomsPage setInputFilterByRoom(String value){
@@ -131,10 +129,13 @@ public class ConferenceRoomsPage extends BaseMainPageObject {
     public void ensureIsNotDisplayedResourceColumns(){
         List<WebElement> resourcesList = resourcesPanel.findElements(By.xpath("//div[@ng-repeat='resource in resources']"));
         for (WebElement option : resourcesList) {
-            System.out.println("************************************** resource name: "+option.getText());
-            if(option.findElement(By.xpath("//div[@ng-repeat='resource in resources']/span[@class='btn btn-default btn-block ng-pristine ng-untouched ng-valid active'][span[contains(text(),'"+option.getText()+"')]]")).isDisplayed()){
-                WebElement op = option.findElement(By.xpath("//div[@ng-repeat='resource in resources']/span[span[contains(text(),'"+option.getText()+"')]]"));
-                op.click();
+            try {
+                if(option.findElement(By.xpath("//div[@ng-repeat='resource in resources']/span[@class='btn btn-default btn-block ng-pristine ng-untouched ng-valid active'][span[contains(text(),'"+option.getText()+"')]]")).isDisplayed()){
+                    WebElement op = option.findElement(By.xpath("//div[@ng-repeat='resource in resources']/span[span[contains(text(),'"+option.getText()+"')]]"));
+                    op.click();
+                }
+            }   catch (Exception e){
+
             }
         }
     }
