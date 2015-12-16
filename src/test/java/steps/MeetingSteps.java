@@ -5,6 +5,7 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import entities.Meeting;
+import framework.BrowserManager;
 import framework.CredentialsManager;
 import org.testng.Assert;
 import ui.PageTransporter;
@@ -65,8 +66,6 @@ public class MeetingSteps {
         Meeting meeting = new Meeting();
         meeting.setOrganizer(organizer);
         meeting.setTitle(subject);
-        //meeting.setFrom(from);
-        //meeting.setTo(to);
         meeting.setNow();
         meeting.setAttendees(attendees);
         meeting.setBody(body);

@@ -18,16 +18,17 @@ public class HeaderMenuPage extends BasePageObject {
     @FindBy(xpath = "//a[@ng-click='removeSession()']")
     WebElement linkSignOut2;
 
-
-
     @FindBy(xpath = "//span[contains(@class, 'ng-binding')]")
     private WebElement textUserName;
 
+<<<<<<< HEAD
     public HeaderMenuPage() {
         PageFactory.initElements(driver, this);
         waitUntilPageObjectIsLoaded();
     }
 
+=======
+>>>>>>> c8be2c5751b41357f34b0a9c4716e297ac6328fb
     public LoginPage clickSignOutSuccessfully() {
         linkSignOut2.click();
         System.out.println("Entered to header click");

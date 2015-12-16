@@ -10,6 +10,8 @@ import entities.OutOfOrders;
 import entities.Resource;
 import framework.APIManager;
 import framework.DBQuery;
+import org.testng.Assert;
+
 import ui.BaseMainPageObject;
 import ui.BasePageConferenceRoom;
 import ui.PageTransporter;
@@ -55,6 +57,7 @@ public class ConferenceRoomSteps {
     public void I_navigate_to_Conference_Rooms_page(){
         conferenceRoomsPage = baseMainPageObject.getSideBarMenu().goToConferenceRoomsPage();
     }
+
 
     @And("I create a resource with the following dates: \"(.*?)\", \"(.*?)\"")
     public void I_create_a_resource_with_the_following_dates(String resourceName, String resourceDisplayName){
@@ -143,9 +146,6 @@ public class ConferenceRoomSteps {
         outOfOrderPlanningPage.setOutOfOrderPlanningNoSuccessful(fromDate,toDate,fromHours,toHours,reason,description);
     }
 
-
-
-
     @And("the Resource association should be obtained using the API for Conference Room")
     public void the_Resource_association_should_be_obtained_using_the_API(){
         String idResource = DBQuery.getInstance().getIdByKey("resourcemodels", "name",resource.getName());
@@ -177,13 +177,11 @@ public class ConferenceRoomSteps {
         String roomId = DBQuery.getInstance().getIdByKey("rooms","displayName",conferenceRooms.getName());
         OutOfOrders outOfOrdersAPI = APIManager.getInstance().getOutOfOrderByTitle(outOfOrders.getTitle(), roomId);
         assertEquals(outOfOrdersAPI.getRoomID(),roomId);
-
 //        ConferenceRooms roomAPI = APIManager.getInstance().getConferenceRoomByName(conferenceRooms.getName());
 //        OutOfOrders outOfOrdersAPI = APIManager.getInstance().getOutOfOrderByTitle(outOfOrders.getTitle(), roomAPI.getId());
 //        assertEquals(outOfOrdersAPI.getRoomID(),roomAPI.getId());
-
-
     }
+
     @And("the Conference Room not should be reserve on the API")
     public void the_Conference_Room_not_should_be_reserve_on_the_API(){
         ConferenceRooms roomAPI = APIManager.getInstance().getConferenceRoomByName(conferenceRooms.getName());
@@ -200,12 +198,18 @@ public class ConferenceRoomSteps {
     @Then("a message should be displayed on the OutOfOrderPage")
     public void messageOnOutOfOrderPage(){
         assertTrue(outOfOrderPlanningPage.messageContent());
-
     }
 
     @When("I cancel the reservation")
     public void I_cancel_the_reservation(){
         conferenceRoomsPage = outOfOrderPlanningPage.cancelReservation();
+    }
+
+    @Then("^the Resource \"(.*?)\" should not be displayed with the quantity \"(.*?)\" list of Conference Room \"(.*?)\"$")
+    public void isTheResourceInAssociatedList(String resourceDispalyName,String quantity,String roomDisplayName){
+        conferenceRooms.setDisplayName(roomDisplayName);
+        conferenceRoomsPage.doubleClickOnSpecificRoom(conferenceRooms);
+        Assert.assertFalse(conferenceRoomsPage.isResourceAssociate(quantity, conferenceRooms));
     }
 
 }

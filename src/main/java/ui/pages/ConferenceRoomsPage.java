@@ -8,6 +8,10 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+<<<<<<< HEAD
+=======
+import org.openqa.selenium.support.ui.ExpectedConditions;
+>>>>>>> c8be2c5751b41357f34b0a9c4716e297ac6328fb
 import ui.BaseMainPageObject;
 
 import java.util.List;
@@ -33,6 +37,12 @@ public class ConferenceRoomsPage extends BaseMainPageObject {
     @CacheLookup
     private WebElement inputFilterByRoom;
 
+<<<<<<< HEAD
+=======
+    @FindBy(xpath = "//div[contains(@class,'ng-scope ngRow')]")
+    private WebElement rowConferenceRoom;
+
+>>>>>>> c8be2c5751b41357f34b0a9c4716e297ac6328fb
     public ConferenceRoomsPage() {
         PageFactory.initElements(driver, this);
         waitUntilPageObjectIsLoaded();
@@ -40,7 +50,11 @@ public class ConferenceRoomsPage extends BaseMainPageObject {
 
     @Override
     public void waitUntilPageObjectIsLoaded() {
+<<<<<<< HEAD
 //        wait.until(ExpectedConditions.visibilityOf(roomsTable.findElement(By.xpath("//div[@ng-style='rowStyle(row)']"))));
+=======
+        wait.until(ExpectedConditions.visibilityOf(rowConferenceRoom));
+>>>>>>> c8be2c5751b41357f34b0a9c4716e297ac6328fb
     }
 
     private ConferenceRoomsPage setInputFilterByRoom(String value){
