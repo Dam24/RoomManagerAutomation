@@ -39,6 +39,7 @@ public class PageTransporter {
      */
     private String baseServerPage="https://172.20.208.216:4040/admin/#/admin/servers" ;
     private String baseResourcesPage="https://172.20.208.216:4040/admin/#/admin/resources" ;
+    private String baseConferenceRooms="https://172.20.208.216:4040/admin/#/admin/rooms" ;
     private static PageTransporter instance;
 
     protected PageTransporter() {
@@ -84,17 +85,23 @@ public class PageTransporter {
         goToURL(baseResourcesPage);
         return  new ResourcePage();
     }
+
+    public ConferenceRoomsPage navigateToConferenceRoomsPage(){
+        goToURL(baseConferenceRooms);
+        return new ConferenceRoomsPage();
+    }
+
     public void navigateToServerPage(){
         goToURL(baseServerPage);
     }
+
     public void closeLoginPage(){
         driver.close();
     }
 
     public void fixRefreshIsue(){
         driver.navigate().refresh();
-        navigateToServerPage();
-        navigateToResourcePage();
+        navigateToMainPage();
     }
 
 }
