@@ -108,6 +108,6 @@ public class PageTransporter {
 
     public void refreshPage(){
         driver.navigate().refresh();
-//        navigateToMainPage();
+        navigateToMainPage();
     }
 }

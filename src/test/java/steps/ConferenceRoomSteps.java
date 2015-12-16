@@ -1,5 +1,6 @@
 package steps;
 
+import cucumber.api.java.After;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -11,7 +12,6 @@ import entities.Resource;
 import framework.APIManager;
 import framework.DBQuery;
 import org.testng.Assert;
-
 import ui.BaseMainPageObject;
 import ui.BasePageConferenceRoom;
 import ui.PageTransporter;
@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import static org.junit.Assert.*;
-
 
 /**
  * Created with IntelliJ IDEA.
@@ -53,6 +52,9 @@ public class ConferenceRoomSteps {
         baseMainPageObject = new BaseMainPageObject();
     }
 
+    private ArrayList<Resource> resourcesCreatedByGiven = new ArrayList<>();
+    private ArrayList<Location> locationsCreateByGiven = new ArrayList<>();
+
     @Given("I navigate to Conference Rooms page")
     public void I_navigate_to_Conference_Rooms_page(){
         conferenceRoomsPage = baseMainPageObject.getSideBarMenu().goToConferenceRoomsPage();
@@ -65,17 +67,14 @@ public class ConferenceRoomSteps {
         resource.setDisplayName(resourceName);
         ArrayList<String> resourcesNameArray = new ArrayList<String>();
         Collections.addAll(resourcesNameArray, resource.getName().split(","));
-        APIManager.getInstance().createResourcesByName(resourcesNameArray);
+        resourcesCreatedByGiven = APIManager.getInstance().createResourcesByName(resourcesNameArray);
         PageTransporter.getInstance().refreshPage();
-        PageTransporter.getInstance().fixRefreshIsue();
-
     }
 
     @And("I displayed the \"(.*?)\" Resource in the Conference Room's Table")
     public void I_displayed_the_Resource_in_the_Conference_Rooms_Table(String  resourceDisplayName){
         conferenceRoomsPage.ensureIsNotDisplayedResourceColumns();
         conferenceRoomsPage.clickOnSpecificResource(resource);
-
     }
 
     @When("I associate the \"(.*?)\" Resource to the \"(.*?)\" Conference Room with quantity \"(.*?)\"")
@@ -105,8 +104,8 @@ public class ConferenceRoomSteps {
         location.setDisplayName(locationDisplayName);
         ArrayList<String> locationsNameArray = new ArrayList<String>();
         Collections.addAll(locationsNameArray, location.getName().split(","));
-        APIManager.getInstance().createLocationsByName(locationsNameArray);
-        PageTransporter.getInstance().fixRefreshIsue();
+        locationsCreateByGiven = APIManager.getInstance().createLocationsByName(locationsNameArray);
+        PageTransporter.getInstance().refreshPage();
     }
 
     @When("I associate the \"(.*?)\" Conference Room with the Location in the Room Info page")
@@ -143,6 +142,7 @@ public class ConferenceRoomSteps {
     public void I_reserve_the_Conference_Room_with_the_following_information(String roomName, String fromDate, String toDate, String fromHours, String toHours, String reason, String description){
         conferenceRooms.setName(roomName);
         conferenceRooms.setDisplayName(roomName);
+        outOfOrders.setTitle(reason);
         roomInfoPage = conferenceRoomsPage.doubleClickOnSpecificRoom(conferenceRooms);
         outOfOrderPlanningPage = roomInfoPage.gotoOutOfOrderPlanningPage();
         outOfOrderPlanningPage.setOutOfOrderPlanningNoSuccessful(fromDate,toDate,fromHours,toHours,reason,description);
@@ -153,13 +153,7 @@ public class ConferenceRoomSteps {
         String idResource = DBQuery.getInstance().getIdByKey("resourcemodels", "name",resource.getName());
         String idConferenceRoom = DBQuery.getInstance().getIdByKey("rooms", "displayName", conferenceRooms.getName());
         Resource resourceOnCR = APIManager.getInstance().getResourceInConferenceRoomById(idConferenceRoom,idResource);
-
-//        ConferenceRooms roomAPI = APIManager.getInstance().getConferenceRoomByName(conferenceRooms.getName());
-//        Resource resourceAPI = APIManager.getInstance().getResourceByName(resource.getDisplayName());
-//        Resource resourceOnCR = APIManager.getInstance().getResourceInConferenceRoomById(roomAPI.getId(),resourceAPI.getID());
-
         assertEquals(resource.getQuantity(), resourceOnCR.getQuantity());
-//        assertEquals(resourceAPI.getID(),resourceOnCR.getID());
     }
 
     @And("the Conference Room should be associated with Location on API")
@@ -179,9 +173,6 @@ public class ConferenceRoomSteps {
         String roomId = DBQuery.getInstance().getIdByKey("rooms","displayName",conferenceRooms.getName());
         OutOfOrders outOfOrdersAPI = APIManager.getInstance().getOutOfOrderByTitle(outOfOrders.getTitle(), roomId);
         assertEquals(outOfOrdersAPI.getRoomID(),roomId);
-//        ConferenceRooms roomAPI = APIManager.getInstance().getConferenceRoomByName(conferenceRooms.getName());
-//        OutOfOrders outOfOrdersAPI = APIManager.getInstance().getOutOfOrderByTitle(outOfOrders.getTitle(), roomAPI.getId());
-//        assertEquals(outOfOrdersAPI.getRoomID(),roomAPI.getId());
     }
 
     @And("the Conference Room not should be reserve on the API")
@@ -212,6 +203,34 @@ public class ConferenceRoomSteps {
         conferenceRooms.setDisplayName(roomDisplayName);
         conferenceRoomsPage.doubleClickOnSpecificRoom(conferenceRooms);
         Assert.assertFalse(conferenceRoomsPage.isResourceAssociate(quantity, conferenceRooms));
+    }
+
+
+    @After("@AssignResource")
+    public void deleteResourcesByScenario(){
+        APIManager.getInstance().deleteResourcesById(resourcesCreatedByGiven);
+        PageTransporter.getInstance().refreshPage();
+    }
+
+    @After("@AssignLocation")
+    public void deleteRLocationByScenario(){
+        APIManager.getInstance().deleteLocationByID(locationsCreateByGiven);
+        PageTransporter.getInstance().refreshPage();
+    }
+
+    @After("@ReserveRoom")
+    public void deleteOutOfOrder(){
+        String serviceId = DBQuery.getInstance().getIdByKey("services","name","Microsoft Exchange Server 2010 SP3");
+        String roomId = DBQuery.getInstance().getIdByKey("rooms","displayName",conferenceRooms.getName());
+        String outOfOrderId = DBQuery.getInstance().getIdByKey("outoforders","roomId", conferenceRooms.getId());
+        APIManager.getInstance().deleteOutOfOrder(serviceId,roomId,outOfOrderId);
+        PageTransporter.getInstance().refreshPage();
+    }
+
+    @After("@DisableRoom")
+    public void activateRoom(){
+        APIManager.getInstance().activateConferenceRooms(conferenceRooms.getId());
+        PageTransporter.getInstance().refreshPage();
     }
 
 }

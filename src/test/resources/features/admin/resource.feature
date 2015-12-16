@@ -1,14 +1,14 @@
 @Resources
 Feature: Resources
   Background:
-  Given I sign in to Main page with user name "BrayanRosas" and password "Client123"
+    Given I sign in to Main page with user name "BrayanRosas" and password "Client123"
 
   Scenario: Cannot create two Resources with the same Name
     When I try to create the Resource Name "Computer", "PC" in the Resource page
     Then an error text "A resource with the same name already exists, please choose another name" is showed in the Resource form
     When I navigate to Resources page from AddResource
     Then only one Resource with the same name should be displayed in Resource list
-      And only one Resource with name "Computer" should be obtained by API
+    And only one Resource with name "Computer" should be obtained by API
 
   @ResourceFilter
   Scenario: Search Resources that match the search criteria
@@ -20,6 +20,6 @@ Feature: Resources
     When I delete the Resource "Computer Assigned"
     Then the Resource "Computer Assigned" should not be displayed in the Resources list
     When I navigate to Tablet page
-     And I select the "Floor1Room16" Conference Room
+    And I select the "Floor1Room16" Conference Room
     Then the Resource "Computer Assigned" should not be displayed in the Resource Tablet list
-      And the Resource "Computer Assigned" should not be obtained using the API
+    And the Resource "Computer Assigned" should not be obtained using the API

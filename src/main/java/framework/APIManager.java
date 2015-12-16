@@ -2,16 +2,9 @@ package framework;
 
 import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.path.json.JsonPath;
-
 import com.jayway.restassured.response.Response;
-import entities.ConferenceRooms;
-import entities.Location;
-import entities.OutOfOrders;
-
 import common.EnumKeys;
-import entities.Meeting;
-
-import entities.Resource;
+import entities.*;
 import org.json.JSONArray;
 
 import java.util.ArrayList;
@@ -62,7 +55,7 @@ public class APIManager {
                 .header("Authorization", "jwt " + token)
                 .parameters(EnumKeys.RESOURCEKEY.name, name, EnumKeys.RESOURCEKEY.description, "",
                         EnumKeys.RESOURCEKEY.customName, name, EnumKeys.RESOURCEKEY.from, "",
-                        EnumKeys.RESOURCEKEY.icon, "")
+                        EnumKeys.RESOURCEKEY.icon, "fa fa-filter")
                 .post("/resources")
                 ;
 
@@ -144,9 +137,12 @@ public class APIManager {
         return resources;
     }
 
-    public void createLocationsByName(ArrayList<String> locationsName) {
-        for (String name : locationsName)
+    public ArrayList<Location> createLocationsByName(ArrayList<String> locationsName) {
+        ArrayList<Location> locations = new ArrayList<>();
+        for (String name : locationsName) {
             createLocationByName(name);
+        }
+        return locations;
     }
 
     public void deleteResourcesById(ArrayList<Resource> resources) {
@@ -155,9 +151,26 @@ public class APIManager {
         }
     }
 
-    public void deleteLocationByID(ArrayList<String> locationsID) {
-        for (String _id : locationsID)
-            deleteLocationByID(_id);
+    public void deleteLocationByID(ArrayList<Location> locations) {
+        for (Location location : locations) {
+            deleteLocationByID(location.getId());
+        }
+    }
+
+    public void deleteOutOfOrder(String serviceId, String roomId, String outOfOrderId){
+        given()
+                .header("Authorization", "jwt " + token)
+                .delete("/services/"+serviceId+"rooms/"+roomId+"/out-of-orders"+outOfOrderId)
+                ;
+
+    }
+
+    public void activateConferenceRooms(String roomId){
+        given()
+                .header("Authorization", "jwt "+ token)
+                .parameters("enabled", true)
+                .put("/rooms/"+roomId)
+                ;
     }
 
     public Resource getResourceByID(String id) {
@@ -252,7 +265,7 @@ public class APIManager {
     }
 
     public ArrayList<Resource> getResources() {
-        ArrayList<Resource> resources = new ArrayList<Resource>();
+        ArrayList<Resource> resources = new ArrayList<>();
 
         Response response = given().when().get("/resources");
         JSONArray jsonArray = new JSONArray(response.asString());
@@ -269,7 +282,7 @@ public class APIManager {
     }
 
     public ArrayList<Location> getLocations() {
-        ArrayList<Location> locations = new ArrayList<Location>();
+        ArrayList<Location> locations = new ArrayList<>();
 
         Response response = given().when().get("/locations");
         JSONArray jsonArray = new JSONArray(response.asString());
@@ -287,10 +300,10 @@ public class APIManager {
 
     public Meeting createMeeting(String organizer,String title,String start,String end,String location,String roomEmail,String resources,String attendees,String roomId ) {
 
-        ArrayList<String> resourcesValues = new ArrayList<String>();
+        ArrayList<String> resourcesValues = new ArrayList<>();
         resourcesValues.add(resources);
 
-        ArrayList<String> attendeesValues = new ArrayList<String>();
+        ArrayList<String> attendeesValues = new ArrayList<>();
         attendeesValues.add(attendees);
 
         Meeting meeting = new Meeting();
