@@ -33,9 +33,9 @@ public class Meeting {
         to = newTo;
     }
 
-    public void setNow() {
-        setFrom(Calendar.getInstance()
-                        .get(Calendar.HOUR_OF_DAY)+":"+
+    public void setNow(String from, String to) {
+        setFrom((Calendar.getInstance()
+                        .get(Calendar.HOUR_OF_DAY)+1)+":"+
                     Calendar.getInstance()
                             .get(Calendar.MINUTE)
         );
@@ -43,7 +43,7 @@ public class Meeting {
         setTo(Calendar.getInstance()
                         .get(Calendar.HOUR_OF_DAY)+":"+
                 (Calendar.getInstance()
-                         .get(Calendar.MINUTE)+10)
+                         .get(Calendar.MINUTE)+5)
         );
     }
 

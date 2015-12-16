@@ -54,9 +54,11 @@ public class LoginTablePage extends BasePageObject {
     }
 
     public void sigInToTable(String serverUrl,String user,String password){
-
+        inputServiceUrl.clear();
         inputServiceUrl.sendKeys(serverUrl);
+        inputUserName.clear();
         inputUserName.sendKeys(user);
+        inputPassword.clear();
         inputPassword.sendKeys(password);
         buttonSignIn.click();
         wait.until(ExpectedConditions.visibilityOf(inputSelectedRoom));
@@ -71,5 +73,4 @@ public class LoginTablePage extends BasePageObject {
         return  new MainTablePage();
         //div[@class='item-box']//strong[text()='Floor1Room6']/parent::a
     }
-
 }

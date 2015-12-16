@@ -26,7 +26,7 @@
             "id": "RM02",
             "admin URL": "https://172.20.208.216:4040/admin/#/login",
             "main URL":"https://172.20.208.216:4040/admin/#/admin",
-            "tablet URL": "https://172.20.208.216:4040/tablet",
+            "tablet URL": "https://172.20.208.216:4040/tablet/#/register",
             "room manager service": "https://172.20.208.216:4040",
             "admin user": {
                 "name": "BrayanRosas",

@@ -17,6 +17,7 @@ import ui.BasePageObject;
  * To change this template use File | Settings | File Templates.
  */
 public class ScheduleTabletPage extends BasePageObject {
+    private HeaderTabletPage headerTabletPage;
 
     @FindBy(xpath= "//div[@class='header-secondary-bar']")
     private WebElement headerBarSecond;
@@ -51,12 +52,31 @@ public class ScheduleTabletPage extends BasePageObject {
     @FindBy(xpath = "//button[contains(@ng-click, 'dialog.ok()')]")
     private WebElement buttonCredentialsAccept;
 
+    @FindBy(xpath = "//button[contains(@ng-click, 'dialog.modalDismiss()')]")
+    private WebElement buttonCredentialsCancel;
+
     @FindBy(css = "div.ng-binding.ng-scope")
     private WebElement dialogCreateMeetingMessage;
+
+    @FindBy(xpath = "//div[contains(@class, 'toast ng-scope toast-error')]")
+    private WebElement dialogErrorCreateMeetingMessage;
+
+    @FindBy(xpath = "//small[contains(@ng-show, 'formErrors.organizer')]")
+    private WebElement labelErrorOrganizer;
+
+    @FindBy(xpath = "//small[contains(@ng-show, 'formErrors.title')]")
+    private WebElement labelErrorSubject;
+
+    @FindBy(xpath = "//button/span[contains(text(),'Remove')]")
+    private WebElement buttonDeleteMeeting;
+
+    @FindBy(css = "css=div.vis-panel.vis-center")
+    private WebElement containerMeetings;
 
     private Meeting meeting;
 
     public ScheduleTabletPage() {
+        headerTabletPage = new HeaderTabletPage();
         PageFactory.initElements(driver, this);
         waitUntilPageObjectIsLoaded();
     }
@@ -75,6 +95,10 @@ public class ScheduleTabletPage extends BasePageObject {
         inputTo.sendKeys(meeting.getTo());
         inputAttendees.sendKeys(meeting.getAttendees());
         textAreaBody.sendKeys(meeting.getBody());
+        return this;
+    }
+
+    public ScheduleTabletPage clickOnCreateMeeting() {
         buttonCreateMeeting.click();
         return this;
     }
@@ -97,21 +121,68 @@ public class ScheduleTabletPage extends BasePageObject {
                 )
         ;
         buttonCredentialsAccept.click();
-        wait.until(ExpectedConditions.visibilityOf(dialogCreateMeetingMessage));
         return this;
     }
 
     public boolean isSuccessfullyMessageDisplayed(String message) {
+        //BrowserManager.getInstance().setImplicitWait(4);
+        System.out.println("MESSAGE DISPLAYED - "+dialogCreateMeetingMessage.getText());
+        System.out.println("MESSAGE SENDED - "+message);
         return dialogCreateMeetingMessage.getText().equalsIgnoreCase(message);
+    }
+
+    public boolean isConflictMessageDisplayed(String message) {
+        System.out.println("MESSAGE DISPLAYED - "+dialogErrorCreateMeetingMessage.getText());
+        System.out.println("MESSAGE SENDED - "+message);
+        return dialogErrorCreateMeetingMessage.getText().equalsIgnoreCase(message);
+    }
+
+    public boolean errorMessageIsDisplayed(String message) {
+        return (labelErrorOrganizer.getText().equalsIgnoreCase(message)) ||
+               (labelErrorSubject.getText().equalsIgnoreCase(message));
     }
 
     public boolean isMeetingPresentScheduleBar() {
         return isPresent(
                             By
                             .xpath(
-                                    "//div[@class='vis-item-content']/span[contains(text(), '"+meeting.getTitle()+"')]"
+                                    "//div[@class='vis-item-content']/span[contains(text(), '" + meeting.getTitle() + "')]"
                             )
                         )
         ;
+    }
+
+    public MainTablePage clickMainTabletPage() {
+        return headerTabletPage.clickGoMainTabletPage();
+    }
+
+    public Meeting getMeeting() {
+        return meeting;
+    }
+
+    public ScheduleTabletPage clickOnCancelCredentials() {
+        buttonCredentialsCancel.click();
+        return this;
+    }
+
+    public ScheduleTabletPage clickOnDeleteMeeting() {
+        driver.findElement(By.xpath("//div[@class='vis-item-content']/span[contains(text(), '" +
+                            meeting.getTitle() + "')]/parent::div/parent::div/parent::div"))
+        .click();
+        buttonDeleteMeeting.click();
+        return this;
+    }
+
+    public ScheduleTabletPage typeCredentialsExchangePassword() {
+        inputCredentialsPassword.clear();
+        inputCredentialsPassword
+                .sendKeys(
+                        CredentialsManager
+                                .getInstance()
+                                .getExchangeUserPassword()
+                )
+        ;
+        buttonCredentialsAccept.click();
+        return this;
     }
 }
