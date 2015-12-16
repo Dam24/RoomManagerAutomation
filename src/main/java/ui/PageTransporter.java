@@ -1,6 +1,5 @@
 package ui;
 
-import common.EnumOptions;
 import framework.BrowserManager;
 import framework.CredentialsManager;
 import org.openqa.selenium.WebDriver;
@@ -109,10 +108,6 @@ public class PageTransporter {
 
     public void refreshPage(){
         driver.navigate().refresh();
-<<<<<<< HEAD
-        navigateToMainPage();
-=======
->>>>>>> c8be2c5751b41357f34b0a9c4716e297ac6328fb
+//        navigateToMainPage();
     }
-
 }

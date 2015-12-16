@@ -60,14 +60,11 @@ public class APIManager {
         Resource resource = new Resource();
         Response response = given()
                 .header("Authorization", "jwt " + token)
-                .parameters("name", name, "description", "",
-                            "customName", name, "from", "",
-                            "fontIcon", "fa fa-desktop")
                 .parameters(EnumKeys.RESOURCEKEY.name, name, EnumKeys.RESOURCEKEY.description, "",
-                            EnumKeys.RESOURCEKEY.customName, name, EnumKeys.RESOURCEKEY.from, "",
-                            EnumKeys.RESOURCEKEY.icon, "")
+                        EnumKeys.RESOURCEKEY.customName, name, EnumKeys.RESOURCEKEY.from, "",
+                        EnumKeys.RESOURCEKEY.icon, "")
                 .post("/resources")
-        ;
+                ;
 
         String json = response.asString();
         JsonPath jp = new JsonPath(json);
@@ -226,7 +223,7 @@ public class APIManager {
 
     public Resource getResourceInConferenceRoomById(String roomId, String resourceId){
         Resource resource = new Resource();
-        Response response = given().when().get("/rooms/"+roomId+"/resources");
+        Response response = given().when().get("/rooms/" + roomId + "/resources");
         JSONArray jsonArray = new JSONArray(response.asString());
         System.out.println("JSON - "+jsonArray);
         for (int indice = 0; indice < jsonArray.length(); indice++) {
