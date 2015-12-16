@@ -8,7 +8,11 @@ import framework.BrowserManager;
 import org.apache.log4j.Logger;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
+import steps.hooks.FeatureHooks;
+import org.testng.annotations.AfterMethod;
 import ui.PageTransporter;
+
+import java.sql.SQLException;
 
 /**
  * Created with IntelliJ IDEA.
@@ -25,6 +29,7 @@ import ui.PageTransporter;
         monochrome = true)
 
 public class RunnerCukesTest extends AbstractTestNGCucumberTests {
+
 
     private static Logger log = Logger.getLogger("RunCukesTest");
 
@@ -43,7 +48,6 @@ public class RunnerCukesTest extends AbstractTestNGCucumberTests {
         try {
             if (CommonMethod.isInTheTabletPage()){
                BrowserManager.getInstance().quitBrowser();
-
             }
             if(CommonMethod.theUserIsLogIn() ){
                 System.out.println("The user is logged");
@@ -54,8 +58,12 @@ public class RunnerCukesTest extends AbstractTestNGCucumberTests {
                 BrowserManager.getInstance().quitBrowser();
             }
         } catch (Exception e) {
-            System.out.println("CATCH - "+e);
             log.error("Unable to logout after execution", e);
         }
+    }
+
+    @AfterMethod
+    public void afterFeatureMethod() throws SQLException, ClassNotFoundException {
+        FeatureHooks.executeAfterHookMethod();
     }
 }
