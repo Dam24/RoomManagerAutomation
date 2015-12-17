@@ -112,7 +112,7 @@ public class ResourceStep {
 
     @And("^the Resource \"([^\\\"]*)\" should not be obtained using the API$")
     public void theResourceIsPresentInAPI(String resourceName){
-        String idResource=DBQuery.getInstance().getIdByKey(EnumKeys.RESOURCEKEY.nameCollection, EnumKeys.RESOURCEKEY.name,resourceName);
+        String idResource=DBQuery.getInstance().getIdByKey(EnumKeys.RESOURCE_KEY.nameCollection, EnumKeys.RESOURCE_KEY.name,resourceName);
         Resource res1=APIManager.getInstance().getResourceByID(idResource) ;
         Assert.assertNull(res1.getName());
     }

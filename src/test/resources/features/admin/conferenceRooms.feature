@@ -1,6 +1,5 @@
-#
-@ConferenceRooms
-Feature: Conference Room to administrate room and resources
+@Rooms
+Feature: Rooms
 #
 #    Background:
 ##      Given I login as "DamianVP" with password "Client123"
@@ -30,7 +29,7 @@ Feature: Conference Room to administrate room and resources
 
   Examples:
     |Room Name     |From Date|To Date|From Hrs|To Hrs|Reason                   |Description           |Message                   |
-    |Floor1Room12  |5        |8      |10      |11     |Closed for reparations   |this is a description |Room successfully Modified|
+    |Floor1Room14  |5        |8      |10      |11     |Closed for reparations   |this is a description |Room successfully Modified|
 
   @ReserveRoomNegative
   Scenario Outline: User not should be able to reserve a Conference Room with incorrect dates.
@@ -70,9 +69,5 @@ Feature: Conference Room to administrate room and resources
 
   Examples:
     |Room Name       |Message                             |
-    |Floor1Room15    |Room Floor1Room15 was disabled      |
-#
-###Examples:
-###|Location Name |Resource Name |
-###|LLLLLLL       |RRRRRRR       |
-##
+    |Floor1Room14    |Room Floor1Room14 was disabled      |
+
