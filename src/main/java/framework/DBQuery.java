@@ -79,6 +79,14 @@ public class DBQuery {
         return res;
     }
 
+    public String getMeetingIdByName(String nameMeeting) {
+        return getIdByKey("meetings", "title", nameMeeting);
+    }
+
+    public String getRoomIdByName(String nameRoom) {
+        return getIdByKey("rooms", "displayName", nameRoom);
+    }
+
     public void closeMongoDB() {
         DBManager.getInstance().closeMongoDB();
     }

@@ -6,6 +6,7 @@
             "admin URL": "https://172.20.208.195:4040/admin/#/login",
             "tablet URL": "https://172.20.208.195:4040/tablet",
             "room manager service": "https://172.20.208.195:4040",
+            "roomName":"Floor1Room70",
             "admin user": {
                 "name": "awagner",
                 "password": "Client123"
@@ -27,13 +28,14 @@
             "admin URL": "https://172.20.208.216:4040/admin/#/login",
             "main URL":"https://172.20.208.216:4040/admin/#/admin",
             "tablet URL": "https://172.20.208.216:4040/tablet/#/register",
+            "roomName":"Floor1Room71",
             "room manager service": "https://172.20.208.216:4040",
             "admin user": {
                 "name": "BrayanRosas",
                 "password": "Client123"
             },
             "tablet user": {
-                "name": "DamianVP",
+                "name": "BrayanRosas",
                 "password": "Client123"
             },
             "exchange user": {
@@ -53,6 +55,7 @@
             "admin URL": "https://172.20.208.120:4040/admin/#/login",
             "tablet URL": "https://172.20.208.120:4040/tablet",
             "room manager service": "https://172.20.208.120:4040",
+            "roomName":"Floor1Room70",
             "admin user": {
                 "name": "test",
                 "password": "Client123"

@@ -53,7 +53,7 @@ public class LoginTablePage extends BasePageObject {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    public void sigInToTable(String serverUrl,String user,String password){
+    public LoginTablePage sigInToTable(String serverUrl,String user,String password){
         inputServiceUrl.clear();
         inputServiceUrl.sendKeys(serverUrl);
         inputUserName.clear();
@@ -62,7 +62,7 @@ public class LoginTablePage extends BasePageObject {
         inputPassword.sendKeys(password);
         buttonSignIn.click();
         wait.until(ExpectedConditions.visibilityOf(inputSelectedRoom));
-
+        return this;
     }
 
     public MainTablePage selectSomeConferenceRooms(String conferenceRoomName){

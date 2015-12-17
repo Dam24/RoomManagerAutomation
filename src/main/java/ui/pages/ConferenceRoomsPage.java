@@ -69,8 +69,6 @@ public class ConferenceRoomsPage extends BaseMainPageObject {
 
     public RoomInfoPage doubleClickOnSpecificRoom(ConferenceRooms room){
         Actions action = new Actions(driver);
-//        setInputFilterByRoom(room.getDisplayName());
-
         WebElement buttonRoom = searchRoom(room.getDisplayName());
         action.moveToElement(buttonRoom).perform();
         action.doubleClick(buttonRoom).perform();
@@ -126,8 +124,13 @@ public class ConferenceRoomsPage extends BaseMainPageObject {
     public void ensureIsNotDisplayedResourceColumns(){
         List<WebElement> resourcesList = resourcesPanel.findElements(By.xpath("//div[@ng-repeat='resource in resources']"));
         for (WebElement option : resourcesList) {
-            WebElement op = option.findElement(By.xpath("//div[@ng-repeat='resource in resources']/span[span[contains(text(),'"+option.getText()+"')]]"));
-            op.click();
+            try {
+                if(option.findElement(By.xpath("//div[@ng-repeat='resource in resources']/span[@class='btn btn-default btn-block ng-pristine ng-untouched ng-valid active'][span[contains(text(),'"+option.getText()+"')]]")).isDisplayed()){
+                    WebElement op = option.findElement(By.xpath("//div[@ng-repeat='resource in resources']/span[span[contains(text(),'"+option.getText()+"')]]"));
+                    op.click();
+                }
+            } catch (Exception e){
+            }
         }
     }
 }

@@ -38,7 +38,7 @@ public class FeatureHooks {
         }
     }
 
-    public static void executeAfterHookMethod() throws SQLException, ClassNotFoundException {
+    public static void executeAfterHookMethod() {
 
         //Run the after hook method if the (feature, after hook method) was added to the map
         if (featuresHooksMap.get(lastFeature) != null) {
@@ -60,5 +60,18 @@ public class FeatureHooks {
 
     public void afterResourceFeature() {
       SetUpResources.afterResourceFeature();
+    }
+
+    @Before("@Meetings")
+    public void beforeMeetingsFeature() {
+        featuresHooksMap.put("meetings", () -> afterMeetingsFeature());
+        if (!featureFlag) {
+            SetUpMeetings.beforeMeetingFeature();
+            featureFlag = true;
+        }
+    }
+
+    public void afterMeetingsFeature() {
+        SetUpMeetings.afterMeetingsFeature();
     }
 }

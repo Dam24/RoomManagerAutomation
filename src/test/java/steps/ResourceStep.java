@@ -1,7 +1,7 @@
 package steps;
 
+import common.EnumKeys;
 import cucumber.api.java.After;
-import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -10,7 +10,6 @@ import entities.Resource;
 import framework.APIManager;
 import framework.DBQuery;
 import org.testng.Assert;
-import steps.hooks.SetUpResources;
 import ui.BaseMainPageObject;
 import ui.PageTransporter;
 import ui.pages.*;
@@ -111,7 +110,7 @@ public class ResourceStep {
 
     @And("^the Resource \"([^\\\"]*)\" should not be obtained using the API$")
     public void theResourceIsPresentInAPI(String resourceName){
-        String idResource=DBQuery.getInstance().getIdByKey("resourcemodels","name",resourceName);
+        String idResource=DBQuery.getInstance().getIdByKey(EnumKeys.RESOURCEKEY.nameCollection, EnumKeys.RESOURCEKEY.name,resourceName);
         Resource res1=APIManager.getInstance().getResourceByID(idResource) ;
         Assert.assertNull(res1.getName());
     }

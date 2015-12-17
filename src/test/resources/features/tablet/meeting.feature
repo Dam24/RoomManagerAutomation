@@ -47,38 +47,3 @@ Feature: Meetings
 #    When I create a meeting with the following information: "<Organizer>", "<Subject>", "<From>", "<To>", "<Attendees>", "<Body>"
 #    Then an error "<Message>" message should be displayed
 #    And the meeting should not be displayed in the Schedule bar
-#    And the meeting information should not be displayed in the Next section of Main page
-#    And the meeting should not be listed in the meetings of Room using the API
-#
-#  Examples:
-#    | Organizer       | Subject             | From    | To      | Attendees | Body                  | Message                      |
-#    | jhasmany.quiroz | Meeting #4          | 10:35   | 10:40   |           | This is a message     | There is a conflict with another meeting, please choose another time interval |
-#    | jhasmany.quiroz | Meeting #5          | 10:35   | 10:40   |           | This is a message     | There is a conflict with another meeting, please choose another time interval |
-
-
-#  Scenario: Try to create a meeting in the room out of order
-#    Given I have a room "" with a state Out Of Order between the hours "" to ""
-#    And I navigate to Available section
-#    When I create a meeting with the following information: "fblajbf", "kdf", "8:00", "9:00", "jidflg", "jdslf"
-#    Then an error "<djkfdskljfalsd>" message should be displayed
-#    And the meesting should not be displayed in the Schedule bar
-#    And the meeting information should not be displayed in the Next section of Main page
-#    And the meeting should not be listed in the meetings of Room using the API
-#
-#  Scenario: Update a meeting
-#    Given I navigate to Schedule page
-#    And I create a meeting with the following information: "jhasmany.quiroz", "Meeting #4", "10:35", "10:40", "", "This is a message"
-#    When I update the meeting information: "Meeting Update", "12:35", "12:40", "", "This is a message update"
-#    Then an information message should be displayed
-#    And the meeting should be displayed in the Schedule bar
-#    And the meeting information should be displayed in the Next section of Main page
-#    And the meeting should be listed in the meetings of Room using the API
-
-#  Scenario: Remove a meeting
-#    Given I navigate to Schedule page
-#    And I create a meeting with the following information: "fblajbf", "kdf", "8:00", "9:00", "jidflg", "jdslf"
-#    When I remove the meeting
-#    Then an information message should be displayed
-#    And the meeting should be removed from the the Schedule bar
-#    And the meeting information should be removed from the Next section of Main page
-#    And the meeting should be listed in the meetings of Room using the API

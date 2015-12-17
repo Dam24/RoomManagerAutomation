@@ -1,16 +1,15 @@
 package steps;
 
-import common.CommonMethod;
+import cucumber.api.java.After;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import entities.Meeting;
-import framework.BrowserManager;
+import framework.APIManager;
 import framework.CredentialsManager;
+import framework.DBQuery;
 import org.testng.Assert;
-import ui.PageTransporter;
-import ui.pages.tablet.LoginTablePage;
 import ui.pages.tablet.MainTablePage;
 import ui.pages.tablet.ScheduleTabletPage;
 
@@ -22,39 +21,13 @@ import ui.pages.tablet.ScheduleTabletPage;
  * To change this template use File | Settings | File Templates.
  */
 public class MeetingsSteps {
-    private LoginTablePage loginTablePage;
     private MainTablePage mainTablePage;
     private ScheduleTabletPage scheduleTabletPage;
-    private PageTransporter pageTransporter = PageTransporter.getInstance();
     private Meeting meeting = new Meeting();
-
-    @Given("^I'm Sign In the login page selecting the Room \"([^\\\"]*)\"$")
-    public void sigInInTheLoginPageSelectingTheRoom(String room) {
-        System.out.println("STATUS LOGIN - "+CommonMethod.isInTheTabletPage());
-        //Sino estoy logueado loguearme
-        if (!CommonMethod.isInTheTabletPage()) {
-            System.out.println("LOGIN AND SELECTING - IF");
-            loginTablePage = pageTransporter.navigateToLoginTablePage();
-            loginTablePage.sigInToTable(
-                    CredentialsManager
-                            .getInstance()
-                            .getRoomManagerService(),
-                    CredentialsManager
-                            .getInstance()
-                            .getTabletUserName(),
-                    CredentialsManager
-                            .getInstance()
-                            .getTabletUserPassword())
-            ;
-            mainTablePage = loginTablePage.selectSomeConferenceRooms(room);
-        } else {
-            System.out.println("LOGIN AND SELECTING - ELSE");
-            scheduleTabletPage = mainTablePage.clickScheduleButton();
-        }
-    }
 
     @Given("^I navigate to Schedule page$")
     public void navigateToSchedulePage(){
+        mainTablePage = new MainTablePage();
         scheduleTabletPage = mainTablePage.clickScheduleButton();
     }
 
@@ -64,9 +37,9 @@ public class MeetingsSteps {
                                                       String attendees, String body) {
         meeting.setOrganizer(organizer);
         meeting.setTitle(subject);
-        //meeting.setNow(from, to);
-        meeting.setFrom(from);
-        meeting.setTo(to);
+        meeting.setNow(from, to);
+//        meeting.setFrom(from);
+//        meeting.setTo(to);
         meeting.setAttendees(attendees);
         meeting.setBody(body);
         scheduleTabletPage = scheduleTabletPage
@@ -109,6 +82,11 @@ public class MeetingsSteps {
 
     @And("^the meeting should be listed in the meetings of Room using the API$")
     public void meetingShouldBeListedInTheMeetingsOfRoomUsingTheAPI() {
+        String roomName = DBQuery.getInstance().getRoomIdByName(CredentialsManager.getInstance()
+                .getRoomName());
+        String idMeeting = DBQuery.getInstance().getMeetingIdByName(meeting.getTitle());
+
+        Assert.assertTrue(APIManager.getInstance().isMeetingInTheRoom(idMeeting, roomName));
     }
 
     /*
@@ -147,6 +125,15 @@ public class MeetingsSteps {
         ;
     }
 
+    @And("^the meeting should not be listed in the meetings of Room using the API$")
+    public void theMeetingShouldNotBeListedInTheMeetingsOfRoomUsingTheApi() {
+        String roomName = DBQuery.getInstance().getRoomIdByName(CredentialsManager.getInstance()
+                .getRoomName());
+        String idMeeting = DBQuery.getInstance().getMeetingIdByName(meeting.getTitle());
+
+        Assert.assertFalse(APIManager.getInstance().isMeetingInTheRoom(idMeeting, roomName));
+    }
+
     /*
     Try to create a meeting with missing information
      */
@@ -182,5 +169,13 @@ public class MeetingsSteps {
     @Then("an information conflict message should be displayed \"([^\\\"]*)\"$")
     public void anInformationConflictMessageShouldBeDisplayed(String message) {
         Assert.assertTrue(scheduleTabletPage.isConflictMessageDisplayed(message));
+    }
+
+    @After("@Meetings")
+    public void deleteMeeting() {
+        String idMeeting = DBQuery.getInstance().getMeetingIdByName(meeting.getTitle());
+        String roomName = DBQuery.getInstance().getRoomIdByName(CredentialsManager.getInstance()
+        .getRoomName());
+        APIManager.getInstance().deleteMeetingById(idMeeting, roomName);
     }
 }

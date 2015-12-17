@@ -1,8 +1,10 @@
 package ui.pages.tablet;
 
 import entities.Meeting;
+import framework.BrowserManager;
 import framework.CredentialsManager;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -57,6 +59,8 @@ public class ScheduleTabletPage extends BasePageObject {
 
     @FindBy(css = "div.ng-binding.ng-scope")
     private WebElement dialogCreateMeetingMessage;
+
+    private WebElement dialogRemoveMeetingMessage;
 
     @FindBy(xpath = "//div[contains(@class, 'toast ng-scope toast-error')]")
     private WebElement dialogErrorCreateMeetingMessage;
@@ -125,16 +129,15 @@ public class ScheduleTabletPage extends BasePageObject {
     }
 
     public boolean isSuccessfullyMessageDisplayed(String message) {
-        //BrowserManager.getInstance().setImplicitWait(4);
-        System.out.println("MESSAGE DISPLAYED - "+dialogCreateMeetingMessage.getText());
-        System.out.println("MESSAGE SENDED - "+message);
         return dialogCreateMeetingMessage.getText().equalsIgnoreCase(message);
     }
 
-    public boolean isConflictMessageDisplayed(String message) {
-        System.out.println("MESSAGE DISPLAYED - "+dialogErrorCreateMeetingMessage.getText());
-        System.out.println("MESSAGE SENDED - "+message);
+    public boolean isUnSuccessfullyMessagerDisplayed(String message) {
         return dialogErrorCreateMeetingMessage.getText().equalsIgnoreCase(message);
+    }
+
+    public boolean isConflictMessageDisplayed(String message) {
+        return dialogRemoveMeetingMessage.getText().equalsIgnoreCase(message);
     }
 
     public boolean errorMessageIsDisplayed(String message) {

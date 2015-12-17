@@ -29,6 +29,18 @@ public class CommonMethod {
         PageTransporter.getInstance().navigateToMainPage().clickSignOutSuccessfully();
     }
 
+    public static void sigInToTablet() {
+        String serverUrl = CredentialsManager.getInstance().getRoomManagerService();
+        String user = CredentialsManager.getInstance().getTabletUserName();
+        String password = CredentialsManager.getInstance().getTabletUserPassword();
+        PageTransporter
+                .getInstance()
+                .navigateToLoginTablePage()
+                .sigInToTable(serverUrl, user, password)
+                .selectSomeConferenceRooms(CredentialsManager.getInstance().getRoomName())
+        ;
+    }
+
     /**
      * verify if the user is logged
      * @return boolean , if the user is logged return true.

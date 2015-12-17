@@ -9,8 +9,8 @@ package common;
  */
 public enum EnumKeys {
 
-    RESOURCEKEY ("name","customName","fontIcon","description","_id","from");
-
+    RESOURCEKEY ("resourcemodels","name","customName","fontIcon","description","_id","from");
+    public final String nameCollection;
     public final String name;
     public final String customName;
     public final String icon;
@@ -18,7 +18,8 @@ public enum EnumKeys {
     public final String _id;
     public final String from;
 
-    private EnumKeys(String name,String customName,String icon,String description,String _id,String from){
+    private EnumKeys(String nameCollection,String name,String customName,String icon,String description,String _id,String from){
+        this.nameCollection=nameCollection;
         this.name=name;
         this.customName=customName;
         this.icon=icon;
