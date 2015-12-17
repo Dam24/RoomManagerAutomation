@@ -3,7 +3,6 @@ package framework;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
-import com.mongodb.client.MongoIterable;
 import entities.Resource;
 import org.bson.Document;
 import com.mongodb.Block;
@@ -77,6 +76,14 @@ public class DBQuery {
             res += doc.get("_id");
         }
         return res;
+    }
+
+    public String getMeetingIdByName(String nameMeeting) {
+        return getIdByKey("meetings", "title", nameMeeting);
+    }
+
+    public String getRoomIdByName(String nameRoom) {
+        return getIdByKey("rooms", "displayName", nameRoom);
     }
 
     public void closeMongoDB() {

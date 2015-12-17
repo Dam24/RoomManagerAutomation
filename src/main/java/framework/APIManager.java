@@ -3,11 +3,18 @@ package framework;
 import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.path.json.JsonPath;
 import com.jayway.restassured.response.Response;
+import entities.ConferenceRooms;
+import entities.Location;
+import entities.OutOfOrders;
 import common.EnumKeys;
-import entities.*;
+import entities.Meeting;
+import entities.Resource;
 import org.json.JSONArray;
+import org.json.simple.JSONObject;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Base64;
 
 import static com.jayway.restassured.RestAssured.given;
 
@@ -298,28 +305,61 @@ public class APIManager {
         return locations;
     }
 
-    public Meeting createMeeting(String organizer,String title,String start,String end,String location,String roomEmail,String resources,String attendees,String roomId ) {
+    public Meeting createMeeting(Meeting meeting, String roomId ) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("organizer", meeting.getOrganizer());
+        jsonObject.put("title", meeting.getTitle());
+        jsonObject.put("start", meeting.getFromExchange());
+        jsonObject.put("end", meeting.getToExchange());
+        jsonObject.put("location", CredentialsManager.getInstance().getRoomName());
+        jsonObject.put("roomEmail", CredentialsManager.getInstance().getRoomName()+"@forest1.local");
+        jsonObject.put("resources", new JSONArray().put(CredentialsManager.getInstance().getRoomName()+"@forest1.local"));
+        jsonObject.put("attendees", new JSONArray().put(meeting.getOrganizer()+"@myexchange.com"));
 
-        ArrayList<String> resourcesValues = new ArrayList<>();
-        resourcesValues.add(resources);
+        String userAuthentication = cifrarBase64(CredentialsManager.getInstance().getExchangeUserName()+
+                ":"+CredentialsManager.getInstance().getExchangeUserPassword());
 
-        ArrayList<String> attendeesValues = new ArrayList<>();
-        attendeesValues.add(attendees);
-
-        Meeting meeting = new Meeting();
-
-
-        Response response = given()
-                .header("Authorization", "Basic amhhc21hbnkucXVpcm96OkNsaWVudDEyMw==")
-                .parameters("organizer",organizer,"title",title,"start",start,"end",end,"location",location,"roomEmail",roomEmail,"resources",resourcesValues,"attendees",attendeesValues)
-                .post("/services/565f3f449c27d64812f72af0"+"/rooms/" + roomId + "/meetings");
-        String json = response.asString();
-        JsonPath jp = new JsonPath(json);
-
-        System.out.println("******************RESPONSE - "+json);
-        //meeting = setMeeting((String)jp.get("organizer"), (String)jp.get("title"), (String)jp.get("start"), (String)jp.get("end"));
+        String createEndPoint = replaceEndPoint(CredentialsManager.getInstance().getRoomName());
+        postMeeting(jsonObject, createEndPoint, userAuthentication);
 
         return meeting;
+    }
+
+    public static String postMeeting(JSONObject meeting, String endPoint, String key) {
+        Response res = given()
+                .contentType("application/json")
+                .header("Authorization", "Basic " + key)
+                .content(meeting.toString())
+                .when()
+                .post(endPoint);
+        return res.asString();
+    }
+
+    public static  String replaceEndPoint(String roomName) {
+        String serviceLocations = "/locations";
+        String serviceLocationById = "/locations/#id#";
+        String serviceResources = "/resources";
+        String serviceResourcesById = "/resources/#id#";
+        String serviceRooms = "/rooms";
+        String serviceRoomById = "/rooms/#id#";
+        String serviceMeetingById = "services/#serviceId#/rooms/#roomId#/meetings/#meetingId#";
+        String serviceMeetings = "services/#serviceId#/rooms/#roomId#/meetings";
+
+        String remServiceId = "#serviceId#";
+        String remRoomId = "#roomId#";
+
+        String servicesId = APIManager.getInstance().getServiceId();
+        String roomId = DBQuery.getInstance().getRoomIdByName(roomName);
+        DBQuery.getInstance().closeMongoDB();
+
+        return serviceMeetings.replace(remServiceId, servicesId)
+                .replace(remRoomId, roomId);
+    }
+
+    public static String cifrarBase64(String a){
+        Base64.Encoder encoder = Base64.getEncoder();
+        String encode = encoder.encodeToString(a.getBytes(StandardCharsets.UTF_8) );
+        return encode;
     }
 
     private Meeting setMeeting(String organizer,String title,String from,String to){
@@ -333,13 +373,39 @@ public class APIManager {
 
     }
 
-    private String getServiceId(){
-        Response response = given().header("Authorization", "jwt " + token).get("/services");
-        String json = response.asString();
-        JsonPath jp = new JsonPath(json);
-       // System.out.println("JSON - "+json+"SERVICES ID - "+jp.get("_id"));
-
-        return "565f3f449c27d64812f72af0";
+    public void deleteMeetingById(String idMeeting, String idRoom) {
+        String endPoint = "/services/"+getServiceId()+
+                "/rooms/"+idRoom+"/meetings/"+idMeeting;
+        given()
+            .header("Authorization", "Basic amhhc21hbnkucXVpcm96OkNsaWVudDEyMw==")
+            .delete(endPoint)
+        ;
     }
 
+    public boolean isMeetingInTheRoom(String idMeeting, String roomName) {
+        boolean res = false;
+        Meeting meeting = new Meeting();
+
+        String endPoint = "/services/"+getServiceId()+
+                "/rooms/"+roomName+"/meetings";
+        Response response = given().when()
+                                .get(endPoint)
+        ;
+        JSONArray jsonArray = new JSONArray(response.asString());
+        for (int indice = 0; indice < jsonArray.length(); indice++) {
+            if (jsonArray.getJSONObject(indice).getString("_id").equalsIgnoreCase(idMeeting)) {
+                res = true;
+                break;
+            }
+        }
+
+        return res;
+    }
+
+    public String getServiceId(){
+        Response response = given().header("Authorization", "jwt " + token).get("/services");
+        String json = response.asString();
+        JSONArray jsonArray = new JSONArray(json);
+        return jsonArray.getJSONObject(0).getString("_id");
+    }
 }

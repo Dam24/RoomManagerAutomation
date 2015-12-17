@@ -63,17 +63,29 @@ public class FeatureHooks {
       SetUpResources.afterResourceFeature();
     }
 
+    @Before("@Meetings")
+    public void beforeMeetingsFeature() {
+        featuresHooksMap.put("meetings", () -> afterMeetingsFeature());
+        if (!featureFlag) {
+            SetUpMeetings.beforeMeetingFeature();
+            featureFlag = true;
+        }
+    }
+
     //****************************************************************
     //Hooks for @ConferenceRooms feature
     //****************************************************************
     @Before("@Rooms")
-    public void beforeConferenceRoomsFeature(){
-        featuresHooksMap.put("rooms",()-> afterConferenceRoomsFeature())  ;
-        System.out.println("******** Feature Name"+featuresHooksMap);
+    public void beforeConferenceRoomsFeature() {
+        featuresHooksMap.put("rooms",()-> afterConferenceRoomsFeature());
         if(!featureFlag){
            SetUpConferenceRoom.beforeResourceFeature();
             featureFlag = true;
         }
+    }
+
+    public void afterMeetingsFeature() {
+        SetUpMeetings.afterMeetingsFeature();
     }
 
     public void  afterConferenceRoomsFeature(){

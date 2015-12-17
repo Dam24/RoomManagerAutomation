@@ -2,7 +2,6 @@ package steps;
 
 import common.EnumKeys;
 import cucumber.api.java.After;
-import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -11,7 +10,6 @@ import entities.Resource;
 import framework.APIManager;
 import framework.DBQuery;
 import org.testng.Assert;
-import steps.hooks.SetUpResources;
 import ui.BaseMainPageObject;
 import ui.PageTransporter;
 import ui.pages.*;
