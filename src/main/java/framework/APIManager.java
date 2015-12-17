@@ -3,8 +3,12 @@ package framework;
 import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.path.json.JsonPath;
 import com.jayway.restassured.response.Response;
+import entities.ConferenceRooms;
+import entities.Location;
+import entities.OutOfOrders;
 import common.EnumKeys;
-import entities.*;
+import entities.Meeting;
+import entities.Resource;
 import org.json.JSONArray;
 
 import java.util.ArrayList;
@@ -311,13 +315,10 @@ public class APIManager {
 
         Response response = given()
                 .header("Authorization", "Basic amhhc21hbnkucXVpcm96OkNsaWVudDEyMw==")
-                .parameters("organizer",organizer,"title",title,"start",start,"end",end,"location",location,"roomEmail",roomEmail,"resources",resourcesValues,"attendees",attendeesValues)
-                .post("/services/565f3f449c27d64812f72af0"+"/rooms/" + roomId + "/meetings");
+                .parameters("organizer",organizer,"title",title,"start",start,"end",end,"location",location,"roomEmail",roomEmail,"resources",resources,"attendees",attendees)
+                .post("/services/"+getServiceId()+"/rooms/" + roomId + "/meetings");
         String json = response.asString();
         JsonPath jp = new JsonPath(json);
-
-        System.out.println("******************RESPONSE - "+json);
-        //meeting = setMeeting((String)jp.get("organizer"), (String)jp.get("title"), (String)jp.get("start"), (String)jp.get("end"));
 
         return meeting;
     }
@@ -333,13 +334,39 @@ public class APIManager {
 
     }
 
-    private String getServiceId(){
-        Response response = given().header("Authorization", "jwt " + token).get("/services");
-        String json = response.asString();
-        JsonPath jp = new JsonPath(json);
-       // System.out.println("JSON - "+json+"SERVICES ID - "+jp.get("_id"));
-
-        return "565f3f449c27d64812f72af0";
+    public void deleteMeetingById(String idMeeting, String idRoom) {
+        String endPoint = "/services/"+getServiceId()+
+                "/rooms/"+idRoom+"/meetings/"+idMeeting;
+        given()
+            .header("Authorization", "Basic amhhc21hbnkucXVpcm96OkNsaWVudDEyMw==")
+            .delete(endPoint)
+        ;
     }
 
+    public boolean isMeetingInTheRoom(String idMeeting, String roomName) {
+        boolean res = false;
+        Meeting meeting = new Meeting();
+
+        String endPoint = "/services/"+getServiceId()+
+                "/rooms/"+roomName+"/meetings";
+        Response response = given()
+                                .get(endPoint)
+        ;
+        JSONArray jsonArray = new JSONArray(response.asString());
+        for (int indice = 0; indice < jsonArray.length(); indice++) {
+            if (jsonArray.getJSONObject(indice).getString("_id").equalsIgnoreCase(idMeeting)) {
+                res = true;
+                break;
+            }
+        }
+
+        return res;
+    }
+
+    public String getServiceId(){
+        Response response = given().header("Authorization", "jwt " + token).get("/services");
+        String json = response.asString();
+        JSONArray jsonArray = new JSONArray(json);
+        return jsonArray.getJSONObject(0).getString("_id");
+    }
 }

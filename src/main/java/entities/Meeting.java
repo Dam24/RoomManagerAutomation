@@ -16,6 +16,11 @@ public class Meeting {
     private String to;
     private String attendees;
     private String body;
+    private String _id;
+
+    public void setId(String id) {
+        _id = id;
+    }
 
     public void setOrganizer(String newOrganizer) {
         organizer = newOrganizer;
@@ -33,17 +38,17 @@ public class Meeting {
         to = newTo;
     }
 
-    public void setNow() {
-        setFrom(Calendar.getInstance()
-                        .get(Calendar.HOUR_OF_DAY)+":"+
+    public void setNow(String from, String to) {
+        setFrom((Calendar.getInstance()
+                        .get(Calendar.HOUR_OF_DAY)+1)+":"+
                     Calendar.getInstance()
                             .get(Calendar.MINUTE)
         );
 
-        setTo(Calendar.getInstance()
-                        .get(Calendar.HOUR_OF_DAY)+":"+
+        setTo((Calendar.getInstance()
+                        .get(Calendar.HOUR_OF_DAY)+1)+":"+
                 (Calendar.getInstance()
-                         .get(Calendar.MINUTE)+10)
+                         .get(Calendar.MINUTE)+5)
         );
     }
 
@@ -57,6 +62,10 @@ public class Meeting {
 
     public String getOrganizer() {
         return organizer;
+    }
+
+    public String setId() {
+        return _id;
     }
 
     public String getTitle() {

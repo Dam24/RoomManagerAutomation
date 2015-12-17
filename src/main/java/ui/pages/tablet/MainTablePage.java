@@ -15,8 +15,10 @@ import ui.BasePageObject;
  * To change this template use File | Settings | File Templates.
  */
 public class MainTablePage extends BasePageObject {
+    private boolean isResourceInTablet;
 
-    private boolean isResourceInTablet ;
+    @FindBy(xpath = "//div[contains(@class, 'vis-time-axis vis-background')]")
+    private WebElement scheduleBar;
 
     @FindBy(xpath= "//div[@class='header']")
     private WebElement headerTablePage;
@@ -27,6 +29,15 @@ public class MainTablePage extends BasePageObject {
     @FindBy(xpath= "//div[@class='tile-button-search']")
     private WebElement buttonSearch;
 
+    //@FindBy(xpath = "//div[contains(@class, 'meeting-title')]")
+    @FindBy(xpath = "//div[contains(@ng-bind, 'next._title')]")
+    private WebElement labelMeetingTitle;
+
+    @FindBy(xpath = "//div[contains(@ng-bind, 'next._organizer')]")
+    private WebElement labelMeetingOrganizer;
+
+    @FindBy(xpath = "//div[contains(@class, 'info')]")
+    private WebElement divAvailableSection;
 
     public MainTablePage() {
         PageFactory.initElements(driver, this);
@@ -34,7 +45,7 @@ public class MainTablePage extends BasePageObject {
     }
     @Override
     public void waitUntilPageObjectIsLoaded() {
-        wait.until(ExpectedConditions.visibilityOf(buttonSchedule));
+        wait.until(ExpectedConditions.visibilityOf(scheduleBar));
     }
 
     public boolean isResourceInRoomOfTablet(String resourceCustomName){
@@ -51,5 +62,22 @@ public class MainTablePage extends BasePageObject {
         buttonSchedule.click();
 
         return new ScheduleTabletPage();
+    }
+
+    public boolean isMeetingPresent(String meetingTitle, String meetingOrganizer) {
+        return (isMeetingTitlePresent(meetingTitle))&&
+               (isMeetingOrganizerPresent(meetingOrganizer));
+    }
+
+    private boolean isMeetingTitlePresent(String meetingTitle) {
+        return labelMeetingTitle.getText().equalsIgnoreCase(meetingTitle);
+    }
+
+    private boolean isMeetingOrganizerPresent(String meetingOrganizer) {
+        return labelMeetingOrganizer.getText().equalsIgnoreCase(meetingOrganizer);
+    }
+
+    public boolean isPresentInMain() {
+        return divAvailableSection != null;
     }
 }

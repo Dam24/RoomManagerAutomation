@@ -6,6 +6,7 @@
             "admin URL": "https://172.20.208.195:4040/admin/#/login",
             "tablet URL": "https://172.20.208.195:4040/tablet",
             "room manager service": "https://172.20.208.195:4040",
+            "roomName":"Floor1Room70",
             "admin user": {
                 "name": "awagner",
                 "password": "Client123"
@@ -26,7 +27,12 @@
             "id": "RM02",
             "admin URL": "https://172.20.208.216:4040/admin/#/login",
             "main URL":"https://172.20.208.216:4040/admin/#/admin",
-            "tablet URL": "https://172.20.208.216:4040/tablet",
+            "server URL": "https://172.20.208.216:4040/admin/#/admin/servers",
+            "tablet URL": "https://172.20.208.216:4040/tablet/",
+            "tabletHome URL" : "https://172.20.208.216:4040/tablet/#/home",
+            "resources URL": "https://172.20.208.216:4040/admin/#/admin/resources",
+            "conferenceRooms URL": "https://172.20.208.216:4040/admin/#/admin/rooms",
+            "roomName":"Floor1Room81",
             "room manager service": "https://172.20.208.216:4040",
             "admin user": {
                 "name": "BrayanRosas",
@@ -53,6 +59,7 @@
             "admin URL": "https://172.20.208.120:4040/admin/#/login",
             "tablet URL": "https://172.20.208.120:4040/tablet",
             "room manager service": "https://172.20.208.120:4040",
+            "roomName":"Floor1Room70",
             "admin user": {
                 "name": "test",
                 "password": "Client123"

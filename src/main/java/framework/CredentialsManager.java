@@ -17,7 +17,12 @@ public class CredentialsManager {
     private static String adminURL;
     private static String mainURL;
     private static String tabletURL;
+    private static String tabletHomeURL;
+    private static String resourcesURL;
+    private static String conferenceRoomsURL;
+    private static String serverURL;
     private static String roomManagerService;
+    private static String roomName;
     private static String adminUserName;
     private static String adminUserPassword;
     private static String tabletUserName;
@@ -49,16 +54,22 @@ public class CredentialsManager {
         String filePath = System.getProperty("user.dir")+"\\environment.json";
         jsonObjectMain = new JSONReader(filePath);
         String environmentId = System.getProperty("envId");
+
         if (environmentId == null || environmentId.isEmpty()){
             envId = "RM02";
         } else {
             envId = environmentId;
-        }
+        }System.out.println("ENV-ID - "+environmentId);
 
         adminURL = jsonObjectMain.getKeyValue("Environments", "id", envId, "admin URL");
         mainURL = jsonObjectMain.getKeyValue("Environments", "id", envId, "main URL");
         tabletURL = jsonObjectMain.getKeyValue("Environments", "id", envId, "tablet URL");
+        tabletHomeURL = jsonObjectMain.getKeyValue("Environments", "id", envId, "tabletHome URL");
+        serverURL = jsonObjectMain.getKeyValue("Environments", "id", envId, "server URL");
+        resourcesURL = jsonObjectMain.getKeyValue("Environments", "id", envId, "resources URL");
+        conferenceRoomsURL = jsonObjectMain.getKeyValue("Environments", "id", envId, "conferenceRooms URL");
         roomManagerService = jsonObjectMain.getKeyValue("Environments", "id", envId, "room manager service");
+        roomName = jsonObjectMain.getKeyValue("Environments", "id", envId, "roomName");
         adminUserName = jsonObjectMain.getKeyValue("Environments", "id", envId, "admin user", "name");
         adminUserPassword = jsonObjectMain.getKeyValue("Environments", "id", envId, "admin user", "password");
         tabletUserName = jsonObjectMain.getKeyValue("Environments", "id", envId, "tablet user", "name");
@@ -87,6 +98,26 @@ public class CredentialsManager {
 
     public String getRoomManagerService() {
         return roomManagerService;
+    }
+
+    public String getBaseServerURL() {
+        return serverURL;
+    }
+
+    public String getResBaseResourcesURL() {
+        return resourcesURL;
+    }
+
+    public String getBaseConferenceRooms() {
+        return conferenceRoomsURL;
+    }
+
+    public String getBaseTabletHomeURL() {
+        return tabletHomeURL;
+    }
+
+    public String getRoomName() {
+        return roomName;
     }
 
     public String getAdminUserName() {

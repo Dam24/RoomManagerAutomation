@@ -3,6 +3,7 @@ package ui.pages.tablet;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import ui.BasePageObject;
 
@@ -44,23 +45,26 @@ public class LoginTablePage extends BasePageObject {
     @FindBy(xpath= "//button[contains(@class,'btn btn-primary')]")
     private WebElement buttonStartNow;
 
-
-
-
+    public LoginTablePage() {
+        PageFactory.initElements(driver, this);
+        waitUntilPageObjectIsLoaded();
+    }
 
     @Override
     public void waitUntilPageObjectIsLoaded() {
-        //To change body of implemented methods use File | Settings | File Templates.
+        wait.until(ExpectedConditions.visibilityOf(inputServiceUrl));
     }
 
-    public void sigInToTable(String serverUrl,String user,String password){
-
+    public LoginTablePage sigInToTable(String serverUrl,String user,String password){
+        inputServiceUrl.clear();
         inputServiceUrl.sendKeys(serverUrl);
+        inputUserName.clear();
         inputUserName.sendKeys(user);
+        inputPassword.clear();
         inputPassword.sendKeys(password);
         buttonSignIn.click();
         wait.until(ExpectedConditions.visibilityOf(inputSelectedRoom));
-
+        return this;
     }
 
     public MainTablePage selectSomeConferenceRooms(String conferenceRoomName){
@@ -69,7 +73,5 @@ public class LoginTablePage extends BasePageObject {
         wait.until(ExpectedConditions.visibilityOf(buttonStartNow));
         buttonStartNow.click();
         return  new MainTablePage();
-        //div[@class='item-box']//strong[text()='Floor1Room6']/parent::a
     }
-
 }
