@@ -53,9 +53,9 @@ public class APIManager {
         Resource resource = new Resource();
         Response response = given()
                 .header("Authorization", "jwt " + token)
-                .parameters(EnumKeys.RESOURCEKEY.name, name, EnumKeys.RESOURCEKEY.description, "",
-                        EnumKeys.RESOURCEKEY.customName, name, EnumKeys.RESOURCEKEY.from, "",
-                        EnumKeys.RESOURCEKEY.icon, "fa fa-filter")
+                .parameters(EnumKeys.RESOURCE_KEY.name, name, EnumKeys.RESOURCE_KEY.description, "",
+                        EnumKeys.RESOURCE_KEY.customName, name, EnumKeys.RESOURCE_KEY.from, "",
+                        EnumKeys.RESOURCE_KEY.icon, "fa fa-filter")
                 .post("/resources")
                 ;
 
@@ -178,8 +178,8 @@ public class APIManager {
         String json = response.asString();
         JsonPath jp = new JsonPath(json);
 
-        return setResource((String)jp.get(EnumKeys.RESOURCEKEY._id), (String)jp.get(EnumKeys.RESOURCEKEY.name),
-                            (String)jp.get(EnumKeys.RESOURCEKEY.description), (String)jp.get(EnumKeys.RESOURCEKEY.customName),
+        return setResource((String)jp.get(EnumKeys.RESOURCE_KEY._id), (String)jp.get(EnumKeys.RESOURCE_KEY.name),
+                            (String)jp.get(EnumKeys.RESOURCE_KEY.description), (String)jp.get(EnumKeys.RESOURCE_KEY.customName),
                             (String)jp.get("fontIcon"));
     }
 
