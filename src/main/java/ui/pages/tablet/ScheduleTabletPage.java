@@ -60,7 +60,7 @@ public class ScheduleTabletPage extends BasePageObject {
     @FindBy(css = "div.ng-binding.ng-scope")
     private WebElement dialogCreateMeetingMessage;
 
-    private WebElement dialogRemoveMeetingMessage;
+    //private WebElement dialogRemoveMeetingMessage;
 
     @FindBy(xpath = "//div[contains(@class, 'toast ng-scope toast-error')]")
     private WebElement dialogErrorCreateMeetingMessage;
@@ -73,6 +73,9 @@ public class ScheduleTabletPage extends BasePageObject {
 
     @FindBy(xpath = "//button/span[contains(text(),'Remove')]")
     private WebElement buttonDeleteMeeting;
+
+    @FindBy(xpath = "//button/span[contains(text(),'Update')]")
+    private WebElement buttonUpdateMeeting;
 
     @FindBy(css = "css=div.vis-panel.vis-center")
     private WebElement containerMeetings;
@@ -137,7 +140,7 @@ public class ScheduleTabletPage extends BasePageObject {
     }
 
     public boolean isConflictMessageDisplayed(String message) {
-        return dialogRemoveMeetingMessage.getText().equalsIgnoreCase(message);
+        return dialogErrorCreateMeetingMessage.getText().equalsIgnoreCase(message);
     }
 
     public boolean errorMessageIsDisplayed(String message) {
@@ -176,6 +179,14 @@ public class ScheduleTabletPage extends BasePageObject {
         return this;
     }
 
+    public ScheduleTabletPage clickOnUpdateMeeting() {
+        driver.findElement(By.xpath("//div[@class='vis-item-content']/span[contains(text(), '" +
+                meeting.getTitle() + "')]/parent::div/parent::div/parent::div"))
+        .click();
+        buttonUpdateMeeting.click();
+        return this;
+    }
+
     public ScheduleTabletPage typeCredentialsExchangePassword() {
         inputCredentialsPassword.clear();
         inputCredentialsPassword
@@ -186,6 +197,8 @@ public class ScheduleTabletPage extends BasePageObject {
                 )
         ;
         buttonCredentialsAccept.click();
+        BrowserManager.getInstance().setImplicitWait(5);
+        isDisplayed(By.cssSelector("div.ng-binding.ng-scope"));
         return this;
     }
 }

@@ -1,26 +1,36 @@
-@Tablet
+@Meetings
 Feature: Meetings
 
-  Background:
-    Given I navigate to Tablet page
-    And I select the "Floor1Room54" Conference Room
-
-  Scenario Outline: Create a meeting
+  @CreateMeeting
+  Scenario Outline: : Create a meeting
     Given I navigate to Schedule page
-    When I create a meeting with the following information: "<Organizer>", "<Subject>", "<From>", "<To>", "<Attendees>", "<Body>"
-    Then an information message "<Message>" should be displayed
+    When I create successfully a meeting with the following information: "<Organizer>", "<Subject>", "<From>", "<To>", "<Attendees>", "<Body>"
+    Then an information message should be displayed "<Message>"
     And the meeting should be displayed in the Schedule bar
     And the meeting information should be displayed in the Next section of Main page
     And the meeting should be listed in the meetings of Room using the API
 
   Examples:
     | Organizer       | Subject             | From    | To      | Attendees | Body                  | Message                      |
-    | jhasmany.quiroz | Meeting #2          | 13:35   | 13:40   |           | This is a message     | Meeting successfully created |
+    | jhasmany.quiroz | Meeting #2          | 21:00   | 21:05   |           | This is a message     | Meeting successfully created |
 
 
+  @SameTimeMeeting
+  Scenario: Try to create a meeting at the same time than other meeting
+    Given I navigate to Schedule page
+    And I create successfully a meeting with the following information: "jhasmany.quiroz", "Meeting #7", "21:25", "21:30", "", "This is a message"
+    And an information message should be displayed "Meeting successfully created"
+    When I create successfully a meeting with the following information: "jhasmany.quiroz", "Meeting #8", "21:30", "21:35", "", "This is a message"
+    Then an information conflict message should be displayed "There is a conflict with another meeting, please choose another time interval"
+    And the meeting should not be displayed in the Schedule bar
+    And the meeting information should not be displayed in the Next section of Main page
+    And the meeting should not be listed in the meetings of Room using the API
+
+
+  @MeetingMissing
   Scenario Outline: Try to create a meeting with missing information
     Given I navigate to Schedule page
-    When I create a meeting with the following information: "<Organizer>", "<Subject>", "<From>", "<To>", "<Attendees>", "<Body>"
+    When I create unsuccessfully a meeting with the following information: "<Organizer>", "<Subject>", "<From>", "<To>", "<Attendees>", "<Body>"
     Then an error "<Message>" message should be displayed
     And the meeting should not be displayed in the Schedule bar
     And the meeting information should not be displayed in the Next section of Main page
@@ -28,22 +38,26 @@ Feature: Meetings
 
   Examples:
     | Organizer       | Subject             | From    | To      | Attendees | Body                  | Message                 |
-    |                 | Meeting #3          | 13:40   | 13:45   |           | This is a message     | Organizer is required   |
-    #| jhasmany.quiroz |                     | 10:40   | 10:55   |           | This is a message     | Subject is required     |
+    |                 | Meeting #4          | 21:10   | 21:15   |           | This is a message     | Organizer is required   |
+#    | jhasmany.quiroz |                     | 22:15   | 10:20   |           | This is a message     | Subject is required     |
 
-  Scenario: Try to create a meeting at the same time than other meeting
+
+  @RemoveMeeting
+  Scenario: Remove a meeting
     Given I navigate to Schedule page
-    And I create a meeting with the following information: "jhasmany.quiroz", "Meeting #4", "13:45", "13:50", "", "This is a message"
-    And an information message "Meeting successfully created" should be displayed
-    When I create a meeting with the following information: "jhasmany.quiroz", "Meeting #5", "13:50", "13:55", "", "This is a message"
-    Then an error "There is a conflict with another meeting, please choose another time interval" message should be displayed
+    And I create successfully a meeting with the following information: "jhasmany.quiroz", "Meeting #3", "21:05", "21:10", "", "This is a message"
+    When I remove the meeting
+    Then an information message should be displayed "Meeting successfully removed"
     And the meeting should not be displayed in the Schedule bar
     And the meeting information should not be displayed in the Next section of Main page
     And the meeting should not be listed in the meetings of Room using the API
 
-#  Scenario Outline: Try to create a meeting at the same time than other meeting
-#    Given I navigate to Schedule page
-#    And I create a meeting with the following information: "<Organizer>", "<Subject>", "<From>", "<To>", "<Attendees>", "<Body>"
-#    When I create a meeting with the following information: "<Organizer>", "<Subject>", "<From>", "<To>", "<Attendees>", "<Body>"
-#    Then an error "<Message>" message should be displayed
-#    And the meeting should not be displayed in the Schedule bar
+  @UpdateMeeting
+  Scenario: Update a meeting
+    Given I navigate to Schedule page
+    And I create successfully a meeting with the following information: "jhasmany.quiroz", "Meeting #6", "21:20", "21:25", "", "This is a message"
+    When I update the meeting information: "jhasmany.quiroz", "Meeting Update", "21:20", "21:25", "", "This is a message Update"
+    Then an information message should be displayed "Meeting successfully updated"
+    And the meeting should be displayed in the Schedule bar
+    And the meeting information should be displayed in the Next section of Main page
+    And the meeting should be listed in the meetings of Room using the API

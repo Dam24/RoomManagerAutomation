@@ -23,24 +23,33 @@ public class PageTransporter {
     private String baseLoginURL =
             CredentialsManager
                     .getInstance()
-                    .getBaseAdminURL()
-            ;
+                    .getBaseAdminURL();
     private  String baseMainPage =
             CredentialsManager
                     .getInstance()
-                    .getBaseMainURL()
-            ;
-    private String baseTabletLoginPage=
+                    .getBaseMainURL();
+    private String baseTabletLoginPage =
             CredentialsManager
                     .getInstance()
-                    .getBaseTabletURL()
-            ;
+                    .getBaseTabletURL();
+    private String baseTableHomePage =
+            CredentialsManager
+                    .getInstance()
+                    .getBaseTabletHomeURL();
     /*
         hard code create the Api for keys
      */
-    private String baseServerPage="https://172.20.208.216:4040/admin/#/admin/servers" ;
-    private String baseResourcesPage="https://172.20.208.216:4040/admin/#/admin/resources" ;
-    private String baseConferenceRooms="https://172.20.208.216:4040/admin/#/admin/rooms" ;
+    private String baseServerPage =
+            CredentialsManager.getInstance()
+                    .getBaseServerURL();
+    private String baseResourcesPage =
+            CredentialsManager
+            .getInstance()
+            .getResBaseResourcesURL();
+    private String baseConferenceRooms =
+            CredentialsManager
+                    .getInstance()
+                    .getBaseConferenceRooms();
     private static PageTransporter instance;
 
     protected PageTransporter() {
@@ -56,7 +65,7 @@ public class PageTransporter {
     }
 
     private void initialize() {
-//        log.info("Initialize the page transporter");
+        //log.info("Initialize the page transporter");
     }
 
     private void goToURL(String url) {
@@ -101,13 +110,12 @@ public class PageTransporter {
     }
 
     public MainTablePage navigateToMainTabletPage() {
-        goToURL("https://172.20.208.216:4040/tablet/#/home");
+        goToURL(baseTableHomePage);
         return new MainTablePage();
     }
 
     public void fixRefreshIsue(){
         navigateToMainPage().getSideBarMenu().clickOptionServer();
-        //navigateToMainPage().getSideBarMenu().clickOption(EnumOptions.RESOURCES.option);
     }
 
     public void refreshPage(){

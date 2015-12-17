@@ -14,12 +14,12 @@ import ui.pages.tablet.MainTablePage;
 import ui.pages.tablet.ScheduleTabletPage;
 
 /**
- * Created with IntelliJ IDEA.
- * User: jhasmanyquiroz
- * Date: 12/15/15
- * Time: 1:40 PM
- * To change this template use File | Settings | File Templates.
- */
+* Created with IntelliJ IDEA.
+* User: jhasmanyquiroz
+* Date: 12/15/15
+* Time: 1:40 PM
+* To change this template use File | Settings | File Templates.
+*/
 public class MeetingsSteps {
     private MainTablePage mainTablePage;
     private ScheduleTabletPage scheduleTabletPage;
@@ -87,6 +87,31 @@ public class MeetingsSteps {
         String idMeeting = DBQuery.getInstance().getMeetingIdByName(meeting.getTitle());
 
         Assert.assertTrue(APIManager.getInstance().isMeetingInTheRoom(idMeeting, roomName));
+    }
+
+    /*
+    Update the meeting
+     */
+    @When("^I update the meeting information: \"([^\\\"]*)\", \"([^\\\"]*)\", \"([^\\\"]*)\", \"([^\\\"]*)\", \"([^\\\"]*)\", \"([^\\\"]*)\"$")
+    public void updateTheMeetingInformation(String organizer, String subject,
+                                            String from, String to,
+                                            String attendees, String body) {
+        meeting.setOrganizer(organizer);
+        meeting.setTitle(subject);
+        meeting.setNow(from, to);
+//        meeting.setFrom(from);
+//        meeting.setTo(to);
+        meeting.setAttendees(attendees);
+        meeting.setBody(body);
+        scheduleTabletPage = scheduleTabletPage
+                .createBasicMeeting(meeting)
+                .clickOnCreateMeeting()
+                .loginCredentialsUserExchange()
+        ;
+        scheduleTabletPage = scheduleTabletPage
+                .clickOnUpdateMeeting()
+                .typeCredentialsExchangePassword()
+        ;
     }
 
     /*
