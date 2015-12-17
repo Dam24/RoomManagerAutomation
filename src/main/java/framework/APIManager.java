@@ -184,6 +184,7 @@ public class APIManager {
         Response response = given().when().get("/resources/"+id);
         String json = response.asString();
         JsonPath jp = new JsonPath(json);
+
         return setResource((String)jp.get(EnumKeys.RESOURCE_KEY._id), (String)jp.get(EnumKeys.RESOURCE_KEY.name),
                             (String)jp.get(EnumKeys.RESOURCE_KEY.description), (String)jp.get(EnumKeys.RESOURCE_KEY.customName),
                             (String)jp.get("fontIcon"));
