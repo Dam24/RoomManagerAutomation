@@ -37,9 +37,8 @@ public class MeetingsSteps {
                                                       String attendees, String body) {
         meeting.setOrganizer(organizer);
         meeting.setTitle(subject);
-        meeting.setNow(from, to);
-//        meeting.setFrom(from);
-//        meeting.setTo(to);
+        meeting.setFrom(from);
+        meeting.setTo(to);
         meeting.setAttendees(attendees);
         meeting.setBody(body);
         scheduleTabletPage = scheduleTabletPage
@@ -47,6 +46,7 @@ public class MeetingsSteps {
                                 .clickOnCreateMeeting()
                                 .loginCredentialsUserExchange()
         ;
+        System.out.println("MEETING UI - "+meeting.getFrom()+" - "+meeting.getTo());
     }
 
     @Then("^an information message should be displayed \"([^\\\"]*)\"$")
@@ -61,7 +61,7 @@ public class MeetingsSteps {
 
     @And("^the meeting should be displayed in the Schedule bar$")
     public void meetingShouldBeDisplayedInTheScheduleBar() {
-        Assert.assertTrue(scheduleTabletPage.isMeetingPresentScheduleBar(),
+        Assert.assertTrue(scheduleTabletPage.isMeetingPresentScheduleBar(meeting),
                           "Meeting is present in the ScheduleBar Tablet Page");
     }
 
@@ -96,22 +96,25 @@ public class MeetingsSteps {
     public void updateTheMeetingInformation(String organizer, String subject,
                                             String from, String to,
                                             String attendees, String body) {
-        meeting.setOrganizer(organizer);
-        meeting.setTitle(subject);
-        meeting.setNow(from, to);
-//        meeting.setFrom(from);
-//        meeting.setTo(to);
-        meeting.setAttendees(attendees);
-        meeting.setBody(body);
         scheduleTabletPage = scheduleTabletPage
-                .createBasicMeeting(meeting)
-                .clickOnCreateMeeting()
-                .loginCredentialsUserExchange()
-        ;
-        scheduleTabletPage = scheduleTabletPage
-                .clickOnUpdateMeeting()
+                .clickOnUpdateMeeting(meeting)
                 .typeCredentialsExchangePassword()
         ;
+    }
+
+    @When("^I create successfully a meeting with the following information here: \"([^\\\"]*)\", \"([^\\\"]*)\", \"([^\\\"]*)\", \"([^\\\"]*)\", \"([^\\\"]*)\", \"([^\\\"]*)\"$")
+    public void createSuccessfullyMeetingWithFollowingInformationHere(String organizer, String subject,
+                                                                  String from, String to,
+                                                                  String attendees, String body) {
+        meeting.setOrganizer(organizer);
+        meeting.setTitle(subject);
+        meeting.setFrom(from);
+        System.out.println("FROM - "+meeting.getFrom());
+        meeting.setTo(to);
+        System.out.println("TO - "+meeting.getTo());
+        meeting.setAttendees(attendees);
+        meeting.setBody(body);
+        meeting = APIManager.getInstance().createMeeting(meeting, CredentialsManager.getInstance().getRoomName());
     }
 
     /*
@@ -120,15 +123,14 @@ public class MeetingsSteps {
     @When("^I remove the meeting$")
     public void removeTheMeeting() {
         scheduleTabletPage = scheduleTabletPage
-                                .clickOnDeleteMeeting()
+                                .clickOnDeleteMeeting(meeting)
                                 .typeCredentialsExchangePassword()
         ;
     }
 
     @And("^the meeting should not be displayed in the Schedule bar$")
     public void theMeetingShouldNotBeDisplayedInTheScheduleBar() {
-        System.out.println("THE MEETING SHOULD NOT BE PRESENT "+scheduleTabletPage.isMeetingPresentScheduleBar());
-        Assert.assertFalse(scheduleTabletPage.isMeetingPresentScheduleBar(),
+        Assert.assertFalse(scheduleTabletPage.isMeetingPresentScheduleBar(meeting),
                                 "Meeting is not present in the ScheduleBar Tablet Page"
                             )
         ;
@@ -152,11 +154,13 @@ public class MeetingsSteps {
 
     @And("^the meeting should not be listed in the meetings of Room using the API$")
     public void theMeetingShouldNotBeListedInTheMeetingsOfRoomUsingTheApi() {
-        String roomName = DBQuery.getInstance().getRoomIdByName(CredentialsManager.getInstance()
+        String roomId = DBQuery.getInstance().getRoomIdByName(CredentialsManager.getInstance()
                 .getRoomName());
+        System.out.println("MEETING IN THE LIST API - "+roomId);
+        System.out.println("Name Meeting - "+meeting.getTitle());
         String idMeeting = DBQuery.getInstance().getMeetingIdByName(meeting.getTitle());
 
-        Assert.assertFalse(APIManager.getInstance().isMeetingInTheRoom(idMeeting, roomName));
+        Assert.assertFalse(APIManager.getInstance().isMeetingInTheRoom(idMeeting, roomId));
     }
 
     /*
@@ -168,7 +172,6 @@ public class MeetingsSteps {
                                                                        String attendees, String body) {
         meeting.setOrganizer(organizer);
         meeting.setTitle(subject);
-        //meeting.setNow(from, to);
         meeting.setFrom(from);
         meeting.setTo(to);
         meeting.setAttendees(attendees);

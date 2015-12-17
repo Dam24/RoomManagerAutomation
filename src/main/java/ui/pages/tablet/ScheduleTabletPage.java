@@ -60,8 +60,6 @@ public class ScheduleTabletPage extends BasePageObject {
     @FindBy(css = "div.ng-binding.ng-scope")
     private WebElement dialogCreateMeetingMessage;
 
-    //private WebElement dialogRemoveMeetingMessage;
-
     @FindBy(xpath = "//div[contains(@class, 'toast ng-scope toast-error')]")
     private WebElement dialogErrorCreateMeetingMessage;
 
@@ -94,13 +92,27 @@ public class ScheduleTabletPage extends BasePageObject {
 
     public ScheduleTabletPage createBasicMeeting(Meeting meeting){
         this.meeting = meeting;
+        inputOrganizer.clear();
         inputOrganizer.sendKeys(meeting.getOrganizer());
+        inputSubject.clear();
         inputSubject.sendKeys(meeting.getTitle());
         inputFrom.clear();
         inputFrom.sendKeys(meeting.getFrom());
         inputTo.clear();
         inputTo.sendKeys(meeting.getTo());
+        inputAttendees.clear();
         inputAttendees.sendKeys(meeting.getAttendees());
+        textAreaBody.clear();
+        textAreaBody.sendKeys(meeting.getBody());
+        return this;
+    }
+
+    public ScheduleTabletPage createBasicMeetingUpdate(Meeting meeting) {
+        inputSubject.clear();
+        inputSubject.sendKeys(meeting.getTitle());
+        inputFrom.clear();
+        inputAttendees.sendKeys(meeting.getAttendees());
+        textAreaBody.clear();
         textAreaBody.sendKeys(meeting.getBody());
         return this;
     }
@@ -148,7 +160,7 @@ public class ScheduleTabletPage extends BasePageObject {
                (labelErrorSubject.getText().equalsIgnoreCase(message));
     }
 
-    public boolean isMeetingPresentScheduleBar() {
+    public boolean isMeetingPresentScheduleBar(Meeting meeting) {
         return isPresent(
                             By
                             .xpath(
@@ -171,7 +183,7 @@ public class ScheduleTabletPage extends BasePageObject {
         return this;
     }
 
-    public ScheduleTabletPage clickOnDeleteMeeting() {
+    public ScheduleTabletPage clickOnDeleteMeeting(Meeting meeting) {
         driver.findElement(By.xpath("//div[@class='vis-item-content']/span[contains(text(), '" +
                             meeting.getTitle() + "')]/parent::div/parent::div/parent::div"))
         .click();
@@ -179,7 +191,7 @@ public class ScheduleTabletPage extends BasePageObject {
         return this;
     }
 
-    public ScheduleTabletPage clickOnUpdateMeeting() {
+    public ScheduleTabletPage clickOnUpdateMeeting(Meeting meeting) {
         driver.findElement(By.xpath("//div[@class='vis-item-content']/span[contains(text(), '" +
                 meeting.getTitle() + "')]/parent::div/parent::div/parent::div"))
         .click();
@@ -197,8 +209,6 @@ public class ScheduleTabletPage extends BasePageObject {
                 )
         ;
         buttonCredentialsAccept.click();
-        BrowserManager.getInstance().setImplicitWait(5);
-        isDisplayed(By.cssSelector("div.ng-binding.ng-scope"));
         return this;
     }
 }

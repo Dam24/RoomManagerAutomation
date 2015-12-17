@@ -30,7 +30,8 @@ public class FeatureHooks {
         logger.info("Start scenario: " + scenario.getName());
 
         //To run the after hook methods in the last scenario of the features
-        currentFeature = scenario.getId().split(";")[0];                          //get the feature name
+        currentFeature = scenario.getId().split(";")[0];
+        System.out.println(currentFeature);
         if (!currentFeature.equals(lastFeature)) {
             executeAfterHookMethod();
             lastFeature = currentFeature;
@@ -71,7 +72,23 @@ public class FeatureHooks {
         }
     }
 
+    //****************************************************************
+    //Hooks for @ConferenceRooms feature
+    //****************************************************************
+    @Before("@Rooms")
+    public void beforeConferenceRoomsFeature() {
+        featuresHooksMap.put("rooms",()-> afterConferenceRoomsFeature());
+        if(!featureFlag){
+           SetUpConferenceRoom.beforeResourceFeature();
+            featureFlag = true;
+        }
+    }
+
     public void afterMeetingsFeature() {
         SetUpMeetings.afterMeetingsFeature();
+    }
+
+    public void  afterConferenceRoomsFeature(){
+        SetUpConferenceRoom.afterConferenceRoomsFeature();
     }
 }

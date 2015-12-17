@@ -206,31 +206,31 @@ public class ConferenceRoomSteps {
     }
 
 
-    @After("@AssignResource")
-    public void deleteResourcesByScenario(){
-        APIManager.getInstance().deleteResourcesById(resourcesCreatedByGiven);
-        PageTransporter.getInstance().refreshPage();
-    }
-
-    @After("@AssignLocation")
-    public void deleteRLocationByScenario(){
-        APIManager.getInstance().deleteLocationByID(locationsCreateByGiven);
-        PageTransporter.getInstance().refreshPage();
-    }
-
-    @After("@ReserveRoom")
-    public void deleteOutOfOrder(){
-        String serviceId = DBQuery.getInstance().getIdByKey("services","name","Microsoft Exchange Server 2010 SP3");
-        String roomId = DBQuery.getInstance().getIdByKey("rooms","displayName",conferenceRooms.getName());
-        String outOfOrderId = DBQuery.getInstance().getIdByKey("outoforders","roomId", conferenceRooms.getId());
-        APIManager.getInstance().deleteOutOfOrder(serviceId,roomId,outOfOrderId);
-        PageTransporter.getInstance().refreshPage();
-    }
-
-    @After("@DisableRoom")
-    public void activateRoom(){
-        APIManager.getInstance().activateConferenceRooms(conferenceRooms.getId());
-        PageTransporter.getInstance().refreshPage();
-    }
+//    @After("@AssignResource")
+//    public void deleteResourcesByScenario(){
+//        APIManager.getInstance().deleteResourcesById(resourcesCreatedByGiven);
+//        PageTransporter.getInstance().refreshPage();
+//    }
+//
+//    @After("@AssignLocation")
+//    public void deleteRLocationByScenario(){
+//        APIManager.getInstance().deleteLocationByID(locationsCreateByGiven);
+//        PageTransporter.getInstance().refreshPage();
+//    }
+//
+//    @After("@ReserveRoom")
+//    public void deleteOutOfOrder(){
+//        String serviceId = DBQuery.getInstance().getIdByKey("services","name","Microsoft Exchange Server 2010 SP3");
+//        String roomId = DBQuery.getInstance().getIdByKey("rooms","displayName",conferenceRooms.getName());
+//        String outOfOrderId = DBQuery.getInstance().getIdByKey("outoforders","roomId", conferenceRooms.getId());
+//        APIManager.getInstance().deleteOutOfOrder(serviceId,roomId,outOfOrderId);
+//        PageTransporter.getInstance().refreshPage();
+//    }
+//
+//    @After("@DisableRoom")
+//    public void activateRoom(){
+//        APIManager.getInstance().activateConferenceRooms(conferenceRooms.getId());
+//        PageTransporter.getInstance().refreshPage();
+//    }
 
 }

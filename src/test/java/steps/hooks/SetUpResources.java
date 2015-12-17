@@ -22,9 +22,6 @@ public class SetUpResources {
         resourceNames.add("Computer");
         resourceNames.add("Computer Assigned");
         resources=APIManager.getInstance().createResourcesByName(resourceNames);
-        for (Resource res : resources) {
-            System.out.println("################## "+ res.getName());
-        }
         PageTransporter.getInstance().refreshPage();
         PageTransporter.getInstance().fixRefreshIsue();
     }
