@@ -8,7 +8,7 @@ Feature: Resources
     Then an error text "A resource with the same name already exists, please choose another name" is showed in the Resource form
     When I navigate to Resources page from AddResource
     Then only one Resource with the same name should be displayed in Resource list
-    And only one Resource with name "Computer" should be obtained by API
+      And only one Resource with name "Computer" should be obtained by API
 
   @ResourceFilter
   Scenario: Search Resources that match the search criteria
@@ -19,4 +19,4 @@ Feature: Resources
   Scenario: Delete a Resource that is assigned to different Conference Room
     When I delete the Resource "Computer Assigned"
     Then the Resource "Computer Assigned" should not be displayed in the Resources list
-    And the Resource "Computer Assigned" should not be obtained using the API
+      And the Resource "Computer Assigned" should not be obtained using the API

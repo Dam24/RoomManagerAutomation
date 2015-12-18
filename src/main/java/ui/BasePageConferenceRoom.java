@@ -44,7 +44,7 @@ public abstract class BasePageConferenceRoom extends BasePageObject{
 
     @Override
     public void waitUntilPageObjectIsLoaded() {
-//        wait.until(ExpectedConditions.visibilityOf(buttonSave));
+
     }
 
     protected ConferenceRoomsPage clickSaveButton(){

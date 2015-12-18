@@ -152,12 +152,6 @@ public class MeetingsSteps {
         Assert.assertEquals(actual,expected);
     }
 
-
-
-
-
-
-
     @When("^I remove the meeting$")
     public void removeTheMeeting() {
         scheduleTabletPage = scheduleTabletPage

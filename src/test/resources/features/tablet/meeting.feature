@@ -38,7 +38,7 @@ Feature: Meetings
   Examples:
     | Organizer       | Subject             | From    | To      | Attendees | Body                  | Message                 |
     |                 | Meeting #4          | 17:10   | 17:15   |           | This is a message     | Organizer is required   |
-#    | jhasmany.quiroz |                     | 18:15   | 18:20   |           | This is a message     | Subject is required     |
+    | jhasmany.quiroz |                     | 18:15   | 18:20   |           | This is a message     | Subject is required     |
 
 
   @RemoveMeeting

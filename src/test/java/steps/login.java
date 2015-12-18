@@ -25,10 +25,6 @@ public class login {
     public void signInToMainPage(String user,String password){
         System.out.println("-CURRENT URL " + PageTransporter.getInstance().getCurrentURL());
         if(!CommonMethod.theUserIsLogIn() ){
-            System.out.println("***************** The User is logged , Trying log in ....."+CommonMethod.theUserIsLogIn());
-//            PageTransporter.getInstance().navigateToLoginPage();
-            //CommonMethod.signInToMainPage();
-            // loginPage=PageTransporter.getInstance().navigateToLoginPage();
             loginPage=new LoginPage();
             loginPage.signIn(user,password);
         }
