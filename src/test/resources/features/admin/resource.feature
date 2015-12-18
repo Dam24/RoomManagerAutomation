@@ -19,7 +19,4 @@ Feature: Resources
   Scenario: Delete a Resource that is assigned to different Conference Room
     When I delete the Resource "Computer Assigned"
     Then the Resource "Computer Assigned" should not be displayed in the Resources list
-    When I navigate to Tablet page
-    And I select the "Floor1Room16" Conference Room
-    Then the Resource "Computer Assigned" should not be displayed in the Resource Tablet list
     And the Resource "Computer Assigned" should not be obtained using the API
