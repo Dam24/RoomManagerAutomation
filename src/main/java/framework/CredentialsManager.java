@@ -51,15 +51,14 @@ public class CredentialsManager {
      * and read the values of environment.json file
     */
     private void initialize() {
-        String filePath = System.getProperty("user.dir")+"\\environment.json";
-        jsonObjectMain = new JSONReader(filePath);
+        jsonObjectMain = new JSONReader("environment.json");
         String environmentId = System.getProperty("envId");
 
         if (environmentId == null || environmentId.isEmpty()){
             envId = "RM02";
         } else {
             envId = environmentId;
-        }System.out.println("ENV-ID - "+environmentId);
+        }
 
         adminURL = jsonObjectMain.getKeyValue("Environments", "id", envId, "admin URL");
         mainURL = jsonObjectMain.getKeyValue("Environments", "id", envId, "main URL");

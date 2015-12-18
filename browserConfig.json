@@ -1,0 +1,6 @@
+{
+    "implicitWait" : "10",
+    "explicitWait" : "20",
+    "defaultBrowser" : "firefox",
+    "chromeDriverPath" : "driver/chromedriver.exe"
+}
