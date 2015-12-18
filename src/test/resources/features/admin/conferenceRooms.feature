@@ -1,9 +1,5 @@
 @Rooms
 Feature: Rooms
-#
-#    Background:
-##      Given I login as "DamianVP" with password "Client123"
-##      And I navigate to Conference Rooms page
 
   @AssignResource
   Scenario Outline: User should be able Assign to Resources to Conference Room
@@ -63,8 +59,6 @@ Feature: Rooms
     When I disabled the "<Room Name>" Conference Room
     Then the "<Message>" message should be displayed
       And the Conference Room should be disabled
-#    When I navigate to Tablet page
-#    Then the "<Room Name>" Conference Room should not be displayed.
       And the API should be displayed disabled to the Conference Room
 
   Examples:

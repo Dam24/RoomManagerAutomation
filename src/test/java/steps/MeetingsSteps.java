@@ -10,6 +10,8 @@ import framework.APIManager;
 import framework.CredentialsManager;
 import framework.DBQuery;
 import org.testng.Assert;
+import ui.PageTransporter;
+import ui.pages.tablet.LoginTablePage;
 import ui.pages.tablet.MainTablePage;
 import ui.pages.tablet.ScheduleTabletPage;
 
@@ -24,6 +26,7 @@ public class MeetingsSteps {
     private MainTablePage mainTablePage;
     private ScheduleTabletPage scheduleTabletPage;
     private Meeting meeting = new Meeting();
+    private LoginTablePage loginTablePage;
 
     @Given("^I navigate to Schedule page$")
     public void navigateToSchedulePage(){
@@ -120,6 +123,41 @@ public class MeetingsSteps {
     /*
     Scenario: Remove the Meeting
      */
+
+    @Given("^I navigate to Tablet page$")
+    public void navigateToTabletPage(){
+        loginTablePage= PageTransporter.getInstance().navigateToLoginTablePage();
+        loginTablePage.sigInToTable(
+                CredentialsManager
+                        .getInstance()
+                        .getRoomManagerService(),
+                CredentialsManager
+                        .getInstance()
+                        .getTabletUserName(),
+                CredentialsManager
+                        .getInstance()
+                        .getTabletUserPassword())
+        ;
+    }
+
+    @And("^I select the \"([^\\\"]*)\" Conference Room$")
+    public void selectConferenceRoom(String conferenceRoomName){
+        mainTablePage = loginTablePage.selectSomeConferenceRooms(conferenceRoomName);
+    }
+
+    @Then("^the Resource \"([^\\\"]*)\" should not be displayed in the Resource Tablet list$")
+    public void isResourceTabletRoomList(String resourceCustomName){
+        boolean actual = mainTablePage.isResourceInRoomOfTablet(resourceCustomName);
+        boolean expected = false;
+        Assert.assertEquals(actual,expected);
+    }
+
+
+
+
+
+
+
     @When("^I remove the meeting$")
     public void removeTheMeeting() {
         scheduleTabletPage = scheduleTabletPage

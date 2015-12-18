@@ -27,5 +27,6 @@ public class SetUpResources {
     }
     public static void afterResourceFeature(){
         APIManager.getInstance().deleteResourcesById(resources);
+        PageTransporter.getInstance().navigateToMainPage().clickSignOutSuccessfully();
     }
 }

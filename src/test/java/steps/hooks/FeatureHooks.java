@@ -72,23 +72,8 @@ public class FeatureHooks {
         }
     }
 
-    //****************************************************************
-    //Hooks for @ConferenceRooms feature
-    //****************************************************************
-    @Before("@Rooms")
-    public void beforeConferenceRoomsFeature() {
-        featuresHooksMap.put("rooms",()-> afterConferenceRoomsFeature());
-        if(!featureFlag){
-           SetUpConferenceRoom.beforeResourceFeature();
-            featureFlag = true;
-        }
-    }
-
     public void afterMeetingsFeature() {
         SetUpMeetings.afterMeetingsFeature();
     }
 
-    public void  afterConferenceRoomsFeature(){
-        SetUpConferenceRoom.afterConferenceRoomsFeature();
-    }
 }
