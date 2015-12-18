@@ -7,7 +7,10 @@ package framework;
  * Time: 2:39 PM
  * To change this template use File | Settings | File Templates.
  */
+import common.JSONReader;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -16,7 +19,11 @@ import java.util.concurrent.TimeUnit;
 public class BrowserManager {
     private WebDriver driver;
     private WebDriverWait wait;
-    private int implicitWait;
+    private final static Logger logger = Logger.getLogger(BrowserManager.class);
+    private JSONReader jsonReader;
+    private int implicitWait, explicitWait;
+    private String chromeDriverPath;
+    private String browserName, browser;
 
     private static BrowserManager instance = null;
 
@@ -38,12 +45,23 @@ public class BrowserManager {
      * Initializes the web driver and wait.
     */
     private void initialize(){
-       // recovery it from config file
-        implicitWait=2;
-        driver = new FirefoxDriver();
+        browserName = System.getProperty("browserName");
+        jsonReader = new JSONReader("browserConfig.json");
+        implicitWait = Integer.parseInt(jsonReader.getKey("implicitWait"));
+        explicitWait = Integer.parseInt(jsonReader.getKey("explicitWait"));
+        browser = jsonReader.getKey("defaultBrowser");
+
+        if(browserName == null || browserName.isEmpty() || browserName.equalsIgnoreCase(browser)){
+            driver = new FirefoxDriver();
+        } else
+            if(browserName.equalsIgnoreCase("chrome")){
+                chromeDriverPath = jsonReader.getKey("chromeDriverPath");
+                System.setProperty("webdriver.chrome.driver", chromeDriverPath);
+                driver = new ChromeDriver();
+        }
         driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
-        wait = new WebDriverWait(driver, 20, 1000);
+        driver.manage().timeouts().implicitlyWait(explicitWait, TimeUnit.SECONDS);
+        wait = new WebDriverWait(driver, explicitWait);
     }
 
     public void quitBrowser(){

@@ -1,9 +1,11 @@
 package common;
 
+import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -18,8 +20,14 @@ import org.json.simple.parser.ParseException;
  */
 public class JSONReader {
     private JSONObject jsonObjectMain;
+    private String directory;
+    private final static Logger logger = Logger.getLogger(JSONReader.class);
+    private String filePath;
 
-    public JSONReader(String filePath) {
+
+    public JSONReader(String file) {
+        directory = System.getProperty("user.dir");
+        filePath = new File(directory+"/"+file).getAbsolutePath();
         parseJSON(filePath);
     }
 
@@ -33,13 +41,13 @@ public class JSONReader {
             JSONParser jsonParser = new JSONParser();
             jsonObjectMain = (JSONObject) jsonParser.parse(reader);
         } catch (ParseException e) {
-            //e.printStackTrace();
+            e.printStackTrace();
         } catch (FileNotFoundException ex) {
-            //log.error("FileNotFoundException when reading the configuration file ", ex);
+            logger.error("FileNotFoundException when reading the configuration file ", ex);
         } catch (IOException ex) {
-            //log.error("IOException when reading the configuration file ", ex);
+            logger.error("IOException when reading the configuration file ", ex);
         } catch (NullPointerException ex) {
-            //log.error("NullPointerException when reading the configuration file ", ex);
+            logger.error("NullPointerException when reading the configuration file ", ex);
         }
     }
 
@@ -84,5 +92,9 @@ public class JSONReader {
             }
         }
         return jsonObject;
+    }
+
+    public String getKey(String key) {
+        return (String)jsonObjectMain.get(key);
     }
 }
