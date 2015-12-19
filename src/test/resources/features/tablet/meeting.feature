@@ -36,9 +36,10 @@ Feature: Meetings
     And the meeting should not be listed in the meetings of Room using the API
 
   Examples:
-    | Organizer       | Subject             | From    | To      | Attendees | Body                  | Message                 |
-    |                 | Meeting #4          | 17:10   | 17:15   |           | This is a message     | Organizer is required   |
-#    | jhasmany.quiroz |                     | 18:15   | 18:20   |           | This is a message     | Subject is required     |
+    | Organizer       | Subject               | From    | To      | Attendees                       | Body                  | Message                 |
+    |                 | Meeting with lead     | 17:10   | 17:15   | jhasmany.local@forest1.local    | Please arrive early   | Organizer is required   |
+    | jhasmany.quiroz |                       | 18:15   | 18:20   | damian.villanueva@forest1.local |                       | Subject is required     |
+    | jhasmany.quiroz | Meeting with the team | 18:15   | 18:20   |                                 | Planning Meeting      | Invalid Attendees     |
 
 
   @RemoveMeeting

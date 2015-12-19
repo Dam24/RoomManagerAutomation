@@ -13,16 +13,23 @@ import java.util.Date;
  * To change this template use File | Settings | File Templates.
  */
 public class Meeting {
+    private String id;
     private String organizer;
     private String title;
     private String from;
     private String to;
     private String attendees;
     private String body;
-    private String _id;
+    private String roomName;
 
-    public void setId(String id) {
-        _id = id;
+    public void setMeeting(String newOrganizer, String newTitle, String newFrom,
+                           String newTo, String newAttendees, String newBody) {
+        organizer = newOrganizer;
+        title = newTitle;
+        from = newFrom;
+        to = newTo;
+        attendees = newAttendees;
+        body = newBody;
     }
 
     public void setOrganizer(String newOrganizer) {
@@ -39,6 +46,10 @@ public class Meeting {
 
     public void setTo(String newTo) {
         to = newTo;
+    }
+
+    public void setId(String newId) {
+        id = newId;
     }
 
     public void setNow(String from, String to) {
@@ -91,8 +102,8 @@ public class Meeting {
         return organizer;
     }
 
-    public String setId() {
-        return _id;
+    public String getId() {
+        return id;
     }
 
     public String getTitle() {
@@ -113,5 +124,13 @@ public class Meeting {
 
     public String getBody() {
         return body;
+    }
+
+    public String getRoomName() {
+        return roomName;
+    }
+
+    public void setRoomName(String roomName) {
+        this.roomName = roomName;
     }
 }

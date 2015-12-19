@@ -1,4 +1,3 @@
-
 {
     "Environments": [
         {
@@ -33,7 +32,6 @@
             "resources URL": "https://172.20.208.216:4040/admin/#/admin/resources",
             "conferenceRooms URL": "https://172.20.208.216:4040/admin/#/admin/rooms",
             "roomName":"Floor1Room75",
-            "room manager service": "https://172.20.208.216:4040",
             "admin user": {
                 "name": "BrayanRosas",
                 "password": "Client123"
@@ -47,7 +45,7 @@
                 "password": "Client123"
             },
             "API": {
-                "server": "JALASOFTQA002"
+                "service": "https://172.20.208.216:4040"
             },
             "MongoDB": {
                 "server": "mongodb://172.20.208.216:27017",

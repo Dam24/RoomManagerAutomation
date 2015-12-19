@@ -1,7 +1,8 @@
 package steps.hooks;
 
+import api.APIMethodsResource;
 import entities.Resource;
-import framework.APIManager;
+import api.APIManager;
 import ui.PageTransporter;
 
 import java.util.ArrayList;
@@ -21,12 +22,16 @@ public class SetUpResources {
         ArrayList<String> resourceNames=new ArrayList<String>();
         resourceNames.add("Computer");
         resourceNames.add("Computer Assigned");
-        resources=APIManager.getInstance().createResourcesByName(resourceNames);
+
+        ///////////////////////////////////////////////////////////////////////////////////////REVISAR
+        //resources = APIManager.getInstance().createResourcesByName(resourceNames);
+        //resources = APIMethodsResource.createResources();
+
         PageTransporter.getInstance().refreshPage();
         PageTransporter.getInstance().fixRefreshIsue();
     }
     public static void afterResourceFeature(){
-        APIManager.getInstance().deleteResourcesById(resources);
+        APIMethodsResource.deleteResourcesById(resources);
         PageTransporter.getInstance().navigateToMainPage().clickSignOutSuccessfully();
     }
 }

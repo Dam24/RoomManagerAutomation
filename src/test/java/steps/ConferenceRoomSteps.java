@@ -1,6 +1,5 @@
 package steps;
 
-import cucumber.api.java.After;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -9,8 +8,8 @@ import entities.ConferenceRooms;
 import entities.Location;
 import entities.OutOfOrders;
 import entities.Resource;
-import framework.APIManager;
-import framework.DBQuery;
+import api.APIManager;
+import database.DBQuery;
 import org.testng.Assert;
 import ui.BaseMainPageObject;
 import ui.BasePageConferenceRoom;
@@ -171,14 +170,14 @@ public class ConferenceRoomSteps {
     @And("the Conference Room should be reserve on the API")
     public void the_Conference_Room_should_be_reserve_on_the_API(){
         String roomId = DBQuery.getInstance().getIdByKey("rooms","displayName",conferenceRooms.getName());
-        OutOfOrders outOfOrdersAPI = APIManager.getInstance().getOutOfOrderByTitle(outOfOrders.getTitle(), roomId);
+        OutOfOrders outOfOrdersAPI = APIManager.getInstance().getOutOfOrderByTitle(roomId);
         assertEquals(outOfOrdersAPI.getRoomID(),roomId);
     }
 
     @And("the Conference Room not should be reserve on the API")
     public void the_Conference_Room_not_should_be_reserve_on_the_API(){
         ConferenceRooms roomAPI = APIManager.getInstance().getConferenceRoomByName(conferenceRooms.getName());
-        OutOfOrders outOfOrdersAPI = APIManager.getInstance().getOutOfOrderByTitle(outOfOrders.getTitle(), roomAPI.getId());
+        OutOfOrders outOfOrdersAPI = APIManager.getInstance().getOutOfOrderByTitle(roomAPI.getId());
         assertNotSame(outOfOrdersAPI.getRoomID(),roomAPI.getId());
     }
 
