@@ -58,11 +58,11 @@ public class APIMethodsMeeting {
         ;
     }
 
-    public static boolean isMeetingInTheRoom(Meeting meeting, String roomName) {
+    public static boolean isMeetingInTheRoom(Meeting meeting, String roomId) {
         boolean res = false;
 
         String endPoint = "/services/"+apiManager.getServiceId()+
-                "/rooms/"+roomName+"/meetings";
+                "/rooms/"+roomId+"/meetings";
         Response response = given().when().get(endPoint);
         JSONArray jsonArray = new JSONArray(response.asString());
         for (int indice = 0; indice < jsonArray.length(); indice++) {

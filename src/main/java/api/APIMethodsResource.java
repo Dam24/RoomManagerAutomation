@@ -25,7 +25,7 @@ public class APIMethodsResource {
     public static Resource createResource(Resource resource) {
         Response response = given()
                 .header("Authorization", "jwt " +apiManager.getToken() )
-                .parameters(EnumKeys.RESOURCE_KEY.name, resource.getName(), EnumKeys.RESOURCE_KEY.description, resource.getDescription(),
+                .parameters(EnumKeys.RESOURCE_KEY.name, resource.getName(), EnumKeys.RESOURCE_KEY.description, "",
                         EnumKeys.RESOURCE_KEY.customName, resource.getDisplayName(), EnumKeys.RESOURCE_KEY.from, "",
                         EnumKeys.RESOURCE_KEY.icon, "fa fa-filter")
                 .post("/resources");
@@ -79,7 +79,7 @@ public class APIMethodsResource {
         for (int indice = 0; indice < jsonArray.length(); indice++) {
             resources.add(setResource(jsonArray.getJSONObject(indice).getString(Enum.RESOURCE_KEY.id),
                     jsonArray.getJSONObject(indice).getString(Enum.RESOURCE_KEY.name),
-                    jsonArray.getJSONObject(indice).getString(Enum.RESOURCE_KEY.description),
+                    jsonArray.getJSONObject(indice).getString(Enum.RESOURCE_KEY.customName),
                     jsonArray.getJSONObject(indice).getString(Enum.RESOURCE_KEY.description),
                     jsonArray.getJSONObject(indice).getString(Enum.RESOURCE_KEY.icon)));
         }

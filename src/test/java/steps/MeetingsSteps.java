@@ -1,5 +1,6 @@
 package steps;
 
+import api.APIMethodsMeeting;
 import cucumber.api.java.After;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
@@ -100,7 +101,7 @@ public class MeetingsSteps {
         meeting.setTo(to);
         meeting.setAttendees(attendees);
         meeting.setBody(body);
-        meeting = APIManager.getInstance().createMeeting(meeting);
+        meeting= APIMethodsMeeting.createMeeting(meeting);
     }
 
     /*
@@ -163,8 +164,7 @@ public class MeetingsSteps {
         String roomId = DBQuery.getInstance().getRoomIdByName(CredentialsManager.getInstance()
                 .getRoomName());
         String idMeeting = DBQuery.getInstance().getMeetingIdByName(meeting.getTitle());
-
-        Assert.assertFalse(APIManager.getInstance().isMeetingInTheRoom(idMeeting, roomId));
+       Assert.assertFalse(APIManager.getInstance().isMeetingInTheRoom(idMeeting, roomId));
     }
 
     /*
