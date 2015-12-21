@@ -35,7 +35,6 @@ public class RunnerCukesTest extends AbstractTestNGCucumberTests {
     public void beforeExecution(){
         try {
                  CommonMethod.signInToMainPage();
-
         } catch (Exception e) {
             log.error("Unable to navigate to this page", e);
         }
@@ -45,17 +44,17 @@ public class RunnerCukesTest extends AbstractTestNGCucumberTests {
     public void afterExecution() {
         FeatureHooks.executeAfterHookMethod();
         try {
-            if (CommonMethod.isInTheTabletPage()){
-               BrowserManager.getInstance().quitBrowser();
-            }
+//            if (CommonMethod.isInTheTabletPage()){
+//               BrowserManager.getInstance().quitBrowser();
+//            }
             if(CommonMethod.theUserIsLogIn() ){
                 System.out.println("The user is logged");
                 CommonMethod.signOut();
-                BrowserManager.getInstance().quitBrowser();
+//                BrowserManager.getInstance().quitBrowser();
             }
-            else{
+//            else{
                 BrowserManager.getInstance().quitBrowser();
-            }
+//            }
 
         } catch (Exception e) {
             log.error("Unable to logout after execution", e);

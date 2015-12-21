@@ -1,8 +1,7 @@
 package ui.pages;
 
 import entities.Resource;
-import framework.APIManager;
-import framework.DBQuery;
+import api.APIManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -129,39 +128,8 @@ public class ResourcePage extends BaseMainPageObject{
         return resourcesName;
     }
 
-    /**
-     * Get all resources that make match with search criteria by DB
-     * @return  An array list with the names of the resources
-     */
-    public ArrayList<String> getResourcesNameByDB(String searchCriteria){
-        ArrayList<Resource> resourcesByDB=DBQuery.getInstance().getResourcesBySearchCriteria(searchCriteria);
-        ArrayList<String> resourcesNameByDB= new ArrayList<String>();
-        /*
-        Get the names of the  array list of resouces getting by DB and fill it in array list of strings
-         */
-        for (Resource resourceTemp : resourcesByDB){
-            resourcesNameByDB.add(resourceTemp.getName());
-        }
-        return resourcesNameByDB;
-    }
-    public ArrayList<String> getResourcesNameByApi(){
-        ArrayList<Resource> resources =APIManager.getInstance().getResources();
-        ArrayList<String> names=new ArrayList<>();
-        for (Resource resource : resources){
-            names.add(resource.getName());
-        }
-        return names;
-    }
 
-    public ArrayList<String> searchResourceName(ArrayList<String> resourcesNames,String nameSearch){
-        ArrayList<String> namesFounded=new ArrayList<>();
-        for (String resourcesName :resourcesNames){
-            if(nameSearch.equals(resourcesName)){
-                namesFounded.add(resourcesName);
-            }
-        }
-        return namesFounded;
-    }
+
 
 
 }

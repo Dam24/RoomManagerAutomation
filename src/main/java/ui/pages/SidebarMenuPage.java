@@ -1,6 +1,7 @@
 package ui.pages;
 
-import common.EnumOptions;
+import common.*;
+import common.Enum;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -28,12 +29,12 @@ public class SidebarMenuPage extends BasePageObject {
     }
 
     public ResourcePage clickOptionResource(){
-       clickOption(EnumOptions.RESOURCES.option);
+       clickOption(Enum.RESOURCES_MENU.option);
         return new ResourcePage();
     }
 
     public ServerPage clickOptionServer(){
-        clickOption(EnumOptions.SERVER.option);
+        clickOption(Enum.SERVER_MENU.option);
         return new ServerPage();
     }
 

@@ -1,6 +1,5 @@
 package steps;
 
-import cucumber.api.java.After;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -9,8 +8,7 @@ import entities.ConferenceRooms;
 import entities.Location;
 import entities.OutOfOrders;
 import entities.Resource;
-import framework.APIManager;
-import framework.DBQuery;
+import api.APIManager;
 import org.testng.Assert;
 import ui.BaseMainPageObject;
 import ui.BasePageConferenceRoom;
@@ -61,15 +59,15 @@ public class ConferenceRoomSteps {
     }
 
 
-    @And("I create a resource with the following dates: \"(.*?)\", \"(.*?)\"")
-    public void I_create_a_resource_with_the_following_dates(String resourceName, String resourceDisplayName){
-        resource.setName(resourceName);
-        resource.setDisplayName(resourceName);
-        ArrayList<String> resourcesNameArray = new ArrayList<String>();
-        Collections.addAll(resourcesNameArray, resource.getName().split(","));
-        resourcesCreatedByGiven = APIManager.getInstance().createResourcesByName(resourcesNameArray);
-        PageTransporter.getInstance().refreshPage();
-    }
+//    @And("I create a resource with the following dates: \"(.*?)\", \"(.*?)\"")
+//    public void I_create_a_resource_with_the_following_dates(String resourceName, String resourceDisplayName){
+//        resource.setName(resourceName);
+//        resource.setDisplayName(resourceName);
+//        ArrayList<String> resourcesNameArray = new ArrayList<String>();
+//        Collections.addAll(resourcesNameArray, resource.getName().split(","));
+//        resourcesCreatedByGiven = APIManager.getInstance().createResourcesByName(resourcesNameArray);
+//        PageTransporter.getInstance().refreshPage();
+//    }
 
     @And("I displayed the \"(.*?)\" Resource in the Conference Room's Table")
     public void I_displayed_the_Resource_in_the_Conference_Rooms_Table(String  resourceDisplayName){
@@ -98,15 +96,15 @@ public class ConferenceRoomSteps {
         baseMainPageObject= conferenceRoomsPage;
     }
 
-    @And("I create a Location with the following details: \"(.*?)\", \"(.*?)\"")
-    public void I_create_a_Location_with_the_following_details(String locationName, String locationDisplayName){
-        location.setName(locationName);
-        location.setDisplayName(locationDisplayName);
-        ArrayList<String> locationsNameArray = new ArrayList<String>();
-        Collections.addAll(locationsNameArray, location.getName().split(","));
-        locationsCreateByGiven = APIManager.getInstance().createLocationsByName(locationsNameArray);
-        PageTransporter.getInstance().refreshPage();
-    }
+//    @And("I create a Location with the following details: \"(.*?)\", \"(.*?)\"")
+//    public void I_create_a_Location_with_the_following_details(String locationName, String locationDisplayName){
+//        location.setName(locationName);
+//        location.setDisplayName(locationDisplayName);
+//        ArrayList<String> locationsNameArray = new ArrayList<String>();
+//        Collections.addAll(locationsNameArray, location.getName().split(","));
+//        locationsCreateByGiven = APIManager.getInstance().createLocationsByName(locationsNameArray);
+//        PageTransporter.getInstance().refreshPage();
+//    }
 
     @When("I associate the \"(.*?)\" Conference Room with the Location in the Room Info page")
     public void I_associate_the_Conference_Room_with_Location_in_the_Room_Info_page(String roomDisplayName){
@@ -148,45 +146,45 @@ public class ConferenceRoomSteps {
         outOfOrderPlanningPage.setOutOfOrderPlanningNoSuccessful(fromDate,toDate,fromHours,toHours,reason,description);
     }
 
-    @And("the Resource association should be obtained using the API for Conference Room")
-    public void the_Resource_association_should_be_obtained_using_the_API(){
-        String idResource = DBQuery.getInstance().getIdByKey("resourcemodels", "name",resource.getName());
-        String idConferenceRoom = DBQuery.getInstance().getIdByKey("rooms", "displayName", conferenceRooms.getName());
-        Resource resourceOnCR = APIManager.getInstance().getResourceInConferenceRoomById(idConferenceRoom,idResource);
-        assertEquals(resource.getQuantity(), resourceOnCR.getQuantity());
-    }
+//    @And("the Resource association should be obtained using the API for Conference Room")
+//    public void the_Resource_association_should_be_obtained_using_the_API(){
+//        String idResource = DBQuery.getInstance().getIdByKey("resourcemodels", "name",resource.getName());
+//        String idConferenceRoom = DBQuery.getInstance().getIdByKey("rooms", "displayName", conferenceRooms.getName());
+//        Resource resourceOnCR = APIManager.getInstance().getResourceInConferenceRoomById(idConferenceRoom,idResource);
+//        assertEquals(resource.getQuantity(), resourceOnCR.getQuantity());
+//    }
 
-    @And("the Conference Room should be associated with Location on API")
-    public void the_Conference_Room_should_be_associated_with_Location_on_API(){
-        ConferenceRooms roomAPI = APIManager.getInstance().getConferenceRoomByName(conferenceRooms.getName());
-        Location locationAPI = APIManager.getInstance().getLocationByID(roomAPI.getLocation());
-        assertEquals(roomAPI.getLocation(), locationAPI.getId());
-    }
+//    @And("the Conference Room should be associated with Location on API")
+//    public void the_Conference_Room_should_be_associated_with_Location_on_API(){
+//        ConferenceRooms roomAPI = APIManager.getInstance().getConferenceRoomByName(conferenceRooms.getName());
+//        Location locationAPI = APIManager.getInstance().getLocationByID(roomAPI.getLocation());
+//        assertEquals(roomAPI.getLocation(), locationAPI.getId());
+//    }
 
     @And("a calendar icon should be displayed for Conference Room in the Out Of Order Column")
     public void calendarIsDisplayed(){
         assertTrue(conferenceRoomsPage.isCalendarPresent(conferenceRooms));
     }
 
-    @And("the Conference Room should be reserve on the API")
-    public void the_Conference_Room_should_be_reserve_on_the_API(){
-        String roomId = DBQuery.getInstance().getIdByKey("rooms","displayName",conferenceRooms.getName());
-        OutOfOrders outOfOrdersAPI = APIManager.getInstance().getOutOfOrderByTitle(outOfOrders.getTitle(), roomId);
-        assertEquals(outOfOrdersAPI.getRoomID(),roomId);
-    }
+//    @And("the Conference Room should be reserve on the API")
+//    public void the_Conference_Room_should_be_reserve_on_the_API(){
+//        String roomId = DBQuery.getInstance().getIdByKey("rooms","displayName",conferenceRooms.getName());
+//        OutOfOrders outOfOrdersAPI = APIManager.getInstance().getOutOfOrderByTitle(outOfOrders.getTitle(), roomId);
+//        assertEquals(outOfOrdersAPI.getRoomID(),roomId);
+//    }
 
-    @And("the Conference Room not should be reserve on the API")
-    public void the_Conference_Room_not_should_be_reserve_on_the_API(){
-        ConferenceRooms roomAPI = APIManager.getInstance().getConferenceRoomByName(conferenceRooms.getName());
-        OutOfOrders outOfOrdersAPI = APIManager.getInstance().getOutOfOrderByTitle(outOfOrders.getTitle(), roomAPI.getId());
-        assertNotSame(outOfOrdersAPI.getRoomID(),roomAPI.getId());
-    }
+//    @And("the Conference Room not should be reserve on the API")
+//    public void the_Conference_Room_not_should_be_reserve_on_the_API(){
+//        ConferenceRooms roomAPI = APIManager.getInstance().getConferenceRoomByName(conferenceRooms.getName());
+//        OutOfOrders outOfOrdersAPI = APIManager.getInstance().getOutOfOrderByTitle(outOfOrders.getTitle(), roomAPI.getId());
+//        assertNotSame(outOfOrdersAPI.getRoomID(),roomAPI.getId());
+//    }
 
-    @And("the API should be displayed disabled to the Conference Room")
-    public void the_API_should_be_displayed_disabled_to_the_Conference_Room(){
-        ConferenceRooms roomAPI = APIManager.getInstance().getConferenceRoomByName(conferenceRooms.getName());
-        assertEquals(roomAPI.getEnabled(),false);
-    }
+//    @And("the API should be displayed disabled to the Conference Room")
+//    public void the_API_should_be_displayed_disabled_to_the_Conference_Room(){
+//        ConferenceRooms roomAPI = APIManager.getInstance().getConferenceRoomByName(conferenceRooms.getName());
+//        assertEquals(roomAPI.getEnabled(),false);
+//    }
 
     @Then("a message should be displayed on the OutOfOrderPage")
     public void messageOnOutOfOrderPage(){

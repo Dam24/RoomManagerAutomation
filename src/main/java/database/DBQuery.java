@@ -1,4 +1,4 @@
-package framework;
+package database;
 
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
@@ -7,6 +7,7 @@ import entities.Resource;
 import org.bson.Document;
 import com.mongodb.Block;
 import java.util.ArrayList;
+import common.Enum;
 
 import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Filters.regex;
@@ -86,7 +87,28 @@ public class DBQuery {
         return getIdByKey("rooms", "displayName", nameRoom);
     }
 
+    public String getResourceIdByName(String resourceName) {
+        return getIdByKey(Enum.RESOURCE_KEY.nameCollection,Enum.RESOURCE_KEY.name, resourceName);
+    }
+
+
     public void closeMongoDB() {
         DBManager.getInstance().closeMongoDB();
+    }
+
+    /**
+     * Get all resources that make match with search criteria by DB
+     * @return  An array list with the names of the resources
+     */
+    public ArrayList<String> getResourcesNameByDB(String searchCriteria){
+        ArrayList<Resource> resourcesByDB=DBQuery.getInstance().getResourcesBySearchCriteria(searchCriteria);
+        ArrayList<String> resourcesNameByDB= new ArrayList<String>();
+        /*
+        Get the names of the  array list of resouces getting by DB and fill it in array list of strings
+         */
+        for (Resource resourceTemp : resourcesByDB){
+            resourcesNameByDB.add(resourceTemp.getName());
+        }
+        return resourcesNameByDB;
     }
 }

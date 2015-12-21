@@ -1,14 +1,14 @@
 package steps;
 
-import common.EnumKeys;
+import api.APIMethodsResource;
 import cucumber.api.java.After;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import database.DBQuery;
 import entities.Resource;
-import framework.APIManager;
-import framework.DBQuery;
+import api.APIManager;
 import org.testng.Assert;
 import ui.BaseMainPageObject;
 import ui.PageTransporter;
@@ -43,10 +43,13 @@ public class ResourceStep {
     @Given("^I create a Resource with: \"([^\\\"]*)\" Name$")
     public void createResources(String resourceNames){
         ArrayList<String> resourcesNameArray = new ArrayList<String>();
-        for (String nameResourceTemp : resourceNames.split(",")){
-            resourcesNameArray.add(nameResourceTemp);
+        for (String name : resourceNames.split(",")){
+            resourcesNameArray.add(name);
+            resource1.setName(name);
+            resource1.setDisplayName(name);
+            resourcesCreatedByGiven.add(resource1);
         }
-       resourcesCreatedByGiven= APIManager.getInstance().createResourcesByName(resourcesNameArray);
+        resourcesCreatedByGiven= APIMethodsResource.createResources(resourcesCreatedByGiven);
         PageTransporter.getInstance().refreshPage();
         PageTransporter.getInstance().fixRefreshIsue();
     }
@@ -83,7 +86,8 @@ public class ResourceStep {
 
     @And("^only one Resource with name \"([^\\\"]*)\" should be obtained by API$")
     public void existTwoResourcesSameNameByApi(String resourceName){
-        Assert.assertEquals(resourcePage.searchResourceName(resourcePage.getResourcesNameByApi(),resourceName).size(),1);
+        Assert.assertTrue(APIMethodsResource.foundResourceSameName(resourceName));
+        //Assert.assertEquals(resourcePage.searchResourceName(APIMethodsResource.getResourcesNameByApi(),resourceName).size(),1);
     }
 
     @When("^I search Resources with search criteria \"([^\\\"]*)\"$")
@@ -94,10 +98,14 @@ public class ResourceStep {
 
     @Then("^the Resources that match the search criteria \"([^\\\"]*)\" should be displayed in Resource List$")
     public void numResourcesFilter(String searchCriteria){
-        Assert.assertEqualsNoOrder(resourcePage.getResourcesNameByUI().toArray(),resourcePage.getResourcesNameByDB(searchCriteria).toArray());    }
+        Assert.assertEqualsNoOrder(resourcePage.getResourcesNameByUI().toArray(), DBQuery.getInstance().getResourcesNameByDB(searchCriteria).toArray());
+    }
 
     @When("^I delete the Resource \"([^\\\"]*)\"$")
     public void deleteResourceByName(String resourceName){
+//        resource1.setName(resourceName);
+//        resource1.setID( DBQuery.getInstance().getResourceIdByName(resourceName));
+//        System.out.println(resource1.getID());
         resourcePage=sidebar.clickOptionResource();
         resourceAssociationsPage=resourcePage.clickDeleteResource(resourceName);
         resourceAssociationsPage.deleteButtonConfirm();
@@ -110,19 +118,14 @@ public class ResourceStep {
 
     @And("^the Resource \"([^\\\"]*)\" should not be obtained using the API$")
     public void theResourceIsPresentInAPI(String resourceName){
-        String idResource=DBQuery.getInstance().getIdByKey(EnumKeys.RESOURCE_KEY.nameCollection, EnumKeys.RESOURCE_KEY.name,resourceName);
-        Resource res1=APIManager.getInstance().getResourceByID(idResource) ;
-        Assert.assertNull(res1.getName());
-    }
+       // DBQuery.getInstance().getResourceIdByName(resourceName);
+        Assert.assertFalse(APIMethodsResource.isFoundedTheResourceByApi(resourceName));
 
-    @Given("^Delete resource$")
-    public void deleteResources(){
-       APIManager.getInstance().deleteResourcesById(resourcesCreatedByGiven);
     }
 
     @After("@ResourceFilter")
     public void deleteResourcesByScenario(){
-        APIManager.getInstance().deleteResourcesById(resourcesCreatedByGiven);
+        APIMethodsResource.deleteResourcesById(resourcesCreatedByGiven);
         PageTransporter.getInstance().refreshPage();
         PageTransporter.getInstance().fixRefreshIsue();
     }

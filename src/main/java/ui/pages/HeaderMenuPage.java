@@ -28,7 +28,6 @@ public class HeaderMenuPage extends BasePageObject {
 
     public LoginPage clickSignOutSuccessfully() {
         linkSignOut2.click();
-        System.out.println("Entered to header click");
         return new LoginPage();
     }
 
