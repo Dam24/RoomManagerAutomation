@@ -25,7 +25,6 @@ public class GlobalHooks {
         if (scenario.isFailed()) {
             final byte[] screenShot = ((TakesScreenshot) webDriver).getScreenshotAs(OutputType.BYTES);
             scenario.embed(screenShot, "image/png");
-            System.out.println("the Scenario: "+ scenario.getName()+" Failed!!!!");
         }
     }
 

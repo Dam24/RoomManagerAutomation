@@ -23,10 +23,6 @@ public class SetUpResources {
         resourceNames.add("Computer");
         resourceNames.add("Computer Assigned");
 
-        ///////////////////////////////////////////////////////////////////////////////////////REVISAR
-        //resources = APIManager.getInstance().createResourcesByName(resourceNames);
-        //resources = APIMethodsResource.createResources();
-
         PageTransporter.getInstance().refreshPage();
         PageTransporter.getInstance().fixRefreshIsue();
     }

@@ -23,26 +23,18 @@ public class login {
 
     @Given("^I sign in to Main page with user name \"([^\\\"]*)\" and password \"([^\\\"]*)\"$")
     public void signInToMainPage(String user,String password){
-        System.out.println("-CURRENT URL " + PageTransporter.getInstance().getCurrentURL());
         if(!CommonMethod.theUserIsLogIn() ){
-            System.out.println("***************** The User is logged , Trying log in ....."+CommonMethod.theUserIsLogIn());
-//            PageTransporter.getInstance().navigateToLoginPage();
-            //CommonMethod.signInToMainPage();
-            // loginPage=PageTransporter.getInstance().navigateToLoginPage();
-            loginPage=new LoginPage();
+            loginPage = new LoginPage();
             loginPage.signIn(user,password);
         }
         if(CommonMethod.isInTheTabletPage()){
-            loginPage=PageTransporter.getInstance().navigateToLoginPage();
+            loginPage = PageTransporter.getInstance().navigateToLoginPage();
             loginPage.signIn(user,password);
-
         }
-
     }
 
     @When("^I sign out of Admin Page$")
     public void signOut(){
         PageTransporter.getInstance().navigateToMainPage().getHeaderMenu().clickSignOutSuccessfully();
     }
-
 }

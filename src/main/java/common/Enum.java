@@ -34,8 +34,6 @@ public enum Enum {
     public String start;
     public String end;
     public String location;
-
-
     public String organizer;
     public String title;
     public String roomEmail;

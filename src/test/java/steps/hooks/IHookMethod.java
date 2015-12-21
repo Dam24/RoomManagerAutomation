@@ -10,5 +10,5 @@ import java.sql.SQLException;
  */
 public interface IHookMethod {
 
-    public void executeMethod()  ;
+    public void executeMethod();
 }

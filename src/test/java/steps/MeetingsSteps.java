@@ -6,8 +6,8 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import entities.ConferenceRoom;
 import entities.Meeting;
-import api.APIManager;
 import framework.CredentialsManager;
 import database.DBQuery;
 import org.testng.Assert;
@@ -28,10 +28,14 @@ public class MeetingsSteps {
     private ScheduleTabletPage scheduleTabletPage;
     private Meeting meeting;
     private LoginTablePage loginTablePage;
+    private DBQuery dbQuery;
+    private ConferenceRoom conferenceRoom;
 
     public MeetingsSteps(Meeting meeting) {
         this.meeting = meeting;
         mainTablePage = new MainTablePage();
+        dbQuery = DBQuery.getInstance();
+        conferenceRoom = new ConferenceRoom();
     }
 
     @Given("^I navigate to Schedule page$")
@@ -61,7 +65,7 @@ public class MeetingsSteps {
         Assert.assertTrue(scheduleTabletPage.isMeetingPresentScheduleBar(meeting),
                           "Meeting is present in the ScheduleBar Tablet Page");
     }
-    //REVISAR
+
     @And("^the meeting information should be displayed in the Next section of Main page$")
     public void meetingInformationShouldBeDisplayedInTheNextSectionOfMainPage() {
         mainTablePage = scheduleTabletPage.clickMainTabletPage();
@@ -71,10 +75,10 @@ public class MeetingsSteps {
 
     @And("^the meeting should be listed in the meetings of Room using the API$")
     public void meetingShouldBeListedInTheMeetingsOfRoomUsingTheAPI() {
-        String roomId = DBQuery.getInstance().getRoomIdByName(CredentialsManager.getInstance().getRoomName());
-        meeting.setId(DBQuery.getInstance().getMeetingIdByName(meeting.getTitle()));
+        String roomId = DBQuery.getInstance().getRoomIdByName(conferenceRoom);
+        meeting.setId(dbQuery.getMeetingIdByName(meeting));
 
-        Assert.assertTrue(APIManager.getInstance().isMeetingInTheRoom(meeting.getId(), roomId));
+        Assert.assertTrue(APIMethodsMeeting.isMeetingInTheRoom(meeting, roomId));
     }
 
     /*
@@ -101,13 +105,12 @@ public class MeetingsSteps {
         meeting.setTo(to);
         meeting.setAttendees(attendees);
         meeting.setBody(body);
-        meeting= APIMethodsMeeting.createMeeting(meeting);
+        meeting = APIMethodsMeeting.createMeeting(meeting, conferenceRoom);
     }
 
     /*
     Scenario: Remove the Meeting
      */
-
     @Given("^I navigate to Tablet page$")
     public void navigateToTabletPage(){
         loginTablePage= PageTransporter.getInstance().navigateToLoginTablePage();
@@ -120,13 +123,13 @@ public class MeetingsSteps {
                         .getTabletUserName(),
                 CredentialsManager
                         .getInstance()
-                        .getTabletUserPassword())
-        ;
+                        .getTabletUserPassword());
     }
 
     @And("^I select the \"([^\\\"]*)\" Conference Room$")
     public void selectConferenceRoom(String conferenceRoomName){
         mainTablePage = loginTablePage.selectSomeConferenceRooms(conferenceRoomName);
+        conferenceRoom.setName(conferenceRoomName);
     }
 
     @Then("^the Resource \"([^\\\"]*)\" should not be displayed in the Resource Tablet list$")
@@ -140,8 +143,7 @@ public class MeetingsSteps {
     public void removeTheMeeting() {
         scheduleTabletPage = scheduleTabletPage
                                 .clickOnDeleteMeeting(meeting)
-                                .typeCredentialsExchangePassword()
-        ;
+                                .typeCredentialsExchangePassword();
     }
 
     @And("^the meeting should not be displayed in the Schedule bar$")
@@ -161,10 +163,8 @@ public class MeetingsSteps {
 
     @And("^the meeting should not be listed in the meetings of Room using the API$")
     public void theMeetingShouldNotBeListedInTheMeetingsOfRoomUsingTheApi() {
-        String roomId = DBQuery.getInstance().getRoomIdByName(CredentialsManager.getInstance()
-                .getRoomName());
-        String idMeeting = DBQuery.getInstance().getMeetingIdByName(meeting.getTitle());
-       Assert.assertFalse(APIManager.getInstance().isMeetingInTheRoom(idMeeting, roomId));
+        String roomId = dbQuery.getRoomIdByName(conferenceRoom);
+       Assert.assertFalse(APIMethodsMeeting.isMeetingInTheRoom(meeting, roomId));
     }
 
     /*
@@ -193,8 +193,9 @@ public class MeetingsSteps {
 
     @After("@Meetings")
     public void deleteMeeting() {
-        String idMeeting = DBQuery.getInstance().getMeetingIdByName(meeting.getTitle());
-        String roomId = DBQuery.getInstance().getRoomIdByName(CredentialsManager.getInstance().getRoomName());
-        APIManager.getInstance().deleteMeetingById(idMeeting, roomId);
+        String idMeeting = dbQuery.getMeetingIdByName(meeting);
+        meeting.setId(idMeeting);
+        String roomId = dbQuery.getRoomIdByName(conferenceRoom);
+        APIMethodsMeeting.deleteMeetingById(meeting, roomId);
     }
 }

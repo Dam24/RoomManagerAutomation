@@ -26,7 +26,7 @@ public class JSONReader {
 
 
     public JSONReader(String file) {
-        directory = System.getProperty("user.dir");
+        directory = System.getProperty(Constant.USER_DIR);
         filePath = new File(directory+"/"+file).getAbsolutePath();
         parseJSON(filePath);
     }

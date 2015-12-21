@@ -52,20 +52,12 @@ public class PageTransporter {
                     .getBaseConferenceRooms();
     private static PageTransporter instance;
 
-    protected PageTransporter() {
-        initialize();
-    }
-
     public static PageTransporter getInstance() {
         if(instance == null) {
             instance = new PageTransporter();
         }
 
         return instance;
-    }
-
-    private void initialize() {
-        //log.info("Initialize the page transporter");
     }
 
     private void goToURL(String url) {
@@ -94,24 +86,6 @@ public class PageTransporter {
     public ResourcePage navigateToResourcePage(){
         goToURL(baseResourcesPage);
         return  new ResourcePage();
-    }
-
-    public ConferenceRoomsPage navigateToConferenceRoomsPage(){
-        goToURL(baseConferenceRooms);
-        return new ConferenceRoomsPage();
-    }
-
-    public void navigateToServerPage(){
-        goToURL(baseServerPage);
-    }
-
-    public void closeLoginPage(){
-        driver.close();
-    }
-
-    public MainTablePage navigateToMainTabletPage() {
-        goToURL(baseTableHomePage);
-        return new MainTablePage();
     }
 
     public void fixRefreshIsue(){

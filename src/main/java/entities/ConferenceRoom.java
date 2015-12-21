@@ -7,7 +7,7 @@ package entities;
  * Time: 7:09 PM
  * To change this template use File | Settings | File Templates.
  */
-public class ConferenceRooms {
+public class ConferenceRoom {
     private String Id;
     private String Name;
     private String DisplayName;

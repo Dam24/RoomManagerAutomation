@@ -62,18 +62,4 @@ public class FeatureHooks {
     public void afterResourceFeature() {
       SetUpResources.afterResourceFeature();
     }
-
-    @Before("@Meetings")
-    public void beforeMeetingsFeature() {
-        featuresHooksMap.put("meetings", () -> afterMeetingsFeature());
-        if (!featureFlag) {
-            SetUpMeetings.beforeMeetingFeature();
-            featureFlag = true;
-        }
-    }
-
-    public void afterMeetingsFeature() {
-        SetUpMeetings.afterMeetingsFeature();
-    }
-
 }
