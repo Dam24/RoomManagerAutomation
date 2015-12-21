@@ -138,7 +138,7 @@ public class APIMethodsResource {
      * @return
      */
     private static Resource setResource(String _id, String name, String description,
-                                 String customName, String fontIcon) {
+                                        String customName, String fontIcon) {
         Resource resource = new Resource();
 
         resource.setID(_id);
@@ -186,14 +186,14 @@ public class APIMethodsResource {
 
     /*
      Verify if the Api founded some resource
-     @receive a resourceID
+     @receive a Resource
      @return boolean
       */
     public static  boolean isFoundedTheResourceByApi(Resource resource){
-        if(getResourceByID(resource) == null) {
-            return false;
-        } else {
+        if(getResourceByID(resource).getID()==resource.getID()) {
             return true;
+        } else {
+            return false;
         }
     }
 }

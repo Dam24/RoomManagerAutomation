@@ -17,12 +17,19 @@ import java.util.ArrayList;
 public class SetUpResources {
 
    public static ArrayList<Resource> resources=new ArrayList<Resource>();
+   public static Resource resource=new Resource();
 
     public static void beforeResourceFeature(){
+        resource.setName("Computer");
+        resource.setDisplayName("Computer");
+        resources.add(resource);
+        resource.setName("Computer Assigned");
+        resource.setDisplayName("Computer Assigned");
+        resources.add(resource);
+        resources=APIMethodsResource.createResources(resources);
         ArrayList<String> resourceNames=new ArrayList<String>();
         resourceNames.add("Computer");
         resourceNames.add("Computer Assigned");
-
         PageTransporter.getInstance().refreshPage();
         PageTransporter.getInstance().fixRefreshIsue();
     }

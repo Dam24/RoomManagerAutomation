@@ -17,12 +17,12 @@ import ui.pages.tablet.MainTablePage;
 import ui.pages.tablet.ScheduleTabletPage;
 
 /**
-* Created with IntelliJ IDEA.
-* User: jhasmanyquiroz
-* Date: 12/15/15
-* Time: 1:40 PM
-* To change this template use File | Settings | File Templates.
-*/
+ * Created with IntelliJ IDEA.
+ * User: jhasmanyquiroz
+ * Date: 12/15/15
+ * Time: 1:40 PM
+ * To change this template use File | Settings | File Templates.
+ */
 public class MeetingsSteps {
     private MainTablePage mainTablePage;
     private ScheduleTabletPage scheduleTabletPage;
@@ -45,13 +45,13 @@ public class MeetingsSteps {
 
     @When("^I create successfully a meeting with the following information: \"([^\\\"]*)\", \"([^\\\"]*)\", \"([^\\\"]*)\", \"([^\\\"]*)\", \"([^\\\"]*)\", \"([^\\\"]*)\"$")
     public void createSuccessfullyMeetingWithFollowingInformation(String organizer, String subject,
-                                                      String from, String to,
-                                                      String attendees, String body) {
+                                                                  String from, String to,
+                                                                  String attendees, String body) {
         meeting.setMeeting(organizer, subject, from, to, attendees, body);
         scheduleTabletPage = scheduleTabletPage
-                                .createBasicMeeting(meeting)
-                                .clickOnCreateMeeting()
-                                .loginCredentialsUserExchange()
+                .createBasicMeeting(meeting)
+                .clickOnCreateMeeting()
+                .loginCredentialsUserExchange()
         ;
     }
 
@@ -63,14 +63,14 @@ public class MeetingsSteps {
     @And("^the meeting should be displayed in the Schedule bar$")
     public void meetingShouldBeDisplayedInTheScheduleBar() {
         Assert.assertTrue(scheduleTabletPage.isMeetingPresentScheduleBar(meeting),
-                          "Meeting is present in the ScheduleBar Tablet Page");
+                "Meeting is present in the ScheduleBar Tablet Page");
     }
 
     @And("^the meeting information should be displayed in the Next section of Main page$")
     public void meetingInformationShouldBeDisplayedInTheNextSectionOfMainPage() {
         mainTablePage = scheduleTabletPage.clickMainTabletPage();
         Assert.assertTrue(mainTablePage.isMeetingPresent(meeting.getTitle(), meeting.getOrganizer()),
-                         "Meeting is present in the Main Tablet Page");
+                "Meeting is present in the Main Tablet Page");
     }
 
     @And("^the meeting should be listed in the meetings of Room using the API$")
@@ -97,8 +97,8 @@ public class MeetingsSteps {
 
     @When("^I create successfully a meeting with the following information here: \"([^\\\"]*)\", \"([^\\\"]*)\", \"([^\\\"]*)\", \"([^\\\"]*)\", \"([^\\\"]*)\", \"([^\\\"]*)\"$")
     public void createSuccessfullyMeetingWithFollowingInformationHere(String organizer, String subject,
-                                                                  String from, String to,
-                                                                  String attendees, String body) {
+                                                                      String from, String to,
+                                                                      String attendees, String body) {
         meeting.setOrganizer(organizer);
         meeting.setTitle(subject);
         meeting.setFrom(from);
@@ -142,15 +142,15 @@ public class MeetingsSteps {
     @When("^I remove the meeting$")
     public void removeTheMeeting() {
         scheduleTabletPage = scheduleTabletPage
-                                .clickOnDeleteMeeting(meeting)
-                                .typeCredentialsExchangePassword();
+                .clickOnDeleteMeeting(meeting)
+                .typeCredentialsExchangePassword();
     }
 
     @And("^the meeting should not be displayed in the Schedule bar$")
     public void theMeetingShouldNotBeDisplayedInTheScheduleBar() {
         Assert.assertFalse(scheduleTabletPage.isMeetingPresentScheduleBar(meeting),
-                                "Meeting is not present in the ScheduleBar Tablet Page"
-                            )
+                "Meeting is not present in the ScheduleBar Tablet Page"
+        )
         ;
     }
 
@@ -158,13 +158,13 @@ public class MeetingsSteps {
     public void theMeetingInformationShouldNotBeDisplayedInTheNextSectionOfmainPage() {
         mainTablePage = scheduleTabletPage.clickMainTabletPage();
         Assert.assertFalse(mainTablePage.isMeetingPresent(meeting.getTitle(), meeting.getOrganizer()),
-                            "Meeting is not present in the Main Tablet Page");
+                "Meeting is not present in the Main Tablet Page");
     }
 
     @And("^the meeting should not be listed in the meetings of Room using the API$")
     public void theMeetingShouldNotBeListedInTheMeetingsOfRoomUsingTheApi() {
         String roomId = dbQuery.getRoomIdByName(conferenceRoom);
-       Assert.assertFalse(APIMethodsMeeting.isMeetingInTheRoom(meeting, roomId));
+        Assert.assertFalse(APIMethodsMeeting.isMeetingInTheRoom(meeting, roomId));
     }
 
     /*

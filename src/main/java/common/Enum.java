@@ -47,20 +47,39 @@ public enum Enum {
     Enum for RESOURCE_KEY
      */
 
-    private Enum(String nameCollection, String name, String customName, String description, String icon, String id, String from){
-        this.nameCollection = nameCollection;
-        this.name = name;
-        this.customName = customName;
-        this.description = description;
-        this.icon = icon;
-        this.id = id;
-        this.from = from;
-    }
+   private Enum(String nameCollection, String name, String customName, String description, String icon, String id, String from){
+        this.nameCollection=nameCollection;
+        this.name=name;
+        this.customName=customName;
+        this.description=description;
+        this.icon=icon;
+        this.id=id;
+        this.from=from;
+   }
     /*
     Enum for Room_KEY
      */
     private Enum(String nameCollection, String name, String customName, String roomEmail, String enable, String id,
                  String locationId, String serverId){
+        this.nameCollection=nameCollection;
+        this.name=name;
+        this.customName=customName;
+        this.roomEmail=roomEmail;
+        this.enable=enable;
+        this.id=id;
+        this.locationId=locationId;
+        this.serverId=serverId;
+    }
+     /*
+     Enum for LOCATION_KEY
+      */
+    private Enum(String nameCollection, String name, String customName, String description, String path, String id){
+        this.nameCollection=nameCollection;
+        this.name=name;
+        this.customName=customName;
+        this.description=description;
+        this.path=path;
+        this.id=id;
         this.nameCollection = nameCollection;
         this.name = name;
         this.customName = customName;
@@ -70,35 +89,25 @@ public enum Enum {
         this.locationId = locationId;
         this.serverId = serverId;
     }
-    /*
-    Enum for LOCATION_KEY
-     */
-    private Enum(String nameCollection, String name, String customName, String description, String path, String id){
-        this.nameCollection = nameCollection;
-        this.name = name;
-        this.customName = customName;
-        this.description = description;
-        this.path = path;
-        this.id = id;
-    }
 
     private Enum(String nameCollection, String organizer, String title, String start, String end, String location,
                  String roomEmail, String resources, String attendees, String id, String serverId){
-        this.nameCollection = nameCollection;
-        this.organizer = organizer;
-        this.title = title;
-        this.start = start;
-        this.end = end;
-        this.location = location;
-        this.roomEmail = roomEmail;
-        this.resources = resources;
-        this.attendees = attendees;
-        this.id = id;
-        this.serverId = serverId;
+        this.nameCollection=nameCollection;
+        this.organizer=organizer;
+        this.title=title;
+        this.start=start;
+        this.end=end;
+        this.location=location;
+        this.roomEmail=roomEmail;
+        this.resources=resources;
+        this.attendees=attendees;
+        this.id=id;
+        this.serverId=serverId;
     }
 
     private Enum(String option){
-        this.option = option;
+        this.option=option;
+
     }
 
 }

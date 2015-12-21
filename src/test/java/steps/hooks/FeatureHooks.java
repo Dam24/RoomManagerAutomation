@@ -21,6 +21,10 @@ public class FeatureHooks {
     private static Map<String, IHookMethod> featuresHooksMap = new HashMap<String, IHookMethod>();
     final static Logger logger = Logger.getLogger(FeatureHooks.class);
     private static boolean featureFlag = false;
+//    private static boolean FeatureFlag2=false;
+//    private static boolean featureFlag3=false;
+
+
 
     //****************************************************************
     //Hooks for any scenario

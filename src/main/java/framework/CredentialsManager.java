@@ -76,7 +76,7 @@ public class CredentialsManager {
         tabletUserPassword = jsonObjectMain.getKeyValue("Environments", "id", envId, "tablet user", "password");
         exchangeUserName = jsonObjectMain.getKeyValue("Environments", "id", envId, "exchange user", "name");
         exchangeUserPassword = jsonObjectMain.getKeyValue("Environments", "id", envId, "exchange user", "password");
-        apiServiceURL = jsonObjectMain.getKeyValue("Environments", "id", envId, "api", "service");
+        apiServiceURL = jsonObjectMain.getKeyValue("Environments", "id", envId, "API", "service");
         mongoServer = jsonObjectMain.getKeyValue("Environments", "id", envId, "MongoDB", "server");
         mongoDataBase = jsonObjectMain.getKeyValue("Environments", "id", envId, "MongoDB", "database");
 

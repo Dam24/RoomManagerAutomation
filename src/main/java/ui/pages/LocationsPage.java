@@ -33,7 +33,7 @@ public class LocationsPage extends BaseMainPageObject {
 
     @Override
     public void waitUntilPageObjectIsLoaded() {
-//        wait.until(ExpectedConditions.visibilityOf(tableLocation));
+
     }
 
     private LocationInfoPage doubleClickOnSpecificLocation(String locationsName){

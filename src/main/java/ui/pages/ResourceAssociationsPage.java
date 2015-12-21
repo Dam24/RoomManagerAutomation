@@ -47,7 +47,7 @@ public class ResourceAssociationsPage extends BasePageConferenceRoom {
 
     @Override
     public void waitUntilPageObjectIsLoaded() {
-//        wait.until(ExpectedConditions.visibilityOf(bodyResourceAssociated));
+
     }
 
     private ResourceAssociationsPage clickAddResource(String resourceName){

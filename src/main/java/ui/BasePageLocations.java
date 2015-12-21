@@ -40,7 +40,7 @@ public class BasePageLocations extends BasePageObject{
 
     @Override
     public void waitUntilPageObjectIsLoaded() {
-//        wait.until(ExpectedConditions.visibilityOf(buttonSave));
+
     }
 
     protected LocationInfoPage clickRoomInfoTab(){

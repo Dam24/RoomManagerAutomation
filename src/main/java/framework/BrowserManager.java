@@ -24,6 +24,7 @@ public class BrowserManager {
     private int implicitWait, explicitWait;
     private String chromeDriverPath;
     private String browserName, browser;
+    private Logger log = Logger.getLogger("DataBaseDriver");
 
     private static BrowserManager instance = null;
 
