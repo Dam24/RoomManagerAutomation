@@ -1,5 +1,7 @@
 package entities;
 
+import common.Constant;
+
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -68,7 +70,7 @@ public class Meeting {
 
     public String getFromExchange() {
         Date localTime = new Date();
-        SimpleDateFormat converter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        SimpleDateFormat converter = new SimpleDateFormat(Constant.SIMPLE_FORMAT);
         Timestamp times = new Timestamp(localTime.getTime());
         String star = converter.format(times);
         String []change = star.split("T");
@@ -80,7 +82,7 @@ public class Meeting {
 
     public String getToExchange() {
         Date localTime = new Date();
-        SimpleDateFormat converter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        SimpleDateFormat converter = new SimpleDateFormat(Constant.SIMPLE_FORMAT);
         Timestamp times = new Timestamp(localTime.getTime());
         String star = converter.format(times);
         String []change = star.split("T");

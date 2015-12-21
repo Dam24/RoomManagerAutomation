@@ -3,20 +3,13 @@ package api;
 import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.path.json.JsonPath;
 import com.jayway.restassured.response.Response;
-import common.*;
+import common.Constant;
 import common.Enum;
-import entities.ConferenceRooms;
-import entities.Location;
-import entities.OutOfOrders;
-import entities.Meeting;
-import entities.Resource;
+import entities.ConferenceRoom;
 import framework.CredentialsManager;
 import database.DBQuery;
 import org.json.JSONArray;
-import org.json.simple.JSONObject;
-
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.Base64;
 
 import static com.jayway.restassured.RestAssured.given;
@@ -56,51 +49,43 @@ public class APIManager {
 
     private String getTokenAPI() {
         Response response = given()
-                .parameters("username", credentials.getAdminUserName(), "password",
-                        credentials.getAdminUserPassword(), "authentication", "local")
+                .parameters(Constant.USERNAME, credentials.getAdminUserName(), Constant.PASSWORD,
+                        credentials.getAdminUserPassword(), Constant.AUTHENTICATION, Constant.LOCAL)
                 .post("/login");
 
         String json = response.asString();
         JsonPath jp = new JsonPath(json);
-        return jp.get("token");
+        return jp.get(Constant.TOKEN);
     }
 
-    public static String replaceEndPoint(String roomName) {
-        String serviceLocations = "/locations";
-        String serviceLocationById = "/locations/#id#";
-        String serviceResources = "/resources";
-        String serviceResourcesById = "/resources/#id#";
-        String serviceRooms = "/rooms";
-        String serviceRoomById = "/rooms/#id#";
-        String serviceMeetingById = "services/#serviceId#/rooms/#roomId#/meetings/#meetingId#";
-        String serviceMeetings = "services/#serviceId#/rooms/#roomId#/meetings";
-
+    public static String replaceEndPoint(ConferenceRoom conferenceRoom) {
+        String serviceMeetings = Constant.SERVICEMEETING;
         String remServiceId = "#serviceId#";
         String remRoomId = "#roomId#";
 
         String servicesId = APIManager.getInstance().getServiceId();
-        String roomId = DBQuery.getInstance().getRoomIdByName(roomName);
+        String roomId = DBQuery.getInstance().getRoomIdByName(conferenceRoom);
         DBQuery.getInstance().closeMongoDB();
 
         return serviceMeetings.replace(remServiceId, servicesId)
                 .replace(remRoomId, roomId);
     }
 
-    public String encodeBase64(String a){
+    private String encodeBase64(String a){
         Base64.Encoder encoder = Base64.getEncoder();
         String encode = encoder.encodeToString(a.getBytes(StandardCharsets.UTF_8) );
         return encode;
     }
 
     public String getServiceId(){
-        Response response = given().header("Authorization", "jwt " + token).get("/services");
+        Response response = given().header(Constant.AUTHORIZATHION, Constant.JWT + token).get("/services");
         String json = response.asString();
         JSONArray jsonArray = new JSONArray(json);
         return jsonArray.getJSONObject(0).getString(Enum.RESOURCE_KEY.id);
     }
 
     public String getBasicAuthentication() {
-        return encodeBase64(CredentialsManager.getInstance().getExchangeUserName()+
-                ":"+CredentialsManager.getInstance().getExchangeUserPassword());
+        return encodeBase64(CredentialsManager.getInstance().getExchangeUserName() +
+                ":" + CredentialsManager.getInstance().getExchangeUserPassword());
     }
 }

@@ -163,6 +163,4 @@ public class ResourcePage extends BaseMainPageObject{
         }
         return namesFounded;
     }
-
-
 }

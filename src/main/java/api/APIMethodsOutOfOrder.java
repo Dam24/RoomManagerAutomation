@@ -1,7 +1,9 @@
 package api;
 
 import com.jayway.restassured.response.Response;
-import entities.OutOfOrders;
+import common.Constant;
+import entities.ConferenceRoom;
+import entities.OutOfOrder;
 import org.json.JSONArray;
 
 import static com.jayway.restassured.RestAssured.given;
@@ -16,32 +18,22 @@ import static com.jayway.restassured.RestAssured.given;
 public class APIMethodsOutOfOrder {
     private static APIManager apiManager = APIManager.getInstance();
 
-    public static OutOfOrders getOutOfOrderByTitle(String roomId) {
-        OutOfOrders outOfOrders = new OutOfOrders();
+    /**
+     * Obtain a OutOfOrder by name
+     * @param conferenceRoom
+     * @return
+     */
+    public static OutOfOrder getOutOfOrderByTitle(ConferenceRoom conferenceRoom) {
+        OutOfOrder outOfOrders = new OutOfOrder();
         Response response = given().when().get("/out-of-orders");
         JSONArray jsonArray = new JSONArray(response.asString());
         for (int indice = 0; indice < jsonArray.length(); indice++) {
-            if (jsonArray.getJSONObject(indice).getString("roomId").equalsIgnoreCase(roomId)) {
-                outOfOrders.set_Id(jsonArray.getJSONObject(indice).getString("_id"));
-                outOfOrders.setTitle(jsonArray.getJSONObject(indice).getString("title"));
-                outOfOrders.setRoomID(jsonArray.getJSONObject(indice).getString("roomId"));
+            if (jsonArray.getJSONObject(indice).getString(Constant.ROOM_ID).equalsIgnoreCase(conferenceRoom.getId())) {
+                outOfOrders.set_Id(jsonArray.getJSONObject(indice).getString(Constant.ID));
+                outOfOrders.setTitle(jsonArray.getJSONObject(indice).getString(Constant.TITLE));
+                outOfOrders.setRoomID(jsonArray.getJSONObject(indice).getString(Constant.ROOM_ID));
             }
         }
         return outOfOrders;
-    }
-
-    public static void deleteOutOfOrder(String serviceId, String roomId, String outOfOrderId){
-        given()
-                .header("Authorization", "jwt " + apiManager.getToken())
-                .delete("/services/"+serviceId+"rooms/"+roomId+"/out-of-orders"+outOfOrderId);
-    }
-
-    public static void deleteOutOfOrder(OutOfOrders outOfOrder){
-        given()
-                .header("Authorization", "jwt " + apiManager.getToken())
-                .delete("/services/"+apiManager.getServiceId()+"rooms/"+outOfOrder.getRoomID()+"/out-of-orders"+
-                        outOfOrder.get_Id())
-        ;
-
     }
 }

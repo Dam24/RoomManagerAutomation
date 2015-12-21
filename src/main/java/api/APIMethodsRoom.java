@@ -1,8 +1,9 @@
 package api;
 
 import com.jayway.restassured.response.Response;
+import common.Constant;
 import common.Enum;
-import entities.ConferenceRooms;
+import entities.ConferenceRoom;
 import org.json.JSONArray;
 
 import static com.jayway.restassured.RestAssured.given;
@@ -17,16 +18,24 @@ import static com.jayway.restassured.RestAssured.given;
 public class APIMethodsRoom {
     private static APIManager apiManager = APIManager.getInstance();
 
-    public static void activateConferenceRooms(String roomId){
+    /**
+     * Activate the conference room
+     * @param conferenceRoom
+     */
+    public static void activateConferenceRooms(ConferenceRoom conferenceRoom){
         given()
-                .header("Authorization", "jwt "+ apiManager.getToken())
-                .parameters("enabled", true)
-                .put("/rooms/"+roomId);
+                .header(Constant.AUTHORIZATHION, Constant.JWT+ apiManager.getToken())
+                .parameters(Enum.ROOM_KEY.enable, true)
+                .put("/rooms/" + conferenceRoom.getId());
     }
 
-    //REVISAR
-    public static ConferenceRooms getConferenceRoomByName(ConferenceRooms conferenceRooms) {
-        ConferenceRooms conferenceRooms1 = new ConferenceRooms();
+    /**
+     * Obtain a conferenceRoom with the same name of parameter
+     * @param conferenceRooms
+     * @return a Conference Room
+     */
+    public static ConferenceRoom getConferenceRoomByName(ConferenceRoom conferenceRooms) {
+        ConferenceRoom conferenceRooms1 = new ConferenceRoom();
 
         Response response = given().when().get("/rooms");
         JSONArray jsonArray = new JSONArray(response.asString());
