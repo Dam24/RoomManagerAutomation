@@ -1,6 +1,6 @@
 package ui.pages;
 
-import entities.ConferenceRooms;
+import entities.ConferenceRoom;
 import entities.Location;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -44,7 +44,7 @@ public class LocationsPage extends BaseMainPageObject {
         return new LocationInfoPage();
     }
 
-    public boolean isLocationAssociatedToRoom(ConferenceRooms room, Location location){
+    public boolean isLocationAssociatedToRoom(ConferenceRoom room, Location location){
         locationInfoPage = doubleClickOnSpecificLocation(location.getDisplayName());
         locationAssociationPage=locationInfoPage.goToLocationAssociationPage();
         return locationAssociationPage.isRoomPresentOnAssociatedList(room.getDisplayName());

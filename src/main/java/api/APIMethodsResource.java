@@ -4,12 +4,10 @@ import com.jayway.restassured.path.json.JsonPath;
 import com.jayway.restassured.response.Response;
 import common.*;
 import common.Enum;
-import entities.ConferenceRooms;
+import entities.ConferenceRoom;
 import entities.Resource;
 import org.json.JSONArray;
-
 import java.util.ArrayList;
-
 import static com.jayway.restassured.RestAssured.given;
 
 /**
@@ -21,10 +19,16 @@ import static com.jayway.restassured.RestAssured.given;
  */
 public class APIMethodsResource {
     private static APIManager apiManager = APIManager.getInstance();
+
+    /**
+     * Create a resource with the information of resource
+     * @param resource
+     * @return
+     */
     public static Resource createResource(Resource resource) {
         Response response = given()
-                .header("Authorization", "jwt " +apiManager.getToken() )
-                .parameters(Enum.RESOURCE_KEY.name, resource.getName(), Enum.RESOURCE_KEY.description, "",
+                .header(Constant.AUTHORIZATHION, Constant.JWT +apiManager.getToken() )
+                .parameters(Enum.RESOURCE_KEY.name, resource.getName(), Enum.RESOURCE_KEY.description, resource.getDescription(),
                         Enum.RESOURCE_KEY.customName, resource.getDisplayName(), Enum.RESOURCE_KEY.from, "",
                         Enum.RESOURCE_KEY.icon, "fa fa-filter")
                 .post("/resources");
@@ -37,6 +41,11 @@ public class APIMethodsResource {
         return resource;
     }
 
+    /**
+     * Create a list of resources
+     * @param resourcesNews
+     * @return
+     */
     public static ArrayList<Resource> createResources(ArrayList<Resource> resourcesNews) {
         ArrayList<Resource> resources = new ArrayList<>();
         for (Resource resource : resourcesNews) {
@@ -45,29 +54,46 @@ public class APIMethodsResource {
         return resources;
     }
 
+    /**
+     * Delete a resource by id
+     * @param resource
+     */
     public static void deleteResourceByID(Resource resource) {
         given()
-                .header("Authorization", "jwt " + apiManager.getToken())
+                .header(Constant.AUTHORIZATHION, Constant.JWT + apiManager.getToken())
                 .parameters(Enum.RESOURCE_KEY.id, resource.getID())
                 .delete("/resources/"+resource.getID());
     }
 
+    /**
+     * Delete a list of resources by id
+     * @param resources
+     */
     public static void deleteResourcesById(ArrayList<Resource> resources) {
         for (Resource resource : resources) {
             deleteResourceByID(resource);
         }
     }
 
-
-    public static Resource getResourceByID(String id) {
-        Response response = given().when().get("/resources/"+id);
+    /**
+     * Obtain a resource by id
+     * @param resource
+     * @return
+     */
+    public static Resource getResourceByID(Resource resource) {
+        Response response = given().when().get("/resources/"+resource.getID());
         String json = response.asString();
         JsonPath jp = new JsonPath(json);
+
         return setResource(jp.get(Enum.RESOURCE_KEY.id), jp.get(Enum.RESOURCE_KEY.name),
                 jp.get(Enum.RESOURCE_KEY.description), jp.get(Enum.RESOURCE_KEY.customName),
-                jp.get("fontIcon"));
+                jp.get(Enum.RESOURCE_KEY.icon));
     }
 
+    /**
+     * Obtain a list of resources
+     * @return
+     */
     public static ArrayList<Resource> getResources() {
         ArrayList<Resource> resources = new ArrayList<>();
 
@@ -84,21 +110,35 @@ public class APIMethodsResource {
         return resources;
     }
 
-    public static Resource getResourceInConferenceRoomById(ConferenceRooms conferenceRooms, Resource resource){
-        Resource res = new Resource();
-        Response response = given().when().get("/rooms/" + conferenceRooms.getId() + "/resources");
+    /**
+     * Verify whether a resource is in a room
+     * @param conferenceRoom
+     * @param resource
+     * @return
+     */
+    public static int getIsResourceInConferenceRoomById(ConferenceRoom conferenceRoom, Resource resource){
+        int res=0;
+        Response response = given().when().get("/rooms/" + conferenceRoom.getId() + "/resources");
         JSONArray jsonArray = new JSONArray(response.asString());
         for (int indice = 0; indice < jsonArray.length(); indice++) {
-            if (jsonArray.getJSONObject(indice).getString("resourceId").equalsIgnoreCase(resource.getID())) {
-                res.setID(jsonArray.getJSONObject(indice).getString("resourceId"));
-                res.setQuantity(jsonArray.getJSONObject(indice).getInt("quantity"));
+            if (jsonArray.getJSONObject(indice).getString(Constant.RESOURCE_ID).equalsIgnoreCase(resource.getID())) {
+                res=jsonArray.getJSONObject(indice).getInt(Constant.QUANTITY);
             }
         }
         return res;
     }
 
+    /**
+     * Change a Resource with the information.
+     * @param _id
+     * @param name
+     * @param description
+     * @param customName
+     * @param fontIcon
+     * @return
+     */
     private static Resource setResource(String _id, String name, String description,
-                                 String customName, String fontIcon) {
+                                        String customName, String fontIcon) {
         Resource resource = new Resource();
 
         resource.setID(_id);
@@ -110,8 +150,12 @@ public class APIMethodsResource {
         return resource;
     }
 
+    /**
+     * Obtain a list of resources name
+     * @return
+     */
     public static ArrayList<String> getResourcesNameByApi(){
-        ArrayList<Resource> resources =APIMethodsResource.getResources();
+        ArrayList<Resource> resources = APIMethodsResource.getResources();
         ArrayList<String> names=new ArrayList<>();
         for (Resource resource : resources){
             names.add(resource.getName());
@@ -119,36 +163,37 @@ public class APIMethodsResource {
         return names;
     }
 
+    /**
+     * Verify if a resource has the same name
+     * @param nameSearch
+     * @return
+     */
     public static boolean foundResourceSameName(String nameSearch){
-         ArrayList<String>resourcesNames=getResourcesNameByApi();
+        ArrayList<String>resourcesNames = getResourcesNameByApi();
         ArrayList<String> namesFounded=new ArrayList<>();
         for (String resourcesName :resourcesNames){
             if(nameSearch.equals(resourcesName)){
                 namesFounded.add(resourcesName);
             }
         }
-        if(namesFounded.size()>1){
+        if(namesFounded.size() > 1) {
             return true;
         }
-        else{
+        else {
             return false;
         }
     }
-     /*
+
+    /*
      Verify if the Api founded some resource
      @receive a resourceID
      @return boolean
       */
-    public static  boolean isFoundedTheResourceByApi(String resourceId){
-       if(getResourceByID(resourceId)==null)
-       {
-           return false;
-       }
-
-        else {
-
-           return true;
-       }
-
+    public static  boolean isFoundedTheResourceByApi(Resource resource){
+        if(getResourceByID(resource) == null) {
+            return false;
+        } else {
+            return true;
+        }
     }
 }

@@ -7,7 +7,7 @@ package entities;
  * Time: 12:28 AM
  * To change this template use File | Settings | File Templates.
  */
-public class OutOfOrders {
+public class OutOfOrder {
     private String id;
     private String title;
     private String roomID;

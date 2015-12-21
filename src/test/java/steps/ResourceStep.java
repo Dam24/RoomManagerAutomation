@@ -32,7 +32,6 @@ public class ResourceStep {
     private AddResourcePage addResourcePage;
     private Resource resource1;
     private ResourceAssociationsPage resourceAssociationsPage;
-
     private ArrayList<Resource> resourcesCreatedByGiven=new ArrayList<>();
 
     public ResourceStep(Resource resource1){
@@ -56,7 +55,7 @@ public class ResourceStep {
     }
     @And("^I navigate to Resources page$")
     public void goToResourcePage(){
-       mainPage.getSideBarMenu().clickOptionResource();
+        mainPage.getSideBarMenu().clickOptionResource();
     }
 
     @When("^I try to create the Resource Name \"([^\\\"]*)\", \"([^\\\"]*)\" in the Resource page$")
@@ -69,7 +68,7 @@ public class ResourceStep {
     }
 
     @Then("^an error text \"([^\\\"]*)\" is showed in the Resource form$")
-        public void errorMessageIsShowed(String message){
+    public void errorMessageIsShowed(String message){
         boolean expected=true;
         Assert.assertEquals(addResourcePage.isMessageShowed(message), expected);
     }
@@ -88,14 +87,13 @@ public class ResourceStep {
     @And("^only one Resource with name \"([^\\\"]*)\" should be obtained by API$")
     public void existTwoResourcesSameNameByApi(String resourceName){
         Assert.assertTrue(APIMethodsResource.foundResourceSameName(resourceName));
-        //Assert.assertEquals(resourcePage.searchResourceName(APIMethodsResource.getResourcesNameByApi(),resourceName).size(),1);
     }
 
     @When("^I search Resources with search criteria \"([^\\\"]*)\"$")
     public void searchResource(String searchCriteria){
         resourcePage=sidebar.clickOptionResource();
         resourcePage.filterResource(searchCriteria);
-        }
+    }
 
     @Then("^the Resources that match the search criteria \"([^\\\"]*)\" should be displayed in Resource List$")
     public void numResourcesFilter(String searchCriteria){
@@ -119,8 +117,8 @@ public class ResourceStep {
 
     @And("^the Resource \"([^\\\"]*)\" should not be obtained using the API$")
     public void theResourceIsPresentInAPI(String resourceName){
-        Assert.assertFalse(APIMethodsResource.isFoundedTheResourceByApi(resourceName));
-
+        resource1.setName(resourceName);
+        Assert.assertFalse(APIMethodsResource.isFoundedTheResourceByApi(resource1));
     }
 
     @After("@ResourceFilter")

@@ -3,6 +3,7 @@ package api;
 import com.jayway.restassured.response.Response;
 import common.*;
 import common.Enum;
+import entities.ConferenceRoom;
 import entities.Meeting;
 import framework.CredentialsManager;
 import org.json.JSONArray;
@@ -20,20 +21,20 @@ import static com.jayway.restassured.RestAssured.given;
 public class APIMethodsMeeting {
     private static APIManager apiManager = APIManager.getInstance();
 
-    public static Meeting createMeeting(Meeting meeting) {
+    public static Meeting createMeeting(Meeting meeting, ConferenceRoom conferenceRoom) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put(common.Enum.MEETING_kEY.organizer, meeting.getOrganizer());
         jsonObject.put(Enum.MEETING_kEY.title, meeting.getTitle());
         jsonObject.put(Enum.MEETING_kEY.from, meeting.getFromExchange());
         jsonObject.put(Enum.MEETING_kEY.end, meeting.getToExchange());
         jsonObject.put(Enum.MEETING_kEY.location, CredentialsManager.getInstance().getRoomName());
-        jsonObject.put(Enum.MEETING_kEY.roomEmail, CredentialsManager.getInstance().getRoomName()+"@forest1.local");
-        jsonObject.put(Enum.MEETING_kEY.resources, new JSONArray().put(CredentialsManager.getInstance().getRoomName()+"@forest1.local"));
-        jsonObject.put(Enum.MEETING_kEY.attendees, new JSONArray().put(meeting.getOrganizer()+"@forest1.local"));
+        jsonObject.put(Enum.MEETING_kEY.roomEmail, CredentialsManager.getInstance().getRoomName()+Constant.DOMAIN);
+        jsonObject.put(Enum.MEETING_kEY.resources, new JSONArray().put(CredentialsManager.getInstance().getRoomName()+Constant.DOMAIN));
+        jsonObject.put(Enum.MEETING_kEY.attendees, new JSONArray().put(meeting.getOrganizer()+Constant.DOMAIN));
 
         String userAuthentication = apiManager.getBasicAuthentication();
 
-        String createEndPoint = apiManager.replaceEndPoint(CredentialsManager.getInstance().getRoomName());
+        String createEndPoint = apiManager.replaceEndPoint(conferenceRoom);
         postMeeting(jsonObject, createEndPoint, userAuthentication);
 
         return meeting;
@@ -41,8 +42,8 @@ public class APIMethodsMeeting {
 
     private static String postMeeting(JSONObject meeting, String endPoint, String key) {
         Response res = given()
-                .contentType("application/json")
-                .header("Authorization", "Basic " + key)
+                .contentType(Constant.CONTENT_TYPE)
+                .header(Constant.AUTHORIZATHION, Constant.BASIC + key)
                 .content(meeting.toString())
                 .when()
                 .post(endPoint);
@@ -53,7 +54,7 @@ public class APIMethodsMeeting {
         String endPoint = "/services/"+apiManager.getServiceId()+
                 "/rooms/"+idRoom+"/meetings/"+meeting.getId();
         given()
-                .header("Authorization", "Basic amhhc21hbnkucXVpcm96OkNsaWVudDEyMw==")
+                .header(Constant.AUTHORIZATHION, Constant.BASIC + APIManager.getInstance().getBasicAuthentication())
                 .delete(endPoint)
         ;
     }
