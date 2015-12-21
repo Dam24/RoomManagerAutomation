@@ -186,14 +186,14 @@ public class APIMethodsResource {
 
     /*
      Verify if the Api founded some resource
-     @receive a resourceID
+     @receive a Resource
      @return boolean
       */
     public static  boolean isFoundedTheResourceByApi(Resource resource){
-        if(getResourceByID(resource) == null) {
-            return false;
-        } else {
+        if(getResourceByID(resource).getID()==resource.getID()) {
             return true;
+        } else {
+            return false;
         }
     }
 }

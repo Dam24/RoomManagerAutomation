@@ -102,9 +102,7 @@ public class ResourceStep {
 
     @When("^I delete the Resource \"([^\\\"]*)\"$")
     public void deleteResourceByName(String resourceName){
-//        resource1.setName(resourceName);
-//        resource1.setID( DBQuery.getInstance().getResourceIdByName(resourceName));
-//        System.out.println(resource1.getID());
+        resource1.setID(DBQuery.getInstance().getResourceIdByName(resourceName));
         resourcePage=sidebar.clickOptionResource();
         resourceAssociationsPage=resourcePage.clickDeleteResource(resourceName);
         resourceAssociationsPage.deleteButtonConfirm();
@@ -117,7 +115,6 @@ public class ResourceStep {
 
     @And("^the Resource \"([^\\\"]*)\" should not be obtained using the API$")
     public void theResourceIsPresentInAPI(String resourceName){
-        resource1.setName(resourceName);
         Assert.assertFalse(APIMethodsResource.isFoundedTheResourceByApi(resource1));
     }
 

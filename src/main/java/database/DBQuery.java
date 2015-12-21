@@ -143,4 +143,9 @@ public class DBQuery {
     public void closeMongoDB() {
         DBManager.getInstance().closeMongoDB();
     }
+
+    public String getResourceIdByName (String resourceName){
+        return getIdByKey(Enum.RESOURCE_KEY.nameCollection, Enum.RESOURCE_KEY.name, resourceName);
+
+    }
 }
