@@ -18,11 +18,8 @@ public class SetUpResources {
 
    public static ArrayList<Resource> resources=new ArrayList<Resource>();
    public static Resource resource=new Resource();
+
     public static void beforeResourceFeature(){
-<<<<<<< HEAD
-
-
-
         resource.setName("Computer");
         resource.setDisplayName("Computer");
         resources.add(resource);
@@ -30,16 +27,9 @@ public class SetUpResources {
         resource.setDisplayName("Computer Assigned");
         resources.add(resource);
         resources=APIMethodsResource.createResources(resources);
-=======
         ArrayList<String> resourceNames=new ArrayList<String>();
         resourceNames.add("Computer");
         resourceNames.add("Computer Assigned");
-
-        ///////////////////////////////////////////////////////////////////////////////////////REVISAR
-        //resources = APIManager.getInstance().createResourcesByName(resourceNames);
-        //resources = APIMethodsResource.createResources();
-
->>>>>>> 685308d07638205fa9c520753478b7ec2bdeda72
         PageTransporter.getInstance().refreshPage();
         PageTransporter.getInstance().fixRefreshIsue();
     }
