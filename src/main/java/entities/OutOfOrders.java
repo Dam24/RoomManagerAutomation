@@ -8,31 +8,31 @@ package entities;
  * To change this template use File | Settings | File Templates.
  */
 public class OutOfOrders {
-    private String _Id;
-    private String Title;
-    private String RoomID;
+    private String id;
+    private String title;
+    private String roomID;
 
     public void set_Id(String id){
-        this._Id=id;
+        this.id = id;
     }
 
     public String get_Id(){
-        return _Id;
+        return id;
     }
 
     public void setTitle(String title){
-        this.Title = title;
+        this.title = title;
     }
 
     public String getTitle(){
-        return Title;
+        return title;
     }
 
     public void setRoomID(String roomID){
-        this.RoomID = roomID;
+        this.roomID = roomID;
     }
 
     public String getRoomID(){
-        return RoomID;
+        return roomID;
     }
 }

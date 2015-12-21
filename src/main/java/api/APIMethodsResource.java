@@ -21,8 +21,6 @@ import static com.jayway.restassured.RestAssured.given;
  */
 public class APIMethodsResource {
     private static APIManager apiManager = APIManager.getInstance();
-    public String AUTHORIZATION_TYPE;
-
     public static Resource createResource(Resource resource) {
         Response response = given()
                 .header("Authorization", "jwt " +apiManager.getToken() )
@@ -65,7 +63,6 @@ public class APIMethodsResource {
         Response response = given().when().get("/resources/"+id);
         String json = response.asString();
         JsonPath jp = new JsonPath(json);
-
         return setResource(jp.get(Enum.RESOURCE_KEY.id), jp.get(Enum.RESOURCE_KEY.name),
                 jp.get(Enum.RESOURCE_KEY.description), jp.get(Enum.RESOURCE_KEY.customName),
                 jp.get("fontIcon"));

@@ -60,7 +60,6 @@ public class MainTablePage extends BasePageObject {
 
     public ScheduleTabletPage clickScheduleButton(){
         buttonSchedule.click();
-
         return new ScheduleTabletPage();
     }
 

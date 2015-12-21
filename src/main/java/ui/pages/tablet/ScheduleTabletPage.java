@@ -78,8 +78,6 @@ public class ScheduleTabletPage extends BasePageObject {
     @FindBy(css = "css=div.vis-panel.vis-center")
     private WebElement containerMeetings;
 
-    private Meeting meeting;
-
     public ScheduleTabletPage() {
         headerTabletPage = new HeaderTabletPage();
         PageFactory.initElements(driver, this);
@@ -91,7 +89,6 @@ public class ScheduleTabletPage extends BasePageObject {
     }
 
     public ScheduleTabletPage createBasicMeeting(Meeting meeting){
-        this.meeting = meeting;
         inputOrganizer.clear();
         inputOrganizer.sendKeys(meeting.getOrganizer());
         inputSubject.clear();
@@ -174,9 +171,6 @@ public class ScheduleTabletPage extends BasePageObject {
         return headerTabletPage.clickGoMainTabletPage();
     }
 
-    public Meeting getMeeting() {
-        return meeting;
-    }
 
     public ScheduleTabletPage clickOnCancelCredentials() {
         buttonCredentialsCancel.click();

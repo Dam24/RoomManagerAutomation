@@ -1,7 +1,9 @@
 package ui.pages;
 
+import api.APIMethodsResource;
 import entities.Resource;
 import api.APIManager;
+import database.DBQuery;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -127,9 +129,4 @@ public class ResourcePage extends BaseMainPageObject{
         }
         return resourcesName;
     }
-
-
-
-
-
 }

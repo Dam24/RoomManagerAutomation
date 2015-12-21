@@ -9,6 +9,20 @@ import framework.CredentialsManager;
 import org.json.JSONArray;
 
 import java.nio.charset.StandardCharsets;
+import common.*;
+import common.Enum;
+import entities.ConferenceRooms;
+import entities.Location;
+import entities.OutOfOrders;
+import entities.Meeting;
+import entities.Resource;
+import framework.CredentialsManager;
+import database.DBQuery;
+import org.json.JSONArray;
+import org.json.simple.JSONObject;
+
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Base64;
 
 import static com.jayway.restassured.RestAssured.given;

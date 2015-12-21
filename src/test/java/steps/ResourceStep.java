@@ -1,6 +1,10 @@
 package steps;
 
 import api.APIMethodsResource;
+<<<<<<< HEAD
+=======
+import common.EnumKeys;
+>>>>>>> 685308d07638205fa9c520753478b7ec2bdeda72
 import cucumber.api.java.After;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
@@ -9,6 +13,10 @@ import cucumber.api.java.en.When;
 import database.DBQuery;
 import entities.Resource;
 import api.APIManager;
+<<<<<<< HEAD
+=======
+import database.DBQuery;
+>>>>>>> 685308d07638205fa9c520753478b7ec2bdeda72
 import org.testng.Assert;
 import ui.BaseMainPageObject;
 import ui.PageTransporter;
@@ -118,10 +126,18 @@ public class ResourceStep {
 
     @And("^the Resource \"([^\\\"]*)\" should not be obtained using the API$")
     public void theResourceIsPresentInAPI(String resourceName){
+<<<<<<< HEAD
        // DBQuery.getInstance().getResourceIdByName(resourceName);
         Assert.assertFalse(APIMethodsResource.isFoundedTheResourceByApi(resourceName));
 
     }
+=======
+        String idResource=DBQuery.getInstance().getIdByKey(EnumKeys.RESOURCE_KEY.nameCollection, EnumKeys.RESOURCE_KEY.name,resourceName);
+        Resource res1=APIMethodsResource.getResourceByID(idResource);
+        Assert.assertNull(res1.getName());
+    }
+
+>>>>>>> 685308d07638205fa9c520753478b7ec2bdeda72
 
     @After("@ResourceFilter")
     public void deleteResourcesByScenario(){

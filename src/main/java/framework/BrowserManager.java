@@ -46,6 +46,8 @@ public class BrowserManager {
      * Initializes the web driver and wait.
     */
     private void initialize(){
+        logger.info("Initialize the BrowserDriver");
+
         browserName = System.getProperty("browserName");
         jsonReader = new JSONReader("browserConfig.json");
         implicitWait = Integer.parseInt(jsonReader.getKey("implicitWait"));
@@ -60,18 +62,14 @@ public class BrowserManager {
                 System.setProperty("webdriver.chrome.driver", chromeDriverPath);
                 driver = new ChromeDriver();
         }
+
         driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(explicitWait, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(implicitWait, TimeUnit.SECONDS);
         wait = new WebDriverWait(driver, explicitWait);
     }
 
     public void quitBrowser(){
         driver.quit();
-    }
-
-    public void closeBrowser(){
-
-        driver.close();
     }
 
     public WebDriverWait getWaitDriver(){
