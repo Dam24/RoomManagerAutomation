@@ -1,6 +1,6 @@
 package steps;
 
-import cucumber.api.java.After;
+import api.APIMethodsRoom;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -9,8 +9,8 @@ import entities.ConferenceRooms;
 import entities.Location;
 import entities.OutOfOrders;
 import entities.Resource;
-import framework.APIManager;
-import framework.DBQuery;
+import api.APIManager;
+import database.DBQuery;
 import org.testng.Assert;
 import ui.BaseMainPageObject;
 import ui.BasePageConferenceRoom;
@@ -67,7 +67,9 @@ public class ConferenceRoomSteps {
         resource.setDisplayName(resourceName);
         ArrayList<String> resourcesNameArray = new ArrayList<String>();
         Collections.addAll(resourcesNameArray, resource.getName().split(","));
+        /*
         resourcesCreatedByGiven = APIManager.getInstance().createResourcesByName(resourcesNameArray);
+         */
         PageTransporter.getInstance().refreshPage();
     }
 
@@ -104,7 +106,7 @@ public class ConferenceRoomSteps {
         location.setDisplayName(locationDisplayName);
         ArrayList<String> locationsNameArray = new ArrayList<String>();
         Collections.addAll(locationsNameArray, location.getName().split(","));
-        locationsCreateByGiven = APIManager.getInstance().createLocationsByName(locationsNameArray);
+       // locationsCreateByGiven = APIManager.getInstance().createLocationsByName(locationsNameArray);
         PageTransporter.getInstance().refreshPage();
     }
 
@@ -152,14 +154,14 @@ public class ConferenceRoomSteps {
     public void the_Resource_association_should_be_obtained_using_the_API(){
         String idResource = DBQuery.getInstance().getIdByKey("resourcemodels", "name",resource.getName());
         String idConferenceRoom = DBQuery.getInstance().getIdByKey("rooms", "displayName", conferenceRooms.getName());
-        Resource resourceOnCR = APIManager.getInstance().getResourceInConferenceRoomById(idConferenceRoom,idResource);
+       Resource resourceOnCR = APIManager.getInstance().getResourceInConferenceRoomById(idConferenceRoom,idResource);
         assertEquals(resource.getQuantity(), resourceOnCR.getQuantity());
     }
 
     @And("the Conference Room should be associated with Location on API")
     public void the_Conference_Room_should_be_associated_with_Location_on_API(){
         ConferenceRooms roomAPI = APIManager.getInstance().getConferenceRoomByName(conferenceRooms.getName());
-        Location locationAPI = APIManager.getInstance().getLocationByID(roomAPI.getLocation());
+       Location locationAPI = APIManager.getInstance().getLocationByID(roomAPI.getLocation());
         assertEquals(roomAPI.getLocation(), locationAPI.getId());
     }
 
@@ -171,21 +173,22 @@ public class ConferenceRoomSteps {
     @And("the Conference Room should be reserve on the API")
     public void the_Conference_Room_should_be_reserve_on_the_API(){
         String roomId = DBQuery.getInstance().getIdByKey("rooms","displayName",conferenceRooms.getName());
-        OutOfOrders outOfOrdersAPI = APIManager.getInstance().getOutOfOrderByTitle(outOfOrders.getTitle(), roomId);
+        OutOfOrders outOfOrdersAPI = APIManager.getInstance().getOutOfOrderByTitle(roomId);
         assertEquals(outOfOrdersAPI.getRoomID(),roomId);
     }
 
     @And("the Conference Room not should be reserve on the API")
     public void the_Conference_Room_not_should_be_reserve_on_the_API(){
-        ConferenceRooms roomAPI = APIManager.getInstance().getConferenceRoomByName(conferenceRooms.getName());
-        OutOfOrders outOfOrdersAPI = APIManager.getInstance().getOutOfOrderByTitle(outOfOrders.getTitle(), roomAPI.getId());
+       ConferenceRooms roomAPI = APIManager.getInstance().getConferenceRoomByName(conferenceRooms.getName());
+        OutOfOrders outOfOrdersAPI = APIManager.getInstance().getOutOfOrderByTitle(roomAPI.getId());
         assertNotSame(outOfOrdersAPI.getRoomID(),roomAPI.getId());
     }
 
     @And("the API should be displayed disabled to the Conference Room")
     public void the_API_should_be_displayed_disabled_to_the_Conference_Room(){
-        ConferenceRooms roomAPI = APIManager.getInstance().getConferenceRoomByName(conferenceRooms.getName());
-        assertEquals(roomAPI.getEnabled(),false);
+     ConferenceRooms roomAPI = APIMethodsRoom.getConferenceRoomByName(conferenceRooms.getName());
+      getConferenceRoomByName(conferenceRooms.getName());
+       assertEquals(roomAPI.getEnabled(),false);
     }
 
     @Then("a message should be displayed on the OutOfOrderPage")
@@ -204,33 +207,5 @@ public class ConferenceRoomSteps {
         conferenceRoomsPage.doubleClickOnSpecificRoom(conferenceRooms);
         Assert.assertFalse(conferenceRoomsPage.isResourceAssociate(quantity, conferenceRooms));
     }
-
-
-//    @After("@AssignResource")
-//    public void deleteResourcesByScenario(){
-//        APIManager.getInstance().deleteResourcesById(resourcesCreatedByGiven);
-//        PageTransporter.getInstance().refreshPage();
-//    }
-//
-//    @After("@AssignLocation")
-//    public void deleteRLocationByScenario(){
-//        APIManager.getInstance().deleteLocationByID(locationsCreateByGiven);
-//        PageTransporter.getInstance().refreshPage();
-//    }
-//
-//    @After("@ReserveRoom")
-//    public void deleteOutOfOrder(){
-//        String serviceId = DBQuery.getInstance().getIdByKey("services","name","Microsoft Exchange Server 2010 SP3");
-//        String roomId = DBQuery.getInstance().getIdByKey("rooms","displayName",conferenceRooms.getName());
-//        String outOfOrderId = DBQuery.getInstance().getIdByKey("outoforders","roomId", conferenceRooms.getId());
-//        APIManager.getInstance().deleteOutOfOrder(serviceId,roomId,outOfOrderId);
-//        PageTransporter.getInstance().refreshPage();
-//    }
-//
-//    @After("@DisableRoom")
-//    public void activateRoom(){
-//        APIManager.getInstance().activateConferenceRooms(conferenceRooms.getId());
-//        PageTransporter.getInstance().refreshPage();
-//    }
 
 }

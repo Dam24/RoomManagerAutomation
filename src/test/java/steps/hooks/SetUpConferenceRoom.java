@@ -1,12 +1,10 @@
 package steps.hooks;
 
-import common.EnumKeyMeeting;
+import api.*;
 import common.EnumKeys;
-import entities.ConferenceRooms;
 import entities.Location;
 import entities.Resource;
-import framework.APIManager;
-import framework.DBQuery;
+import database.DBQuery;
 import ui.PageTransporter;
 
 import java.util.ArrayList;
@@ -27,26 +25,20 @@ public class SetUpConferenceRoom {
     public static ArrayList<Location> locations=new ArrayList<Location>();
     public static Location location;
     public static String nameLocation="Location1";
-//    public static ConferenceRooms conferenceRooms;
 
-
-    public static void beforeResourceFeature(){
-
-        System.out.println("########## : Before Feature ROOMS ");
-
+    public static void beforeConferenceRoomsFeature(){
     }
+
     public static void afterConferenceRoomsFeature(){
         /*
         Delete Resource created
          */
-        System.out.println("########## : After Feature ROOMS ");
-
         String idResource=DBQuery.getInstance().getIdByKey(EnumKeys.RESOURCE_KEY.nameCollection,EnumKeys.RESOURCE_KEY.name,"Printer");
         System.out.println("ID Resource to be eliminated : "+ idResource);
         resource.setName("Printer");
         resource.setID(idResource);
         resources.add(resource);
-        APIManager.getInstance().deleteResourcesById(resources);
+        APIMethodsResource.deleteResourcesById(resources);
         /*
         Delete the location created
          */
@@ -54,18 +46,18 @@ public class SetUpConferenceRoom {
         location.setName(nameLocation);
         location.setId(idLocation);
         locations.add(location);
-        APIManager.getInstance().deleteLocationByID(locations);
+        APIMethodsLocation.deleteLocations(locations);
         /*
         Delete the outOfOrders
          */
         String serviceId = DBQuery.getInstance().getIdByKey("services","name","Microsoft Exchange Server 2010 SP3");
         String roomId = DBQuery.getInstance().getIdByKey("rooms","displayName","Floor1Room14");
         String outOfOrderId = DBQuery.getInstance().getIdByKey("outoforders","roomId", roomId);
-        APIManager.getInstance().deleteOutOfOrder(serviceId,roomId,outOfOrderId);
+        APIMethodsOutOfOrder.deleteOutOfOrder(serviceId,roomId,outOfOrderId);
         /*
         Enable the room disable in the steps
          */
-        APIManager.getInstance().activateConferenceRooms(roomId);
+        APIMethodsRoom.activateConferenceRooms(roomId);
         PageTransporter.getInstance().refreshPage();
     }
 }

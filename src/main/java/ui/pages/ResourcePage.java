@@ -1,8 +1,9 @@
 package ui.pages;
 
+import api.APIMethodsResource;
 import entities.Resource;
-import framework.APIManager;
-import framework.DBQuery;
+import api.APIManager;
+import database.DBQuery;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -145,7 +146,7 @@ public class ResourcePage extends BaseMainPageObject{
         return resourcesNameByDB;
     }
     public ArrayList<String> getResourcesNameByApi(){
-        ArrayList<Resource> resources =APIManager.getInstance().getResources();
+        ArrayList<Resource> resources = APIMethodsResource.getResources();
         ArrayList<String> names=new ArrayList<>();
         for (Resource resource : resources){
             names.add(resource.getName());

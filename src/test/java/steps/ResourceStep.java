@@ -1,5 +1,6 @@
 package steps;
 
+import api.APIMethodsResource;
 import common.EnumKeys;
 import cucumber.api.java.After;
 import cucumber.api.java.en.And;
@@ -7,8 +8,8 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import entities.Resource;
-import framework.APIManager;
-import framework.DBQuery;
+import api.APIManager;
+import database.DBQuery;
 import org.testng.Assert;
 import ui.BaseMainPageObject;
 import ui.PageTransporter;
@@ -43,10 +44,13 @@ public class ResourceStep {
     @Given("^I create a Resource with: \"([^\\\"]*)\" Name$")
     public void createResources(String resourceNames){
         ArrayList<String> resourcesNameArray = new ArrayList<String>();
-        for (String nameResourceTemp : resourceNames.split(",")){
-            resourcesNameArray.add(nameResourceTemp);
+        for (String name : resourceNames.split(",")){
+            resourcesNameArray.add(name);
+            resource1.setName(name);
+            resource1.setDisplayName(name);
+            resourcesCreatedByGiven.add(resource1);
         }
-       resourcesCreatedByGiven= APIManager.getInstance().createResourcesByName(resourcesNameArray);
+        resourcesCreatedByGiven= APIMethodsResource.createResources(resourcesCreatedByGiven);
         PageTransporter.getInstance().refreshPage();
         PageTransporter.getInstance().fixRefreshIsue();
     }
@@ -111,18 +115,14 @@ public class ResourceStep {
     @And("^the Resource \"([^\\\"]*)\" should not be obtained using the API$")
     public void theResourceIsPresentInAPI(String resourceName){
         String idResource=DBQuery.getInstance().getIdByKey(EnumKeys.RESOURCE_KEY.nameCollection, EnumKeys.RESOURCE_KEY.name,resourceName);
-        Resource res1=APIManager.getInstance().getResourceByID(idResource) ;
+        Resource res1=APIMethodsResource.getResourceByID(idResource);
         Assert.assertNull(res1.getName());
     }
 
-    @Given("^Delete resource$")
-    public void deleteResources(){
-       APIManager.getInstance().deleteResourcesById(resourcesCreatedByGiven);
-    }
 
     @After("@ResourceFilter")
     public void deleteResourcesByScenario(){
-        APIManager.getInstance().deleteResourcesById(resourcesCreatedByGiven);
+        APIMethodsResource.deleteResourcesById(resourcesCreatedByGiven);
         PageTransporter.getInstance().refreshPage();
         PageTransporter.getInstance().fixRefreshIsue();
     }

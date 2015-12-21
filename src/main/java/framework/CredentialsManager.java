@@ -29,6 +29,7 @@ public class CredentialsManager {
     private static String tabletUserPassword;
     private static String exchangeUserName;
     private static String exchangeUserPassword;
+    private static String apiServiceURL;
     private static String mongoServer;
     private static String mongoDataBase;
 
@@ -75,6 +76,7 @@ public class CredentialsManager {
         tabletUserPassword = jsonObjectMain.getKeyValue("Environments", "id", envId, "tablet user", "password");
         exchangeUserName = jsonObjectMain.getKeyValue("Environments", "id", envId, "exchange user", "name");
         exchangeUserPassword = jsonObjectMain.getKeyValue("Environments", "id", envId, "exchange user", "password");
+        apiServiceURL = jsonObjectMain.getKeyValue("Environments", "id", envId, "api", "service");
         mongoServer = jsonObjectMain.getKeyValue("Environments", "id", envId, "MongoDB", "server");
         mongoDataBase = jsonObjectMain.getKeyValue("Environments", "id", envId, "MongoDB", "database");
 
@@ -141,6 +143,10 @@ public class CredentialsManager {
 
     public String getExchangeUserPassword() {
         return exchangeUserPassword;
+    }
+
+    public String getApiServiceURL() {
+        return apiServiceURL;
     }
 
     public String getMongoServer() {
